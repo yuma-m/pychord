@@ -1,5 +1,6 @@
 # pychord
 A library to handle musical chords in python.
+[![Build Status](https://travis-ci.org/yuma-m/pychord.svg?branch=master)](https://travis-ci.org/yuma-m/pychord)
 
 ## Installation
 
