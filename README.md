@@ -41,7 +41,7 @@ Cm7/Bb
 
 ## Supported Python Versions
 - 2.7
-- 3.3 and higher
+- 3.3 and above
 
 ## Links
 - https://pypi.python.org/pypi/pychord
