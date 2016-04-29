@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
 
-from parser import parse
-from utils import transpose_note, display_appended, display_on
+
+from .parser import parse
+from .utils import transpose_note, display_appended, display_on
 
 
 class Chord(object):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from quality_list import QUALITY_DICT
-from utils import note_to_val
+from .quality_list import QUALITY_DICT
+from .utils import note_to_val
 
 
 class Quality(object):

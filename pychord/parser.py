@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from qualities import Quality
-from quality_list import QUALITY_DICT
-from utils import NOTE_VAL_DICT
+from .qualities import Quality
+from .quality_list import QUALITY_DICT
+from .utils import NOTE_VAL_DICT
 
 
 def parse(chord):
