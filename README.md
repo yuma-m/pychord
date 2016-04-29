@@ -1,6 +1,5 @@
 # pychord
 A library to handle musical chords in python.
-If you want to know more about chord, please see  https://en.wikipedia.org/wiki/Chord_(music)
 
 ## Installation
 
@@ -20,3 +19,11 @@ quality=m7
 appended=[]
 on=None
 ```
+
+## Links
+- https://pypi.python.org/pypi/pychord
+- https://github.com/yuma-m/pychord
+
+## License
+
+MIT License
