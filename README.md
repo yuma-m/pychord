@@ -39,6 +39,10 @@ print c
 Cm7/Bb
 ```
 
+## Supported Python Versions
+- 2.7
+- 3.3 and higher
+
 ## Links
 - https://pypi.python.org/pypi/pychord
 - https://github.com/yuma-m/pychord
