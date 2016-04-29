@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-version = '0.0.2'
+version = '0.0.3'
 
 try:
     import pypandoc
@@ -20,7 +20,6 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        "Topic :: Multimedia :: Sound/Audio",
         "Topic :: Utilities",
         "License :: OSI Approved :: MIT License",
         ],
