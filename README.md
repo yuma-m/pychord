@@ -1,6 +1,10 @@
 # pychord
-A library to handle musical chords in python.
+
 [![Build Status](https://travis-ci.org/yuma-m/pychord.svg?branch=master)](https://travis-ci.org/yuma-m/pychord)
+
+## Overview
+
+Pychord is a python library to handle musical chords.
 
 ## Installation
 
@@ -17,6 +21,7 @@ from pychord import Chord
 c = Chord("Am7")
 print c.info()
 ```
+
 
 ```
 Am7
@@ -35,6 +40,7 @@ c.transpose(3)
 print c
 ```
 
+
 ```
 Cm7/Bb
 ```
@@ -44,9 +50,9 @@ Cm7/Bb
 - 3.3 and above
 
 ## Links
-- https://pypi.python.org/pypi/pychord
-- https://github.com/yuma-m/pychord
+- PyPI: https://pypi.python.org/pypi/pychord
+- GitHub: https://github.com/yuma-m/pychord
 
 ## License
 
-MIT License
+- MIT License
