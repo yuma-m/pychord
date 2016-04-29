@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-version = '0.0.3'
+version = '0.0.4'
 
 try:
     import pypandoc
@@ -32,4 +32,5 @@ setup(
     include_package_data=True,
     zip_safe=True,
     long_description=read_md('README.md'),
+    test_suite='test',
 )

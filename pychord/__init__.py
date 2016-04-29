@@ -1,1 +1,1 @@
-from pychord import Chord
+from .pychord import Chord
