@@ -32,4 +32,5 @@ setup(
     include_package_data=True,
     zip_safe=True,
     long_description=read_md('README.md'),
+    test_suite='test',
 )
