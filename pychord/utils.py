@@ -47,3 +47,20 @@ def note_to_val(note):
 def val_to_note(val):
     val = val % 12
     return VAL_NOTE_DICT[val][0]
+
+
+def transpose_note(note, transpose):
+    val = note_to_val(note)
+    val += transpose
+    return val_to_note(val)
+
+
+def display_appended(appended):
+    # TODO: Implement this
+    return ""
+
+
+def display_on(on_note):
+    if on_note:
+        return "/{}".format(on_note)
+    return ""

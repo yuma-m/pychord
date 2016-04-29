@@ -3,6 +3,7 @@
 from __future__ import print_function
 
 from parser import parse
+from utils import transpose_note, display_appended, display_on
 
 
 class Chord(object):
@@ -24,9 +25,24 @@ quality={}
 appended={}
 on={}""".format(self.chord, self.root, self.quality, self.appended, self.on)
 
+    def transpose(self, trans):
+        if not isinstance(trans, int):
+            raise TypeError("Expected integers, not {}".format(type(trans)))
+        self.root = transpose_note(self.root, trans)
+        if self.on:
+            self.on = transpose_note(self.on, trans)
+        self._reconfigure_chord()
+
     def _parse(self, chord):
         root, quality, appended, on = parse(chord)
         self.root = root
         self.quality = quality
         self.appended = appended
         self.on = on
+
+    def _reconfigure_chord(self):
+        # TODO: Use appended
+        self.chord = "{}{}{}{}".format(self.root,
+                                       self.quality.quality,
+                                       display_appended(self.appended),
+                                       display_on(self.on))
