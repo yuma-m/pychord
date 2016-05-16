@@ -17,32 +17,38 @@ $ pip install pychord
 ### Create a Chord
 
 ```python
-from pychord import Chord
-c = Chord("Am7")
-print c.info()
-```
+>>> from pychord import Chord
+>>> c = Chord("Am7")
+>>> c.info()
 
-
-```
+"""
 Am7
 root=A
 quality=m7
 appended=[]
 on=None
+"""
 ```
 
 ### Transpose a Chord
 
 ```python
-from pychord import Chord
-c = Chord("Am7/G")
-c.transpose(3)
-print c
+>>> from pychord import Chord
+>>> c = Chord("Am7/G")
+>>> c.transpose(3)
+>>> c
+
+"Cm7/Bb"
 ```
 
+### Get component notes
 
-```
-Cm7/Bb
+```python
+>>> from pychord import Chord
+>>> c = Chord("Am7")
+>>> c.components()
+
+['A', 'C', 'E', 'G']
 ```
 
 ## Supported Python Versions

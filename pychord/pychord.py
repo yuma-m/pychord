@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-
 from .parser import parse
 from .utils import transpose_note, display_appended, display_on
 
@@ -32,6 +31,9 @@ on={}""".format(self.chord, self.root, self.quality, self.appended, self.on)
         if self.on:
             self.on = transpose_note(self.on, trans)
         self._reconfigure_chord()
+
+    def components(self, visible=True):
+        return self.quality.get_components(root=self.root, visible=visible)
 
     def _parse(self, chord):
         root, quality, appended, on = parse(chord)
