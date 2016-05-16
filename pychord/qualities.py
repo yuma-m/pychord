@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .quality_list import QUALITY_DICT
-from .utils import note_to_val
+from .utils import note_to_val, val_to_note
 
 
 class Quality(object):
@@ -17,9 +17,11 @@ class Quality(object):
     def __str__(self):
         return self.quality
 
-    def get_components(self, root='C'):
+    def get_components(self, root='C', visible=False):
         root_val = note_to_val(root)
         components = [v + root_val for v in self.components]
+        if visible:
+            components = [val_to_note(c) for c in components]
         return components
 
     def append_on_chord(self, on_chord, root):
