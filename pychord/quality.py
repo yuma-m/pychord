@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .quality_list import QUALITY_DICT
+from .constants import QUALITY_DICT
 from .utils import note_to_val, val_to_note
 
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .scales import NOTE_VAL_DICT, SCALE_VAL_DICT
+from .constants import NOTE_VAL_DICT, SCALE_VAL_DICT
 
 
 def note_to_val(note):
