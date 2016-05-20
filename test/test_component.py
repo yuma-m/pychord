@@ -27,14 +27,14 @@ class TestChordCreations(unittest.TestCase):
         com0 = c.components(visible=False)
         self.assertEqual(com0, [2, 5, 8])
         com1 = c.components(visible=True)
-        self.assertEqual(com1, ["D", "F", "Ab"])
+        self.assertEqual(com1, ["D", "F", "G#"])
 
     def test_aug_chord(self):
         c = Chord("Eaug")
         com0 = c.components(visible=False)
         self.assertEqual(com0, [4, 8, 12])
         com1 = c.components(visible=True)
-        self.assertEqual(com1, ["E", "Ab", "C"])
+        self.assertEqual(com1, ["E", "G#", "C"])
 
     def test_sus4_chord(self):
         c = Chord("Fsus4")
