@@ -21,7 +21,7 @@ class Quality(object):
         root_val = note_to_val(root)
         components = [v + root_val for v in self.components]
         if visible:
-            components = [val_to_note(c) for c in components]
+            components = [val_to_note(c, scale=root) for c in components]
         return components
 
     def append_on_chord(self, on_chord, root):
