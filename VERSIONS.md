@@ -1,4 +1,4 @@
-## TBD
+## 0.2.1
 - Support `__add__`, `__len__` and `__getitem__` functions in ChordProgression class.
 
 ## 0.2.0
