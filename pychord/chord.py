@@ -6,6 +6,10 @@ from .utils import transpose_note, display_appended, display_on
 
 
 class Chord(object):
+    """ Class to handle a chord.
+
+    :param str chord: Name of the chord. (e.g. C, Am7, F#m7-5/A)
+    """
     def __init__(self, chord):
         self.chord = chord
         self.root, self.quality, self.appended, self.on = "", "", "", ""
@@ -16,6 +20,9 @@ class Chord(object):
 
     def __str__(self):
         return self.chord
+
+    def __eq__(self, other):
+        return self.chord == other.chord
 
     def info(self):
         return """{}
@@ -48,3 +55,18 @@ on={}""".format(self.chord, self.root, self.quality, self.appended, self.on)
                                        self.quality.quality,
                                        display_appended(self.appended),
                                        display_on(self.on))
+
+
+def as_chord(chord):
+    """ convert from str to Chord instance if input is str
+
+    :type chord: str|pychord.Chord
+    :param chord: Chord name or Chord instance
+    :return pychord.Chord: Chord instance
+    """
+    if isinstance(chord, Chord):
+        return chord
+    elif isinstance(chord, str):
+        return Chord(chord)
+    else:
+        raise TypeError("input type should be str or Chord instance.")

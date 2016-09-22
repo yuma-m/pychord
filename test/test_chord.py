@@ -4,6 +4,7 @@
 import unittest
 
 from pychord import Chord
+from pychord.chord import as_chord
 
 
 class TestChordCreations(unittest.TestCase):
@@ -42,7 +43,26 @@ class TestChordCreations(unittest.TestCase):
         self.assertEqual(c.on, "G")
 
     def test_invalid_slash_chord(self):
-        self.assertRaises(ValueError, Chord, ("C/H"))
+        self.assertRaises(ValueError, Chord, "C/H")
+
+
+class TestAsChord(unittest.TestCase):
+
+    def test_as_chord_chord_input(self):
+        c = Chord("C")
+        ac = as_chord(c)
+        self.assertEqual(c, ac)
+
+    def test_as_chord_str_input(self):
+        chord = "C"
+        c = Chord(chord)
+        ac = as_chord(chord)
+        self.assertEqual(c, ac)
+
+    def test_as_chord_invalid_input(self):
+        with self.assertRaises(TypeError):
+            as_chord(1)
+
 
 if __name__ == '__main__':
     unittest.main()
