@@ -1,1 +1,1 @@
-from .pychord import Chord
+from .chord import Chord
