@@ -10,7 +10,7 @@ def note_to_val(note):
 
 
 def val_to_note(val, scale="C"):
-    val = val % 12
+    val %= 12
     return SCALE_VAL_DICT[scale][val]
 
 
