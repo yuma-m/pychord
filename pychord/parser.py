@@ -6,6 +6,12 @@ from .utils import NOTE_VAL_DICT
 
 
 def parse(chord):
+    """ Parse a string to get chord component
+
+    :param str chord: str expression of a chord
+    :rtype: (str, pychord.Quality, str, str)
+    :return (root, quality, appended, on):
+    """
     if len(chord) > 1 and chord[1] in ("b", "#"):
         root = chord[:2]
         rest = chord[2:]
@@ -29,6 +35,12 @@ def parse(chord):
 
 
 def check_note(note, chord):
+    """ Return True if the note is valid.
+
+    :param str note: note to check its validity
+    :param str chord: the chord which includes the note
+    :return bool:
+    """
     if note not in NOTE_VAL_DICT:
         raise ValueError("Invalid chord {}: Unknown note {}".format(chord, note))
     return True

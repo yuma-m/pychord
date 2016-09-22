@@ -32,6 +32,11 @@ appended={}
 on={}""".format(self.chord, self.root, self.quality, self.appended, self.on)
 
     def transpose(self, trans):
+        """ Transpose the chord
+
+        :param int trans: Transpose key
+        :return:
+        """
         if not isinstance(trans, int):
             raise TypeError("Expected integers, not {}".format(type(trans)))
         self.root = transpose_note(self.root, trans)

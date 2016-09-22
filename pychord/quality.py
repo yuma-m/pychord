@@ -5,6 +5,10 @@ from .utils import note_to_val, val_to_note
 
 
 class Quality(object):
+    """ Chord quality
+
+    :param str quality: str expression of chord quality
+    """
     def __init__(self, quality):
         if quality not in QUALITY_DICT:
             raise ValueError("unknown quality {}".format(quality))
@@ -18,6 +22,12 @@ class Quality(object):
         return self.quality
 
     def get_components(self, root='C', visible=False):
+        """ get components of chord quality
+
+        :param str root: the root note of the chord
+        :param bool visible: returns the name of notes if True
+        :return list:
+        """
         root_val = note_to_val(root)
         components = [v + root_val for v in self.components]
         if visible:
@@ -25,11 +35,14 @@ class Quality(object):
         return components
 
     def append_on_chord(self, on_chord, root):
-        """Append on chord
+        """ Append on chord
 
         To create Am7/G
         q = Quality('m7')
         q.append_on_chord('G', root='A')
+
+        :param str on_chord: bass note of the chord
+        :param str root: root note of the chord
         """
         root_val = note_to_val(root)
         on_chord_val = note_to_val(on_chord) - root_val
