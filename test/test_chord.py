@@ -15,7 +15,7 @@ class TestChordCreations(unittest.TestCase):
         self.assertEqual(c.quality.quality, "")
 
     def test_invalid_chord(self):
-        self.assertRaises(ValueError, Chord, ("H"))
+        self.assertRaises(ValueError, Chord, "H")
 
     def test_minor_chord(self):
         c = Chord("Am")
@@ -28,7 +28,7 @@ class TestChordCreations(unittest.TestCase):
         self.assertEqual(c.quality.quality, "m7-5")
 
     def test_invalid_quality_chord(self):
-        self.assertRaises(ValueError, Chord, ("Csus3"))
+        self.assertRaises(ValueError, Chord, "Csus3")
 
     def test_slash_chord(self):
         c = Chord("F/G")
