@@ -23,10 +23,20 @@ class ChordProgression(object):
             raise TypeError("Cannot initialize ChordProgression with argument of {} type".format(type(initial_chords)))
 
     def __unicode__(self):
-        return " | ".join([unicode(chord) for chord in self.chords])
+        return " | ".join([chord.chord for chord in self.chords])
 
     def __str__(self):
-        return " | ".join([str(chord) for chord in self.chords])
+        return " | ".join([chord.chord for chord in self.chords])
+
+    def __add__(self, other):
+        self.chords += other.chords
+        return self
+
+    def __len__(self):
+        return len(self.chords)
+
+    def __getitem__(self, item):
+        return self.chords[item]
 
     def get_chords(self):
         return self.chords

@@ -1,3 +1,6 @@
+## 0.2.1
+- Support `__add__`, `__len__` and `__getitem__` functions in ChordProgression class.
+
 ## 0.2.0
 - Add a class to handle chord progressions.
 
