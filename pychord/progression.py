@@ -28,6 +28,13 @@ class ChordProgression(object):
     def __str__(self):
         return " | ".join([str(chord) for chord in self.chords])
 
+    def __add__(self, other):
+        self.chords += other.chords
+        return self
+
+    def __len__(self):
+        return len(self.chords)
+
     def get_chords(self):
         return self.chords
 

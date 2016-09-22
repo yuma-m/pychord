@@ -50,22 +50,36 @@ class TestChordProgressionFunctions(unittest.TestCase):
     def test_append(self):
         cp = ChordProgression(["C", "D", "E"])
         cp.append("F")
-        self.assertEqual(len(cp.chords), 4)
+        self.assertEqual(len(cp), 4)
         self.assertEqual(cp.chords[-1], Chord("F"))
 
     def test_insert(self):
         cp = ChordProgression(["C", "D", "E"])
         cp.insert(0, "F")
-        self.assertEqual(len(cp.chords), 4)
+        self.assertEqual(len(cp), 4)
         self.assertEqual(cp.chords[0], Chord("F"))
 
     def test_pop(self):
         cp = ChordProgression(["C", "D", "E"])
         c = cp.pop()
-        self.assertEqual(len(cp.chords), 2)
+        self.assertEqual(len(cp), 2)
         self.assertEqual(c, Chord("E"))
 
     def test_transpose(self):
         cp = ChordProgression(["C", "F", "G"])
         cp.transpose(3)
         self.assertEqual(cp.chords, [Chord("Eb"), Chord("Ab"), Chord("Bb")])
+
+    def test_add(self):
+        cp1 = ChordProgression(["C", "F", "G"])
+        cp2 = ChordProgression(["Am", "Em"])
+        cp = cp1 + cp2
+        self.assertEqual(len(cp), 5)
+        self.assertEqual(cp.chords, [Chord("C"), Chord("F"), Chord("G"), Chord("Am"), Chord("Em")])
+
+    def test_self_add(self):
+        cp1 = ChordProgression(["C", "F", "G"])
+        cp2 = ChordProgression(["Am", "Em"])
+        cp1 += cp2
+        self.assertEqual(len(cp1), 5)
+        self.assertEqual(cp1.chords, [Chord("C"), Chord("F"), Chord("G"), Chord("Am"), Chord("Em")])
