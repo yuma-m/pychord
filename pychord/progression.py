@@ -22,5 +22,47 @@ class ChordProgression(object):
         else:
             raise TypeError("Cannot initialize ChordProgression with argument of {} type".format(type(initial_chords)))
 
+    def __unicode__(self):
+        return " | ".join([unicode(chord) for chord in self.chords])
+
+    def __str__(self):
+        return " | ".join([str(chord) for chord in self.chords])
+
     def get_chords(self):
         return self.chords
+
+    def append(self, chord):
+        """ Append a chord to chord progressions
+
+        :type chord: str|pychord.Chord
+        :param chord: A chord to append
+        :return:
+        """
+        self.chords.append(as_chord(chord))
+
+    def insert(self, index, chord):
+        """ Insert a chord to chord progressions
+
+        :param int index: Index to insert a chord
+        :type chord: str|pychord.Chord
+        :param chord: A chord to insert
+        :return:
+        """
+        self.chords.insert(index, as_chord(chord))
+
+    def pop(self, index=-1):
+        """ Pop a chord from chord progressions
+
+        :param int index: Index of the chord to pop (default: -1)
+        :return pychord.Chord:
+        """
+        return self.chords.pop(index)
+
+    def transpose(self, trans):
+        """ Transpose whole chord progressions
+
+        :param int trans: Transpose key
+        :return:
+        """
+        for chord in self.chords:
+            chord.transpose(trans)

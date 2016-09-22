@@ -36,7 +36,7 @@ on=None
 >>> from pychord import Chord
 >>> c = Chord("Am7/G")
 >>> c.transpose(3)
->>> c
+>>> print(c)
 
 "Cm7/Bb"
 ```
@@ -49,6 +49,21 @@ on=None
 >>> c.components()
 
 ['A', 'C', 'E', 'G']
+```
+
+### Create chord progressions
+
+```python
+>>> from pychord import ChordProgression
+>>> cp = ChordProgression(["C", "G/B", "Am"])
+>>> print(cp)
+C | G/B | Am
+>>> cp.append("Em/G")
+>>> print(cp)
+C | G/B | Am | Em/G
+>>> cp.transpose(+3)
+>>> print(cp)
+Eb | Bb/D | Cm | Gm/Bb
 ```
 
 ## Supported Python Versions
