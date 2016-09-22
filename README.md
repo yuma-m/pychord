@@ -20,7 +20,6 @@ $ pip install pychord
 >>> from pychord import Chord
 >>> c = Chord("Am7")
 >>> c.info()
-
 """
 Am7
 root=A
@@ -37,8 +36,7 @@ on=None
 >>> c = Chord("Am7/G")
 >>> c.transpose(3)
 >>> print(c)
-
-"Cm7/Bb"
+Chord(Cm7/Bb)
 ```
 
 ### Get component notes
@@ -47,7 +45,6 @@ on=None
 >>> from pychord import Chord
 >>> c = Chord("Am7")
 >>> c.components()
-
 ['A', 'C', 'E', 'G']
 ```
 
@@ -58,9 +55,11 @@ on=None
 >>> cp = ChordProgression(["C", "G/B", "Am"])
 >>> print(cp)
 C | G/B | Am
+
 >>> cp.append("Em/G")
 >>> print(cp)
 C | G/B | Am | Em/G
+
 >>> cp.transpose(+3)
 >>> print(cp)
 Eb | Bb/D | Cm | Gm/Bb
