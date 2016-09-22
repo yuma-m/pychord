@@ -83,3 +83,15 @@ class TestChordProgressionFunctions(unittest.TestCase):
         cp1 += cp2
         self.assertEqual(len(cp1), 5)
         self.assertEqual(cp1.chords, [Chord("C"), Chord("F"), Chord("G"), Chord("Am"), Chord("Em")])
+
+    def test_get_item(self):
+        cp = ChordProgression(["C", "F", "G"])
+        self.assertEqual(cp[0], Chord("C"))
+        self.assertEqual(cp[1], Chord("F"))
+        self.assertEqual(cp[-1], Chord("G"))
+
+    def test_slice(self):
+        cp = ChordProgression(["C", "F", "G"])
+        self.assertEqual(cp[0:1], [Chord("C")])
+        self.assertEqual(cp[1:], [Chord("F"), Chord("G")])
+        self.assertEqual(cp[0::2], [Chord("C"), Chord("G")])
