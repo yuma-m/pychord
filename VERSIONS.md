@@ -1,3 +1,6 @@
+## 0.2.2
+- Implement `__repr__` function.
+
 ## 0.2.1
 - Support `__add__`, `__len__` and `__getitem__` functions in ChordProgression class.
 

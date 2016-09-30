@@ -19,6 +19,8 @@ $ pip install pychord
 ```python
 >>> from pychord import Chord
 >>> c = Chord("Am7")
+>>> c
+<Chord: Am7>
 >>> c.info()
 """
 Am7
@@ -32,17 +34,15 @@ on=None
 ### Transpose a Chord
 
 ```python
->>> from pychord import Chord
 >>> c = Chord("Am7/G")
 >>> c.transpose(3)
->>> print(c)
-Chord(Cm7/Bb)
+>>> c
+<Chord: Cm7/Bb>
 ```
 
 ### Get component notes
 
 ```python
->>> from pychord import Chord
 >>> c = Chord("Am7")
 >>> c.components()
 ['A', 'C', 'E', 'G']
@@ -53,16 +53,16 @@ Chord(Cm7/Bb)
 ```python
 >>> from pychord import ChordProgression
 >>> cp = ChordProgression(["C", "G/B", "Am"])
->>> print(cp)
-C | G/B | Am
+>>> cp
+<ChordProgression: C | G/B | Am>
 
 >>> cp.append("Em/G")
->>> print(cp)
-C | G/B | Am | Em/G
+>>> cp
+<ChordProgression: C | G/B | Am | Em/G>
 
 >>> cp.transpose(+3)
->>> print(cp)
-Eb | Bb/D | Cm | Gm/Bb
+>>> cp
+<ChordProgression: Eb | Bb/D | Cm | Gm/Bb>
 ```
 
 ## Supported Python Versions
