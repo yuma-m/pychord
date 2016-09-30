@@ -28,6 +28,9 @@ class ChordProgression(object):
     def __str__(self):
         return " | ".join([chord.chord for chord in self.chords])
 
+    def __repr__(self):
+        return "<ChordProgression: {}>".format(" | ".join([chord.chord for chord in self.chords]))
+
     def __add__(self, other):
         self.chords += other.chords
         return self

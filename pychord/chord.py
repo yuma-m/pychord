@@ -16,10 +16,13 @@ class Chord(object):
         self._parse(chord)
 
     def __unicode__(self):
-        return "Chord({})".format(self.chord)
+        return self.chord
 
     def __str__(self):
-        return "Chord({})".format(self.chord)
+        return self.chord
+
+    def __repr__(self):
+        return "<Chord: {}>".format(self.chord)
 
     def __eq__(self, other):
         return self.chord == other.chord
