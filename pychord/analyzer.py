@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .chord import Chord
+from .constants.qualities import QUALITY_DICT
 from .utils import note_to_val
 
 
@@ -10,11 +11,24 @@ def note_to_chord(notes):
     :param list[str] notes: list of note arranged from lower note. ex) ["C", "Eb", "G"]
     :return list[pychord.Chord]: list of chord.
     """
-    chords = []
     if not notes:
         raise ValueError("Please specify notes which consist a chord.")
     root = notes[0]
-    positions = notes_to_positions(notes, root)
+    root_and_positions = []
+    for rotated_notes in get_all_rotated_notes(notes):
+        rotated_root = rotated_notes[0]
+        root_and_positions.append([rotated_root, notes_to_positions(rotated_notes, rotated_notes[0])])
+    chords = []
+    for temp_root, positions in root_and_positions:
+        quality = find_quality(positions)
+        if quality is None:
+            continue
+        if temp_root == root:
+            chord = "{}{}".format(root, quality)
+        else:
+            chord = "{}{}/{}".format(temp_root, quality, root)
+        chords.append(Chord(chord))
+    return chords
 
 
 def notes_to_positions(notes, root):
@@ -36,3 +50,26 @@ def notes_to_positions(notes, root):
         positions.append(note_pos - root_pos)
         current_pos = note_pos
     return positions
+
+
+def get_all_rotated_notes(notes):
+    """ get all rotated notes
+
+    get_all_rotated_notes([1,3,5]) -> [[1,3,5],[3,5,1],[5,1,3]]
+    """
+    notes_list = []
+    for x in range(len(notes)):
+        notes_list.append(notes[x:] + notes[:x])
+    return notes_list
+
+
+def find_quality(positions):
+    """ Find a quality consists of positions
+
+    :param list[int] positions: note positions
+    :rtype str|None:
+    """
+    for q, p in QUALITY_DICT.items():
+        if positions == p:
+            return q
+    return None
