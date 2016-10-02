@@ -1,6 +1,6 @@
 ## 0.2.3
 - Support 5th(power) chord.
-- Add a utility to find chords from notes.
+- Add an utility to find chords from notes.
 
 ## 0.2.2
 - Implement `__repr__` function.
