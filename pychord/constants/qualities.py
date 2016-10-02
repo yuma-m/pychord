@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 QUALITY_DICT = {
-    # chords consist of 3 notes
+    # chords consist of 2 notes
+    '5': [0, 7],
+    # 3 notes
     '': [0, 4, 7],
     'maj': [0, 4, 7],
     'm': [0, 3, 7],
