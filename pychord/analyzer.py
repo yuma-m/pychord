@@ -46,7 +46,7 @@ def notes_to_positions(notes, root):
     for note in notes:
         note_pos = note_to_val(note)
         if note_pos < current_pos:
-            note_pos += 12 * ((current_pos - note_pos) / 12 + 1)
+            note_pos += 12 * ((current_pos - note_pos) // 12 + 1)
         positions.append(note_pos - root_pos)
         current_pos = note_pos
     return positions
