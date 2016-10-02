@@ -12,7 +12,7 @@ Pychord is a python library to handle musical chords.
 $ pip install pychord
 ```
 
-## Usage
+## Basic Usage
 
 ### Create a Chord
 
@@ -46,6 +46,18 @@ on=None
 >>> c = Chord("Am7")
 >>> c.components()
 ['A', 'C', 'E', 'G']
+```
+
+### Find Chords
+
+```python
+>>> from pychord import note_to_chord
+>>> note_to_chord(["C", "E", "G"])
+[<Chord: C>]
+>>> note_to_chord(["F#", "A", "C", "D"])
+[<Chord: D7/F#>]
+>>> note_to_chord(["F", "G", "C"])
+[<Chord: Fsus2>, <Chord: Csus4/F>]
 ```
 
 ### Create chord progressions
