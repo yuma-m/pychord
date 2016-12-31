@@ -82,6 +82,10 @@ on=None
 ## Links
 - PyPI: https://pypi.python.org/pypi/pychord
 - GitHub: https://github.com/yuma-m/pychord
+- Documentation: http://pychord.readthedocs.io/en/latest/
+
+## Author
+- [Yuma Mihira](http://yurax2.com/)
 
 ## License
 
