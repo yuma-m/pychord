@@ -1,3 +1,7 @@
+## TBD
+- Refactor some classes not to modify instance variables.
+- Update docstrings.
+
 ## 0.2.3
 - Support 5th(power) chord.
 - Add a utility to find chords from notes.
