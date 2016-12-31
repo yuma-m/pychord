@@ -1,6 +1,4 @@
-# pychord
-
-[![Build Status](https://travis-ci.org/yuma-m/pychord.svg?branch=master)](https://travis-ci.org/yuma-m/pychord)
+# pychord [![Build Status](https://travis-ci.org/yuma-m/pychord.svg?branch=master)](https://travis-ci.org/yuma-m/pychord) [![Doc Status](https://readthedocs.org/projects/pip/badge/)](http://pychord.readthedocs.io/)
 
 ## Overview
 
