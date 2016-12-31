@@ -48,8 +48,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pychord'
-copyright = u'2016, Author'
-author = u'Author'
+copyright = u'2016, Yuma Mihira'
+author = u'Yuma Mihira'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
