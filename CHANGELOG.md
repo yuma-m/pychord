@@ -1,4 +1,4 @@
-## TBD
+## 0.2.5
 - Refactor some classes not to modify instance variables.
 - Update docstrings.
 
