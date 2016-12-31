@@ -8,12 +8,17 @@ from .utils import transpose_note, display_appended, display_on
 class Chord(object):
     """ Class to handle a chord.
 
-    :param str chord: Name of the chord. (e.g. C, Am7, F#m7-5/A)
+    :param str _chord: Name of the chord. (e.g. C, Am7, F#m7-5/A)
     :param str _root: The root note of chord.
-    :param pychord.Quality _quality: The quality of chord. ex) m7, 6, M9, ...
+    :param pychord.Quality _quality: The quality of chord. (e.g. m7, 6, M9, ...)
+    :param list[str] _appended: The appended notes on chord.
     :param str _on: The base note of slash chord.
     """
     def __init__(self, chord):
+        """ Constructor of Chord instance
+
+        :param str chord: Name of chord.
+        """
         self._chord = chord
         self._root, self._quality, self._appended, self._on = "", "", "", ""
         self._parse(chord)
