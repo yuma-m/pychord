@@ -1,4 +1,4 @@
-# pychord [![Build Status](https://travis-ci.org/yuma-m/pychord.svg?branch=master)](https://travis-ci.org/yuma-m/pychord) [![Doc Status](https://readthedocs.org/projects/pip/badge/)](http://pychord.readthedocs.io/)
+# pychord [![Build Status](https://travis-ci.org/yuma-m/pychord.svg?branch=master)](https://travis-ci.org/yuma-m/pychord) [![Documentation Status](https://readthedocs.org/projects/pychord/badge/?version=latest)](http://pychord.readthedocs.io/en/latest/?badge=latest)
 
 ## Overview
 
