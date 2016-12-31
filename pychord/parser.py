@@ -30,6 +30,7 @@ def parse(chord):
         quality = Quality(rest)
     else:
         raise ValueError("Invalid chord {}: Unknown quality {}".format(chord, rest))
+    # TODO: Implement parser for appended notes
     appended = []
     return root, quality, appended, on
 
