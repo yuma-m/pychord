@@ -35,19 +35,6 @@ def val_to_note(val, scale="C"):
     return SCALE_VAL_DICT[scale][val]
 
 
-def transpose_note(note, transpose):
-    """ Transpose a note
-
-    :param str note: note to transpose
-    :type transpose: int
-    :rtype: str
-    :return: transposed note
-    """
-    val = note_to_val(note)
-    val += transpose
-    return val_to_note(val)
-
-
 def transpose_note(note, transpose, scale="C"):
     """ Transpose a note
 
