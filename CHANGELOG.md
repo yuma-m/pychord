@@ -1,3 +1,7 @@
+## 0.2.6
+- Enable setting scale on Chord.transpose
+- Contributor: jgvictores
+
 ## 0.2.5
 - Refactor some classes not to modify instance variables.
 - Update docstrings.
