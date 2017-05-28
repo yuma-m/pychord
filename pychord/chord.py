@@ -68,17 +68,18 @@ quality={}
 appended={}
 on={}""".format(self._chord, self._root, self._quality, self._appended, self._on)
 
-    def transpose(self, trans):
+    def transpose(self, trans, scale="C"):
         """ Transpose the chord
 
         :param int trans: Transpose key
+        :param str scale: key scale
         :return:
         """
         if not isinstance(trans, int):
             raise TypeError("Expected integers, not {}".format(type(trans)))
-        self._root = transpose_note(self._root, trans)
+        self._root = transpose_note(self._root, trans, scale)
         if self._on:
-            self._on = transpose_note(self._on, trans)
+            self._on = transpose_note(self._on, trans, scale)
         self._reconfigure_chord()
 
     def components(self, visible=True):

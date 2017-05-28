@@ -35,17 +35,18 @@ def val_to_note(val, scale="C"):
     return SCALE_VAL_DICT[scale][val]
 
 
-def transpose_note(note, transpose):
+def transpose_note(note, transpose, scale="C"):
     """ Transpose a note
 
     :param str note: note to transpose
     :type transpose: int
+    :param str scale: key scale
     :rtype: str
     :return: transposed note
     """
     val = note_to_val(note)
     val += transpose
-    return val_to_note(val)
+    return val_to_note(val, scale)
 
 
 def display_appended(appended):
