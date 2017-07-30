@@ -71,10 +71,6 @@ class Quality(object):
         if on_chord_val not in self.components:
             self.components.insert(0, on_chord_val)
 
-    def _rotate_components(self, stop_idx, scale):
-        for idx, val in enumerate(self.components[:stop_idx]):
-            self.components[idx] += (scale + 1) * 12
-
     def append_note(self, note, root, scale=0):
         """ Append a note to quality
 
