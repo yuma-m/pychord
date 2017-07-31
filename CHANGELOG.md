@@ -1,3 +1,7 @@
+## 0.2.7
+- Handle base note in Chord.components
+- Contributor: mstuttgart
+
 ## 0.2.6
 - Enable setting scale on Chord.transpose
 - Contributor: jgvictores
