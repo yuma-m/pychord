@@ -40,8 +40,10 @@ class Quality(object):
         """
         root_val = note_to_val(root)
         components = [v + root_val for v in self.components]
+
         if visible:
             components = [val_to_note(c, scale=root) for c in components]
+
         return components
 
     def append_on_chord(self, on_chord, root):
@@ -56,19 +58,18 @@ class Quality(object):
         """
         root_val = note_to_val(root)
         on_chord_val = note_to_val(on_chord) - root_val
-        for idx, val in enumerate(self.components):
+
+        lista = list(self.components)
+        for idx, val in enumerate(lista):
             if val % 12 == on_chord_val:
-                scale = val / 12
-                self._rotate_components(idx, scale)
+                self.components.remove(val)
                 break
+
         if on_chord_val > root_val:
             on_chord_val -= 12
+
         if on_chord_val not in self.components:
             self.components.insert(0, on_chord_val)
-
-    def _rotate_components(self, stop_idx, scale):
-        for idx, val in enumerate(self.components[:stop_idx]):
-            self.components[idx] += (scale + 1) * 12
 
     def append_note(self, note, root, scale=0):
         """ Append a note to quality

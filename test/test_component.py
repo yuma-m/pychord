@@ -36,6 +36,13 @@ class TestChordCreations(unittest.TestCase):
         com1 = c.components(visible=True)
         self.assertEqual(com1, ["E", "G#", "C"])
 
+    def test_slash_chord(self):
+        c = Chord("CM9/D")
+        com0 = c.components(visible=False)
+        self.assertEqual(com0, [-10, 0, 4, 7, 11])
+        com1 = c.components(visible=True)
+        self.assertEqual(com1, ["D", "C", "E", "G", "B"])
+
     def test_sus4_chord(self):
         c = Chord("Fsus4")
         com0 = c.components(visible=False)

@@ -89,6 +89,9 @@ on={}""".format(self._chord, self._root, self._quality, self._appended, self._on
         :rtype: list[(str or int)]
         :return component notes of chord
         """
+        if self._on:
+            self._quality.append_on_chord(self.on, self.root)
+
         return self._quality.get_components(root=self._root, visible=visible)
 
     def _parse(self, chord):
