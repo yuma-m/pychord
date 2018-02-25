@@ -2,7 +2,7 @@
 
 
 from .parser import parse
-from .utils import transpose_note, display_appended, display_on
+from .utils import transpose_note, display_appended, display_on, note_to_val
 
 
 class Chord(object):
@@ -33,7 +33,16 @@ class Chord(object):
         return "<Chord: {}>".format(self._chord)
 
     def __eq__(self, other):
-        return self._chord == other.chord
+        if note_to_val(self._root) != note_to_val(other.root):
+            return False
+        if self._quality != other.quality:
+            return False
+        if self._appended != other.appended:
+            return False
+        if self._on and other.on:
+            if note_to_val(self._on) != note_to_val(other.on):
+                return False
+        return True
 
     def __ne__(self, other):
         return not self.__eq__(other)
