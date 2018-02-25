@@ -64,5 +64,6 @@ class TestChordCreations(unittest.TestCase):
         com1 = c.components(visible=True)
         self.assertEqual(com1, ["C", "E", "G", "A"])
 
+
 if __name__ == '__main__':
     unittest.main()

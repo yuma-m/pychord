@@ -103,3 +103,10 @@ class TestChordProgressionFunctions(unittest.TestCase):
         self.assertEqual(cp[0:1], [Chord("C")])
         self.assertEqual(cp[1:], [Chord("F"), Chord("G")])
         self.assertEqual(cp[0::2], [Chord("C"), Chord("G")])
+
+    def test_eq(self):
+        cp1 = ChordProgression(["C", "F", "G"])
+        cp2 = ChordProgression(["C", "F", "G"])
+        self.assertEqual(cp1, cp2)
+        self.assertIsNot(cp1, cp2)
+

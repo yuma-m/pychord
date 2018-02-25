@@ -48,6 +48,15 @@ class ChordProgression(object):
     def __setitem__(self, key, value):
         self._chords[key] = value
 
+    def __eq__(self, other):
+        if len(self) != len(other):
+            return False
+        for c, o in zip(self, other):
+            # TODO: Fix this not to get .chord attribute
+            if c.chord != o.chord:
+                return False
+        return True
+
     @property
     def chords(self):
         """ Get component chords of chord progression

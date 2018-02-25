@@ -45,6 +45,11 @@ class TestChordCreations(unittest.TestCase):
     def test_invalid_slash_chord(self):
         self.assertRaises(ValueError, Chord, "C/H")
 
+    def test_eq(self):
+        c1 = Chord("C")
+        c2 = Chord("C")
+        self.assertEqual(c1, c2)
+
 
 class TestAsChord(unittest.TestCase):
 
