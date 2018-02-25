@@ -52,10 +52,12 @@ class ChordProgression(object):
         if len(self) != len(other):
             return False
         for c, o in zip(self, other):
-            # TODO: Fix this not to get .chord attribute
-            if c.chord != o.chord:
+            if c != o:
                 return False
         return True
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     @property
     def chords(self):

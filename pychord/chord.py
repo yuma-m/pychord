@@ -35,6 +35,9 @@ class Chord(object):
     def __eq__(self, other):
         return self._chord == other.chord
 
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     @property
     def chord(self):
         """ The name of chord """
