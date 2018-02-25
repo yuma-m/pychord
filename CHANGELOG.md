@@ -1,3 +1,7 @@
+## 0.2.9
+- Implement `__eq__`, `__ne__`, `__setitem__` methods for ChordProgression.
+- Implement `__eq__` method for Chord.
+
 ## 0.2.7
 - Handle base note in Chord.components
 - Contributor: mstuttgart
