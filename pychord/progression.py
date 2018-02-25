@@ -45,6 +45,9 @@ class ChordProgression(object):
     def __getitem__(self, item):
         return self._chords[item]
 
+    def __setitem__(self, key, value):
+        self._chords[key] = value
+
     @property
     def chords(self):
         """ Get component chords of chord progression
