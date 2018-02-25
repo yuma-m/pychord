@@ -58,7 +58,7 @@ on=None
 [<Chord: Fsus2>, <Chord: Csus4/F>]
 ```
 
-### Create chord progressions
+### Create and handle chord progressions
 
 ```python
 >>> from pychord import ChordProgression
@@ -73,6 +73,9 @@ on=None
 >>> cp.transpose(+3)
 >>> cp
 <ChordProgression: Eb | Bb/D | Cm | Gm/Bb>
+
+>>> cp[1]
+<Chord: Bb/D>
 ```
 
 ## Supported Python Versions

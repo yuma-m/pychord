@@ -35,7 +35,20 @@ class TestChordCreations(unittest.TestCase):
 
     def test_invalid_transpose_type(self):
         c = Chord("Am")
-        self.assertRaises(TypeError, c.transpose, ("A"))
+        self.assertRaises(TypeError, c.transpose, "A")
+
+    def test_transpose_eq1(self):
+        c1 = Chord("C")
+        c1.transpose(1)
+        c2 = Chord("Db")
+        self.assertEqual(c1, c2)
+
+    def test_transpose_eq2(self):
+        c1 = Chord("C")
+        c1.transpose(2)
+        c2 = Chord("D")
+        self.assertEqual(c1, c2)
+
 
 if __name__ == '__main__':
     unittest.main()
