@@ -25,6 +25,12 @@ class Quality(object):
     def __str__(self):
         return self._quality
 
+    def __eq__(self, other):
+        return self._quality == other.quality
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     @property
     def quality(self):
         """ Get name of quality """
@@ -59,8 +65,8 @@ class Quality(object):
         root_val = note_to_val(root)
         on_chord_val = note_to_val(on_chord) - root_val
 
-        lista = list(self.components)
-        for idx, val in enumerate(lista):
+        list_ = list(self.components)
+        for idx, val in enumerate(list_):
             if val % 12 == on_chord_val:
                 self.components.remove(val)
                 break

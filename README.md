@@ -46,6 +46,19 @@ on=None
 ['A', 'C', 'E', 'G']
 ```
 
+### Compare Chords
+
+```python
+>>> Chord("C") == Chord("D")
+False
+>>> Chord("C#") == Chord("Db")
+True
+>>> c = Chord("C")
+>>> c.transpose(2)
+>>> c == Chord("D")
+True
+```
+
 ### Find Chords
 
 ```python
