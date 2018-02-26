@@ -33,6 +33,8 @@ class Chord(object):
         return "<Chord: {}>".format(self._chord)
 
     def __eq__(self, other):
+        if not isinstance(other, Chord):
+            raise TypeError("Cannot compare Chord object with {} object".format(type(other)))
         if note_to_val(self._root) != note_to_val(other.root):
             return False
         if self._quality != other.quality:

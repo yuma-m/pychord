@@ -26,6 +26,8 @@ class Quality(object):
         return self._quality
 
     def __eq__(self, other):
+        if not isinstance(other, Quality):
+            raise TypeError("Cannot compare Quality object with {} object".format(type(other)))
         return self._quality == other.quality
 
     def __ne__(self, other):
