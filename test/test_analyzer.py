@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 
 from pychord import Chord
@@ -37,7 +39,6 @@ class TestNotesToPositions(unittest.TestCase):
     def test_thirteenth(self):
         pos = notes_to_positions(["A", "C#", "E", "G", "B", "D", "F#"], "A")
         self.assertEqual(pos, [0, 4, 7, 10, 14, 17, 21])
-
 
 
 class TestGetAllRotatedNotes(unittest.TestCase):
