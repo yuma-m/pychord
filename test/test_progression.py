@@ -110,3 +110,7 @@ class TestChordProgressionFunctions(unittest.TestCase):
         self.assertEqual(cp1, cp2)
         self.assertIsNot(cp1, cp2)
 
+    def test_invalid_eq(self):
+        cp = ChordProgression(["C", "F", "G"])
+        with self.assertRaises(TypeError):
+            print(cp == 0)

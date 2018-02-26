@@ -1,3 +1,6 @@
+## Forthcoming
+- Raise TypeError in `__eq__` methods.
+
 ## 0.3.0
 - Implement `__eq__` method for Quality.
 - Fix `__eq__` method of Chord to support comparison between sharped and flatted chords.

@@ -50,6 +50,11 @@ class TestChordCreations(unittest.TestCase):
         c2 = Chord("C")
         self.assertEqual(c1, c2)
 
+    def test_invalid_eq(self):
+        c = Chord("C")
+        with self.assertRaises(TypeError):
+            print(c == 0)
+
 
 class TestAsChord(unittest.TestCase):
 

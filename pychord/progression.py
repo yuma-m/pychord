@@ -49,6 +49,8 @@ class ChordProgression(object):
         self._chords[key] = value
 
     def __eq__(self, other):
+        if not isinstance(other, ChordProgression):
+            raise TypeError("Cannot compare ChordProgression object with {} object".format(type(other)))
         if len(self) != len(other):
             return False
         for c, o in zip(self, other):
