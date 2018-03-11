@@ -16,3 +16,16 @@ install:
 
 script:
   - python setup.py test
+
+before_deploy:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y pandoc
+  - sudo pip install pypandoc
+
+deploy:
+  provider: pypi
+  user: $PYPI_USER
+  password: $PYPI_PASSWORD
+  on:
+    python: 2.7
+    tags: true
