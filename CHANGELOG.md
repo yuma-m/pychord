@@ -1,4 +1,6 @@
 ## Forthcoming
+
+## 0.3.1
 - Raise TypeError in `__eq__` methods.
 
 ## 0.3.0

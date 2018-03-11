@@ -20,12 +20,13 @@ script:
 before_deploy:
   - sudo apt-get -qq update
   - sudo apt-get install -y pandoc
-  - sudo pip install pypandoc
+  - pandoc -f markdown -t rst -o README.rst README.md
 
 deploy:
   provider: pypi
-  user: $PYPI_USER
-  password: $PYPI_PASSWORD
+  user: yuma-m
+  password:
+    secure: Wc0L0Oe2Ofz4TF8soIWt+Zep2iR+n+2PC3EaN7ZeE9NI6YXr3AzZ0Q4+vZwOwFXDeoiHDpDT/spRmUYnnY6D/M9q2aomUULUFRCMcjdhsuILMK6QSSNmEsH/dlRlrJ/3kQeA5aLs9K7gZAJTuK/4MQCcb06H0qWdIF8kRIaaaZI953/c7F8/qY//6Bhh4auu5erHZUScAbcqsPsTD1ewrvxJ9/OsaTlzSp0Noez8XYpwhmUM5ojRnKkLuTq06P1yRZNwtqg0Z23N+0bGOnqbBB3eGMMmp9+D65KrIGVAsBqoP1hfZPAJRxhzdfZ/RBEk3en/Ta52rbwIqit6gPIE/dns+Gco5mqfb1/XnfLo4WdMHnkm2MpQSgSI77wgqWBbCJZf8YItaGz892agoflr/zp6dCeK++U9SKZ+hWpoiBweLyyQZZdFhI65xUlR9Z1k/YEnG82APPtuqZ0iNMsX9kO+E9x9Q353x0P9vzqxRR0fAABQWmDeRyXkX9LT01Nx9P19OCeho6wysipZZbS/UZMpNq91HHFfe90+QkucKNIw4tj9IgUXNRzymxXN5J9rTOpHMwnYVAc6FF/9T5lazMGZ8KqBVujYlPWNpKaXrKO2xlYHUIXnxvfaK6+liIPkIaOtMvl5gY94uAn8Fkll43cUn1/4ipBtH4ytEbt9BEQ=
   on:
-    python: 2.7
+    python: 3.6
     tags: true

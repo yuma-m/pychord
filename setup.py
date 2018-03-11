@@ -1,12 +1,5 @@
 from setuptools import setup, find_packages
-version = '0.3.0'
-
-try:
-    import pypandoc
-    read_md = lambda f: pypandoc.convert(f, 'rst')
-except ImportError:
-    print("warning: pypandoc module not found, could not convert Markdown to RST")
-    read_md = lambda f: open(f, 'r').read()
+version = '0.3.1'
 
 setup(
     name='pychord',
@@ -31,6 +24,6 @@ setup(
     packages=find_packages(exclude=['test']),
     include_package_data=True,
     zip_safe=True,
-    long_description=read_md('README.md'),
+    long_description=open('README.rst').read(),
     test_suite='test',
 )
