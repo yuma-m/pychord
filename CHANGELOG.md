@@ -1,5 +1,8 @@
 ## Forthcoming
 
+## 0.3.2
+- Make `QUALITY_DICT` values immutable.
+
 ## 0.3.1
 - Raise TypeError in `__eq__` methods.
 
