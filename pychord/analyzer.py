@@ -74,6 +74,6 @@ def find_quality(positions):
     :rtype: str|None
     """
     for q, p in QUALITY_DICT.items():
-        if positions == p:
+        if positions == list(p):
             return q
     return None

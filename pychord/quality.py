@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from .constants import QUALITY_DICT
 from .utils import note_to_val, val_to_note
 
@@ -17,7 +16,7 @@ class Quality(object):
         if quality not in QUALITY_DICT:
             raise ValueError("unknown quality {}".format(quality))
         self._quality = quality
-        self.components = QUALITY_DICT[quality]
+        self.components = list(QUALITY_DICT[quality])
 
     def __unicode__(self):
         return self._quality
