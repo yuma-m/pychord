@@ -10,7 +10,7 @@ def parse(chord):
 
     :param str chord: str expression of a chord
     :rtype: (str, pychord.Quality, str, str)
-    :return (root, quality, appended, on):
+    :return: (root, quality, appended, on)
     """
     if len(chord) > 1 and chord[1] in ("b", "#"):
         root = chord[:2]
@@ -40,7 +40,7 @@ def check_note(note, chord):
 
     :param str note: note to check its validity
     :param str chord: the chord which includes the note
-    :return bool:
+    :rtype: bool
     """
     if note not in NOTE_VAL_DICT:
         raise ValueError("Invalid chord {}: Unknown note {}".format(chord, note))

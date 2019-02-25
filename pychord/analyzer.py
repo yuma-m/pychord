@@ -39,7 +39,8 @@ def notes_to_positions(notes, root):
 
     :param list[str] notes: list of notes
     :param str root: the root note
-    :return list[int]: list of note positions
+    :rtype: list[int]
+    :return: list of note positions
     """
     root_pos = note_to_val(root)
     current_pos = root_pos
