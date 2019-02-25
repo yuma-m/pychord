@@ -93,7 +93,7 @@ True
 
 ## Supported Python Versions
 - 2.7
-- 3.3 and above
+- 3.4 and above
 
 ## Links
 - PyPI: https://pypi.python.org/pypi/pychord
