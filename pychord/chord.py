@@ -101,7 +101,7 @@ on={}""".format(self._chord, self._root, self._quality, self._appended, self._on
 
         :param bool visible: returns the name of notes if True else list of int
         :rtype: list[(str or int)]
-        :return component notes of chord
+        :return: component notes of chord
         """
         if self._on:
             self._quality.append_on_chord(self.on, self.root)

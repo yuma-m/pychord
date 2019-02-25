@@ -42,8 +42,8 @@ class Quality(object):
 
         :param str root: the root note of the chord
         :param bool visible: returns the name of notes if True
-        :rtype: list[(str or int)]
-        :return components of chord quality
+        :rtype: list[str|int]
+        :return: components of chord quality
         """
         root_val = note_to_val(root)
         components = [v + root_val for v in self.components]

@@ -92,7 +92,7 @@ class ChordProgression(object):
         """ Pop a chord from chord progressions
 
         :param int index: Index of the chord to pop (default: -1)
-        :return pychord.Chord:
+        :return: pychord.Chord
         """
         return self._chords.pop(index)
 
