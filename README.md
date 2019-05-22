@@ -91,6 +91,19 @@ True
 <Chord: Bb/D>
 ```
 
+## Advanced Usage
+
+### Create a Chord from note index in a scale
+
+```python
+>>> Chord.from_note_index(note=1, quality="", scale="Cmaj")
+<Chord: C>  # I of C major
+>>> Chord.from_note_index(note=3, quality="m7", scale="Fmaj")
+<Chord: Am7>  # IIIm7 of F major
+>>> Chord.from_note_index(note=5, quality="7", scale="Amin")
+<Chord: E7>  # V7 of A minor
+```
+
 ## Supported Python Versions
 - 2.7
 - 3.4 and above
