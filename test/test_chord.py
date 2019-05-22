@@ -73,5 +73,36 @@ class TestAsChord(unittest.TestCase):
             as_chord(1)
 
 
+class TestChordFromNoteIndex(unittest.TestCase):
+
+    def test_note_1(self):
+        chord = Chord.from_note_index(note=1, quality="", scale="Cmaj")
+        self.assertEqual(chord, Chord("C"))
+
+    def test_note_2(self):
+        chord = Chord.from_note_index(note=2, quality="m7", scale="F#min")
+        self.assertEqual(chord, Chord("G#m7"))
+
+    def test_note_3(self):
+        chord = Chord.from_note_index(note=3, quality="sus2", scale="Cmin")
+        self.assertEqual(chord, Chord("Ebsus2"))
+
+    def test_note_7(self):
+        chord = Chord.from_note_index(note=7, quality="7", scale="Amin")
+        self.assertEqual(chord, Chord("G7"))
+
+    def test_note_8(self):
+        chord = Chord.from_note_index(note=8, quality="", scale="Emaj")
+        self.assertEqual(chord, Chord("E"))
+
+    def test_note_0(self):
+        with self.assertRaises(ValueError):
+            Chord.from_note_index(note=0, quality="", scale="Cmaj")
+
+    def test_note_9(self):
+        with self.assertRaises(ValueError):
+            Chord.from_note_index(note=9, quality="", scale="Fmaj")
+
+
 if __name__ == '__main__':
     unittest.main()

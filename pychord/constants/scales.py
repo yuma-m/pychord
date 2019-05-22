@@ -67,7 +67,7 @@ SCALE_VAL_DICT = {
     'G#': SHARPED_SCALE,
 }
 
-RELATIVE_KEY_DICT = {\
-'min': [0,2,3,5,7,8,10,12],\
-'maj': [0,2,4,5,7,9,11,12]\
+RELATIVE_KEY_DICT = {
+    'maj': [0, 2, 4, 5, 7, 9, 11, 12],
+    'min': [0, 2, 3, 5, 7, 8, 10, 12],
 }
