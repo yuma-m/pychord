@@ -51,6 +51,17 @@ class Chord(object):
 
     @classmethod
     def from_note_index(cls, note, quality, scale):
+        """ Create a Chord from note index in a scale
+
+        Chord.from_note_index(1, "", "Cmaj") returns I of C major => Chord("C")
+        Chord.from_note_index(3, "m7", "Fmaj") returns IIImin of F major => Chord("Am7")
+        Chord.from_note_index(5, "7", "Amin") returns Vmin of A minor => Chord("E7")
+
+        :param int note: Note index in a Scale I, II, ..., VIII
+        :param str quality: Quality of a chord (m7, sus4, ...)
+        :param str scale: Base scale (Cmaj, Amin, F#maj, Ebmin, ...)
+        :rtype: Chord
+        """
         if not 1 <= note <= 8:
             raise ValueError("Invalid note {}".format(note))
         relative_key = RELATIVE_KEY_DICT[scale[-3:]][note - 1]
