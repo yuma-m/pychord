@@ -1,5 +1,10 @@
 ## Forthcoming
 
+## 0.4.0
+- Add Chord.from_note_index method.
+    - Support chord creation using note index in a scale.
+- Contributor: @kwadwo00
+
 ## 0.3.2
 - Make `QUALITY_DICT` values immutable.
 
@@ -16,11 +21,11 @@
 
 ## 0.2.7
 - Handle base note in Chord.components
-- Contributor: mstuttgart
+- Contributor: @mstuttgart
 
 ## 0.2.6
 - Enable setting scale on Chord.transpose
-- Contributor: jgvictores
+- Contributor: @jgvictores
 
 ## 0.2.5
 - Refactor some classes not to modify instance variables.
