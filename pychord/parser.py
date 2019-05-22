@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from .quality import Quality
 from .constants import QUALITY_DICT
+from .quality import Quality
 from .utils import NOTE_VAL_DICT
 
 
@@ -12,12 +12,14 @@ def parse(chord):
     :rtype: (str, pychord.Quality, str, str)
     :return: (root, quality, appended, on)
     """
+
     if len(chord) > 1 and chord[1] in ("b", "#"):
         root = chord[:2]
         rest = chord[2:]
     else:
         root = chord[:1]
         rest = chord[1:]
+
     check_note(root, chord)
     on_chord_idx = rest.find("/")
     if on_chord_idx >= 0:

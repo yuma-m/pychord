@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-
-
+from .constants import NOTE_VAL_DICT, VAL_NOTE_DICT
+from .constants.scales import RELATIVE_KEY_DICT
 from .parser import parse
 from .utils import transpose_note, display_appended, display_on, note_to_val
 
@@ -48,6 +48,15 @@ class Chord(object):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    @classmethod
+    def from_note_index(cls, note, quality, scale):
+        if not 1 <= note <= 8:
+            raise ValueError("Invalid note {}".format(note))
+        relative_key = RELATIVE_KEY_DICT[scale[-3:]][note - 1]
+        root_num = NOTE_VAL_DICT[scale[:-3]]
+        root = VAL_NOTE_DICT[(root_num + relative_key) % 12][0]
+        return cls("{}{}".format(root, quality))
 
     @property
     def chord(self):
