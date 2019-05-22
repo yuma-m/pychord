@@ -114,7 +114,7 @@ True
 - Documentation: http://pychord.readthedocs.io/en/latest/
 
 ## Author
-- [Yuma Mihira](http://yurax2.com/)
+- [Yuma Mihira](https://yuma.cloud/)
 
 ## License
 
