@@ -49,6 +49,11 @@ class TestChordCreations(unittest.TestCase):
         c2 = Chord("C")
         self.assertEqual(c1, c2)
 
+    def test_eq_alias(self):
+        c1 = Chord("Cmaj7")
+        c2 = Chord("CM7")
+        self.assertEqual(c1, c2)
+
     def test_invalid_eq(self):
         c = Chord("C")
         with self.assertRaises(TypeError):
