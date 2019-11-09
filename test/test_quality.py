@@ -12,6 +12,11 @@ class TestQuality(unittest.TestCase):
         c2 = Quality("m7-5")
         self.assertEqual(c1, c2)
 
+    def test_eq_alias(self):
+        c1 = Quality("M9")
+        c2 = Quality("maj9")
+        self.assertEqual(c1, c2)
+
     def test_invalid_eq(self):
         c = Quality("m7")
         with self.assertRaises(TypeError):

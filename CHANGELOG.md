@@ -1,5 +1,10 @@
 ## Forthcoming
 
+- Add qualities.
+    - `sus`, `maj7`, `maj9`, `m6`, `madd9`
+- Support quality alias comparison.
+    - `maj7 == M7`
+
 ## 0.4.0
 - Add Chord.from_note_index method.
     - Support chord creation using note index in a scale.

@@ -84,7 +84,7 @@ class TestNoteToChord(unittest.TestCase):
 
     def test_m7dim5(self):
         chords = note_to_chord(["F#", "A", "C", "E"])
-        self.assertEqual(chords, [Chord("F#m7-5")])
+        self.assertEqual(chords, [Chord("F#m7-5"), Chord("Am6/F#")])
 
     def test_call_repeatedly(self):
         for _ in range(2):
