@@ -1,5 +1,7 @@
 # pychord [![Build Status](https://travis-ci.org/yuma-m/pychord.svg?branch=master)](https://travis-ci.org/yuma-m/pychord) [![Documentation Status](https://readthedocs.org/projects/pychord/badge/?version=latest)](http://pychord.readthedocs.io/en/latest/?badge=latest)
 
+![PyChord](./pychord.png)
+
 ## Overview
 
 Pychord is a python library to handle musical chords.
@@ -105,17 +107,22 @@ True
 ```
 
 ## Supported Python Versions
+
 - 2.7
 - 3.4 and above
 
 ## Links
+
 - PyPI: https://pypi.python.org/pypi/pychord
 - GitHub: https://github.com/yuma-m/pychord
 - Documentation: http://pychord.readthedocs.io/en/latest/
 
 ## Author
+
 - [Yuma Mihira](https://yuma.cloud/)
 
 ## License
 
 - MIT License
+
+Icon is made by [Freepik](https://www.flaticon.com/authors/freepik")
