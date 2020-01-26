@@ -1,5 +1,8 @@
 ## Forthcoming
 
+- Rename `6/9` to `69`
+- Add `m69`
+
 ## v0.4.1
 - Add qualities.
     - `sus`, `maj7`, `maj9`, `m6`, `madd9`
