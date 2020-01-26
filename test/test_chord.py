@@ -21,6 +21,11 @@ class TestChordCreations(unittest.TestCase):
         self.assertEqual(c.root, "A")
         self.assertEqual(c.quality.quality, "m")
 
+    def test_69_chord(self):
+        c = Chord("C69")
+        self.assertEqual(c.root, "C")
+        self.assertEqual(c.quality.quality, "69")
+
     def test_m75_chord(self):
         c = Chord("Bm7-5")
         self.assertEqual(c.root, "B")
