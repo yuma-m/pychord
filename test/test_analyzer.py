@@ -82,6 +82,10 @@ class TestNoteToChord(unittest.TestCase):
         chords = note_to_chord(["C", "E", "G", "D"])
         self.assertEqual(chords, [Chord("Cadd9")])
 
+    def test_m7b5(self):
+        chords = note_to_chord(["F#", "A", "C", "E"])
+        self.assertEqual(chords, [Chord("F#m7-5"), Chord("Am6/F#")])
+
     def test_m7dim5(self):
         chords = note_to_chord(["F#", "A", "C", "E"])
         self.assertEqual(chords, [Chord("F#m7-5"), Chord("Am6/F#")])
