@@ -1,8 +1,9 @@
 ## Forthcoming
 
+## v0.4.2
+
 - Rename `6/9` to `69`.
-- Add `m69`.
-- Add `m7b5`, `-` as aliases.
+- Add `m69`, `m7b5` and `-` qualities.
 - Contributor: @dok
 
 ## v0.4.1
