@@ -21,6 +21,11 @@ class TestChordCreations(unittest.TestCase):
         self.assertEqual(c.root, "A")
         self.assertEqual(c.quality.quality, "m")
 
+    def test_minor_chord_with_minus(self):
+        c = Chord("A-")
+        self.assertEqual(c.root, "A")
+        self.assertEqual(c.quality.quality, "-")
+
     def test_69_chord(self):
         c = Chord("C69")
         self.assertEqual(c.root, "C")
@@ -45,6 +50,11 @@ class TestChordCreations(unittest.TestCase):
         self.assertEqual(c.root, "D")
         self.assertEqual(c.quality.quality, "m")
         self.assertEqual(c.on, "G")
+
+    def test_minor_7b5_chord(self):
+        c = Chord("Dm7b5")
+        self.assertEqual(c.root, "D")
+        self.assertEqual(c.quality.quality, "m7b5")
 
     def test_invalid_slash_chord(self):
         self.assertRaises(ValueError, Chord, "C/H")
