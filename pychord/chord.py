@@ -2,7 +2,7 @@
 from .constants import NOTE_VAL_DICT, VAL_NOTE_DICT
 from .constants.scales import RELATIVE_KEY_DICT
 from .parser import parse
-from .utils import transpose_note, display_appended, display_on, note_to_val
+from .utils import transpose_note, display_appended, display_on, note_to_val, sharp_or_flat
 
 
 class Chord(object):
@@ -66,7 +66,16 @@ class Chord(object):
             raise ValueError("Invalid note {}".format(note))
         relative_key = RELATIVE_KEY_DICT[scale[-3:]][note - 1]
         root_num = NOTE_VAL_DICT[scale[:-3]]
-        root = VAL_NOTE_DICT[(root_num + relative_key) % 12][0]
+        
+        # choose the sharp/flat note depending on the underlying scale
+        root_options = VAL_NOTE_DICT[(root_num + relative_key) % 12]
+        if len(root_options) == 1:
+            root = root_options[0]
+        else:
+            correct_accidental = sharp_or_flat(scale)
+            correct_index = ['FLATTED','SHARPED'].index(correct_accidental)
+            root = root_options[correct_index]
+
         return cls("{}{}".format(root, quality))
 
     @property
@@ -161,3 +170,4 @@ def as_chord(chord):
         return Chord(chord)
     else:
         raise TypeError("input type should be str or Chord instance.")
+

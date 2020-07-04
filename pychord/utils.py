@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .constants import NOTE_VAL_DICT, SCALE_VAL_DICT
+from .constants import NOTE_VAL_DICT, SCALE_VAL_DICT, SHARPED_SCALE
 
 
 def note_to_val(note):
@@ -58,3 +58,24 @@ def display_on(on_note):
     if on_note:
         return "/{}".format(on_note)
     return ""
+
+def sharp_or_flat(scale):
+    """ Determine whether the scale provided uses flats or sharps
+
+        sharp_or_flat('Cmaj') returns flats => 'FLATTED'
+        sharp_or_flat('C#min') returns sharps => 'SHARPED'
+        
+        :param str scale: Base scale (Cmaj, Amin, F#maj, Ebmin, ...)
+        :rtype: str
+        """
+    root = scale[:-3]
+    # if scale is minor, get sharp/flat from relative major
+    if scale[-3:] == 'min':
+        root = SCALE_VAL_DICT[root][3]
+    
+    # figure out whether sharps or flats are correct
+    if SCALE_VAL_DICT[root] == SHARPED_SCALE:
+        return 'SHARPED'
+    else:
+        return 'FLATTED'
+    
