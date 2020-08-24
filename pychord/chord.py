@@ -2,7 +2,7 @@
 from .constants import NOTE_VAL_DICT, VAL_NOTE_DICT
 from .constants.scales import RELATIVE_KEY_DICT
 from .parser import parse
-from .utils import transpose_note, display_appended, display_on, note_to_val
+from .utils import transpose_note, display_appended, display_on, note_to_val, val_to_note
 
 
 class Chord(object):
@@ -127,6 +127,21 @@ on={}""".format(self._chord, self._root, self._quality, self._appended, self._on
             self._quality.append_on_chord(self.on, self.root)
 
         return self._quality.get_components(root=self._root, visible=visible)
+
+    def components_with_pitch(self, root_pitch):
+        """ Return the component notes of chord formatted like ["C4", "E4", "G4"]
+
+        :param int root_pitch: the pitch of the root note
+        :rtype: list[str]
+        :return: component notes of chord
+        """
+        if self._on:
+            self._quality.append_on_chord(self.on, self.root)
+
+        components = self._quality.get_components(root=self._root)
+        if components[0] < 0:
+            components = [c + 12 for c in components]
+        return ["{}{}".format(val_to_note(c, scale=self._root), root_pitch + c // 12) for c in components]
 
     def _parse(self, chord):
         """ parse a chord

@@ -1,5 +1,7 @@
 ## Forthcoming
 
+- Add Chord.components_with_pitch method.
+
 ## v0.4.2
 
 - Rename `6/9` to `69`.

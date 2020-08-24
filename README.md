@@ -46,6 +46,8 @@ on=None
 >>> c = Chord("Am7")
 >>> c.components()
 ['A', 'C', 'E', 'G']
+>>> c.components_with_pitch(root_pitch=3)
+['A3', 'C4', 'E4', 'G4']
 ```
 
 ### Compare Chords
