@@ -1,5 +1,7 @@
 ## Forthcoming
 
+## v0.5.0
+
 - Add Chord.components_with_pitch method.
 
 ## v0.4.2
