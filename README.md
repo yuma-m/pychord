@@ -111,7 +111,7 @@ True
 ## Supported Python Versions
 
 - 2.7
-- 3.4 and above
+- 3.5 and above
 
 ## Links
 
