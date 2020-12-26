@@ -63,6 +63,13 @@ class TestChordComponent(unittest.TestCase):
         com1 = c.components(visible=True)
         self.assertEqual(com1, ["C", "E", "G", "A"])
 
+    def test_appended_chord(self):
+        c = Chord("C#m7b9b5")
+        com0 = c.components(visible=False)
+        self.assertEqual(com0, [1, 4, 7, 11, 14])
+        com1 = c.components(visible=True)
+        self.assertEqual(com1, ["C#", "E", "G", "B", "D"])
+
 
 class TestChordComponentWithPitch(unittest.TestCase):
 
