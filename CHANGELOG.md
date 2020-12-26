@@ -1,5 +1,9 @@
 ## Forthcoming
 
+## v0.5.1
+
+- Add `m7b9b5` quality.
+
 ## v0.5.0
 
 - Add Chord.components_with_pitch method.
