@@ -1,5 +1,7 @@
 ## Forthcoming
 
+- Add an example to create a MIDI file.
+
 ## v0.5.1
 
 - Add `m7b9b5` quality.
