@@ -108,6 +108,10 @@ True
 <Chord: E7>  # V7 of A minor
 ```
 
+## Examples
+
+- [pychord-midi.py](./examples/pychord-midi.py) - Create a MIDI file using PyChord and pretty_midi.
+
 ## Supported Python Versions
 
 - 2.7
