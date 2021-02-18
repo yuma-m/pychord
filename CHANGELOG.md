@@ -1,6 +1,7 @@
 ## Forthcoming
 
 - Add an example to create a MIDI file.
+- Fix `sus` quality.
 
 ## v0.5.1
 

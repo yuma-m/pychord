@@ -5,7 +5,6 @@ from collections import OrderedDict
 QUALITY_DICT = OrderedDict((
     # chords consist of 2 notes
     ('5', (0, 7)),
-    ('sus', (0, 7)),
     # 3 notes
     ('', (0, 4, 7)),
     ('maj', (0, 4, 7)),
@@ -16,6 +15,7 @@ QUALITY_DICT = OrderedDict((
     ('aug', (0, 4, 8)),
     ('sus2', (0, 2, 7)),
     ('sus4', (0, 5, 7)),
+    ('sus', (0, 5, 7)),
     # 4 notes
     ('6', (0, 4, 7, 9)),
     ('7', (0, 4, 7, 10)),

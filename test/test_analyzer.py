@@ -70,6 +70,10 @@ class TestNoteToChord(unittest.TestCase):
         chords = note_to_chord(["Eb", "Gb", "A"])
         self.assertEqual(chords, [Chord("Ebdim")])
 
+    def test_sus4(self):
+        chords = note_to_chord(["G", "C", "D"])
+        self.assertEqual(chords, [Chord("Gsus4"), Chord("Csus2/G")])
+
     def test_dim6(self):
         chords = note_to_chord(["Eb", "Gb", "A", "C"])
         self.assertEqual(chords, [Chord("Ebdim6"), Chord("Gbdim6/Eb"), Chord("Adim6/Eb"), Chord("Cdim6/Eb")])
