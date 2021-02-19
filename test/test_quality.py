@@ -81,8 +81,12 @@ class TestQuality(unittest.TestCase):
         c1 = Quality("m")
         c2 = Quality("min")
         c3 = Quality("-")
+        aliases = set(['-', 'm', 'min'])
         self.assertEqual(c1, c2)
         self.assertEqual(c1, c3)
+        self.assertTrue(set(c1.aliases) == aliases)
+        self.assertTrue(set(c2.aliases) == aliases)
+        self.assertTrue(set(c3.aliases) == aliases)
 
     def test_invalid_eq(self):
         c = Quality("m7")

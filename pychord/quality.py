@@ -37,6 +37,12 @@ class Quality(object):
         """ Get name of quality """
         return self._quality
 
+    @property
+    def aliases(self):
+        """ Return aliases of this quality """
+        return [quality for quality, value in QUALITY_DICT.items()
+                if self.components == list(value)]
+
     def get_components(self, root='C', visible=False):
         """ Get components of chord quality
 
