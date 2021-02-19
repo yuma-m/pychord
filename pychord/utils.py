@@ -58,3 +58,7 @@ def display_on(on_note):
     if on_note:
         return "/{}".format(on_note)
     return ""
+
+
+def notes_list():
+    return NOTE_VAL_DICT.keys()
