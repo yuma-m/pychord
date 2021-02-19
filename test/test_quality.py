@@ -32,6 +32,51 @@ class TestQuality(unittest.TestCase):
         c2 = Quality("m7b5")
         self.assertEqual(c1, c2)
 
+    def test_eq_alias_m7b9b5(self):
+        c1 = Quality("m7-9-5")
+        c2 = Quality("m7b9b5")
+        self.assertEqual(c1, c2)
+
+    def test_eq_alias_7b9b5(self):
+        c1 = Quality("7-9-5")
+        c2 = Quality("7b9b5")
+        self.assertEqual(c1, c2)
+
+    def test_eq_alias_7b9sharp5(self):
+        c1 = Quality("7-9+5")
+        c2 = Quality("7b9#5")
+        self.assertEqual(c1, c2)
+
+    def test_eq_alias_7b9sharp9(self):
+        c1 = Quality("7-9+9")
+        c2 = Quality("7b9#9")
+        self.assertEqual(c1, c2)
+
+    def test_eq_alias_7b9sharp11(self):
+        c1 = Quality("7-9+11")
+        c2 = Quality("7b9#11")
+        self.assertEqual(c1, c2)
+
+    def test_eq_alias_7sharp9sharp11(self):
+        c1 = Quality("7+9+11")
+        c2 = Quality("7#9#11")
+        self.assertEqual(c1, c2)
+
+    def test_eq_alias_7sharp9b5(self):
+        c1 = Quality("7+9-5")
+        c2 = Quality("7#9b5")
+        self.assertEqual(c1, c2)
+
+    def test_eq_alias_7sharp9sharp5(self):
+        c1 = Quality("7+9+5")
+        c2 = Quality("7#9#5")
+        self.assertEqual(c1, c2)
+
+    def test_eq_alias_7b9b13(self):
+        c1 = Quality("7-9-13")
+        c2 = Quality("7b9b13")
+        self.assertEqual(c1, c2)
+
     def test_eq_alias_min(self):
         c1 = Quality("m")
         c2 = Quality("min")
