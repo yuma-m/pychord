@@ -21,7 +21,7 @@ def note_to_chord(notes):
         root_and_positions.append([rotated_root, notes_to_positions(rotated_notes, rotated_notes[0])])
     chords = []
     for temp_root, positions in root_and_positions:
-        quality = QualityManager().from_components(positions)
+        quality = QualityManager().find_quality_from_components(positions)
         if quality is None:
             continue
         if temp_root == root:

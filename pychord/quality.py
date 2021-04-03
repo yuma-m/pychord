@@ -109,10 +109,10 @@ class QualityManager(object):
     def __new__(cls, *args, **kwargs):
         if not hasattr(cls, "_instance"):
             cls._instance = super(QualityManager, cls).__new__(cls)
-            cls._instance.load_default()
+            cls._instance.load_default_qualities()
         return cls._instance
 
-    def load_default(self):
+    def load_default_qualities(self):
         self._qualities = {
             q: Quality(q, c) for q, c in DEFAULT_QUALITY_DICT.items()
         }
@@ -132,7 +132,7 @@ class QualityManager(object):
         """
         self._qualities[name] = Quality(name, components)
 
-    def from_components(self, components):
+    def find_quality_from_components(self, components):
         for q in self._qualities.values():
             if q.components == components:
                 return q
