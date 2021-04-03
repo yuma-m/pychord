@@ -2,37 +2,62 @@
 
 import unittest
 
-from pychord import Quality
+from pychord import QualityManager, Chord
 
 
 class TestQuality(unittest.TestCase):
+    def setUp(self):
+        self.quality_manager = QualityManager()
 
     def test_eq(self):
-        c1 = Quality("m7-5")
-        c2 = Quality("m7-5")
-        self.assertEqual(c1, c2)
+        q1 = self.quality_manager.get_quality("m7-5")
+        q2 = self.quality_manager.get_quality("m7-5")
+        self.assertEqual(q1, q2)
 
     def test_eq_alias_maj9(self):
-        c1 = Quality("M9")
-        c2 = Quality("maj9")
-        self.assertEqual(c1, c2)
+        q1 = self.quality_manager.get_quality("M9")
+        q2 = self.quality_manager.get_quality("maj9")
+        self.assertEqual(q1, q2)
 
     def test_eq_alias_m7b5(self):
-        c1 = Quality("m7-5")
-        c2 = Quality("m7b5")
-        self.assertEqual(c1, c2)
+        q1 = self.quality_manager.get_quality("m7-5")
+        q2 = self.quality_manager.get_quality("m7b5")
+        self.assertEqual(q1, q2)
 
     def test_eq_alias_min(self):
-        c1 = Quality("m")
-        c2 = Quality("min")
-        c3 = Quality("-")
-        self.assertEqual(c1, c2)
-        self.assertEqual(c1, c3)
+        q1 = self.quality_manager.get_quality("m")
+        q2 = self.quality_manager.get_quality("min")
+        q3 = self.quality_manager.get_quality("-")
+        self.assertEqual(q1, q2)
+        self.assertEqual(q1, q3)
 
     def test_invalid_eq(self):
-        c = Quality("m7")
+        q = self.quality_manager.get_quality("m7")
         with self.assertRaises(TypeError):
-            print(c == 0)
+            print(q == 0)
+
+
+class TestQualityManager(unittest.TestCase):
+
+    def test_singleton(self):
+        quality_manager = QualityManager()
+        quality_manager2 = QualityManager()
+        self.assertIs(quality_manager, quality_manager2)
+
+
+class TestOverwriteQuality(unittest.TestCase):
+
+    def test_overwrite(self):
+        quality_manager = QualityManager()
+        quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
+        chord = Chord("C11")
+        self.assertEqual(chord.components(), ['C', 'E', 'G', 'Bb', 'D', 'F'])
+
+    def test_keep_existing_chord(self):
+        chord = Chord("C11")
+        quality_manager = QualityManager()
+        quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
+        self.assertEqual(chord.components(), ['C', 'G', 'Bb', 'D', 'F'])
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .chord import Chord
-from .constants.qualities import QUALITY_DICT
+from .quality import QualityManager
 from .utils import note_to_val
 
 
@@ -21,7 +21,7 @@ def note_to_chord(notes):
         root_and_positions.append([rotated_root, notes_to_positions(rotated_notes, rotated_notes[0])])
     chords = []
     for temp_root, positions in root_and_positions:
-        quality = find_quality(positions)
+        quality = QualityManager().from_components(positions)
         if quality is None:
             continue
         if temp_root == root:
@@ -66,15 +66,3 @@ def get_all_rotated_notes(notes):
     for x in range(len(notes)):
         notes_list.append(notes[x:] + notes[:x])
     return notes_list
-
-
-def find_quality(positions):
-    """ Find a quality consists of positions
-
-    :param list[int] positions: note positions
-    :rtype: str|None
-    """
-    for q, p in QUALITY_DICT.items():
-        if positions == list(p):
-            return q
-    return None

@@ -1,8 +1,6 @@
-# -*- coding, utf-8 -*-
-
 from collections import OrderedDict
 
-QUALITY_DICT = OrderedDict((
+DEFAULT_QUALITY_DICT = OrderedDict((
     # chords consist of 2 notes
     ('5', (0, 7)),
     ('sus', (0, 7)),

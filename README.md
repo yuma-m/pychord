@@ -108,6 +108,19 @@ True
 <Chord: E7>  # V7 of A minor
 ```
 
+### Overwrite the default Quality components with yours
+
+```python
+>>> from pychord import Chord, QualityManager
+>>> Chord("C11").components()
+['C', 'G', 'Bb', 'D', 'F']
+
+>>> quality_manager = QualityManager()
+>>> quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
+>>> Chord("C11").components()
+['C', 'E', 'G', 'Bb', 'D', 'F']
+```
+
 ## Examples
 
 - [pychord-midi.py](./examples/pychord-midi.py) - Create a MIDI file using PyChord and pretty_midi.
