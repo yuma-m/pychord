@@ -135,5 +135,5 @@ class QualityManager(object):
     def find_quality_from_components(self, components):
         for q in self._qualities.values():
             if q.components == components:
-                return q
+                return copy.deepcopy(q)
         return None
