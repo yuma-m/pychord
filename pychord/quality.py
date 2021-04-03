@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import copy
+from collections import OrderedDict
 
-from .constants.qualities import DEFAULT_QUALITY_DICT
+from .constants.qualities import DEFAULT_QUALITIES
 from .utils import note_to_val, val_to_note
 
 
@@ -113,9 +114,9 @@ class QualityManager(object):
         return cls._instance
 
     def load_default_qualities(self):
-        self._qualities = {
-            q: Quality(q, c) for q, c in DEFAULT_QUALITY_DICT.items()
-        }
+        self._qualities = OrderedDict([
+            (q, Quality(q, c)) for q, c in DEFAULT_QUALITIES
+        ])
 
     def get_quality(self, name):
         if name not in self._qualities:
