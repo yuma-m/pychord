@@ -46,17 +46,17 @@ class TestQualityManager(unittest.TestCase):
 
 
 class TestOverwriteQuality(unittest.TestCase):
+    def setUp(self):
+        self.quality_manager = QualityManager()
 
     def test_overwrite(self):
-        quality_manager = QualityManager()
-        quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
+        self.quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
         chord = Chord("C11")
         self.assertEqual(chord.components(), ['C', 'E', 'G', 'Bb', 'D', 'F'])
 
     def test_keep_existing_chord(self):
         chord = Chord("C11")
-        quality_manager = QualityManager()
-        quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
+        self.quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
         self.assertEqual(chord.components(), ['C', 'G', 'Bb', 'D', 'F'])
 
 
