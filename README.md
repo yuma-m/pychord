@@ -1,6 +1,6 @@
 ![PyChord](./pychord.png)
 
-# PyChord [![Build Status](https://travis-ci.com/yuma-m/pychord.svg?branch=master)](https://travis-ci.com/yuma-m/pychord) [![Documentation Status](https://readthedocs.org/projects/pychord/badge/?version=latest)](http://pychord.readthedocs.io/en/latest/?badge=latest)
+# PyChord ![Build Status](https://github.com/yuma-m/pychord/actions/workflows/build.yml/badge.svg) [![Documentation Status](https://readthedocs.org/projects/pychord/badge/?version=latest)](http://pychord.readthedocs.io/en/latest/?badge=latest)
 
 ## Overview
 
