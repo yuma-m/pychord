@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-from .constants import QUALITY_DICT
+import copy
+from collections import OrderedDict
+
+from .constants.qualities import DEFAULT_QUALITIES
 from .utils import note_to_val, val_to_note
 
 
@@ -8,15 +11,14 @@ class Quality(object):
 
     :param str _quality: str expression of chord quality
     """
-    def __init__(self, quality):
+    def __init__(self, name, components):
         """ Constructor of chord quality
 
-        :param str quality: name of quality
+        :param str name: name of quality
+        :param Tuple[int]: components of quality
         """
-        if quality not in QUALITY_DICT:
-            raise ValueError("unknown quality {}".format(quality))
-        self._quality = quality
-        self.components = list(QUALITY_DICT[quality])
+        self._quality = name
+        self.components = list(components)
 
     def __unicode__(self):
         return self._quality
@@ -27,7 +29,7 @@ class Quality(object):
     def __eq__(self, other):
         if not isinstance(other, Quality):
             raise TypeError("Cannot compare Quality object with {} object".format(type(other)))
-        return QUALITY_DICT[self._quality] == QUALITY_DICT[other.quality]
+        return self.components == other.components
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -100,3 +102,39 @@ class Quality(object):
         """
         for note in notes:
             self.append_note(note, root, scale)
+
+
+class QualityManager(object):
+    """ Singleton class to manage the qualities """
+
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, "_instance"):
+            cls._instance = super(QualityManager, cls).__new__(cls)
+            cls._instance.load_default_qualities()
+        return cls._instance
+
+    def load_default_qualities(self):
+        self._qualities = OrderedDict([
+            (q, Quality(q, c)) for q, c in DEFAULT_QUALITIES
+        ])
+
+    def get_quality(self, name):
+        if name not in self._qualities:
+            raise ValueError("Unknown quality: {}".format(name))
+        # Create a new instance not to affect any existing instances
+        return copy.deepcopy(self._qualities[name])
+
+    def set_quality(self, name, components):
+        """ Set a Quality
+
+        This method will not affect any existing Chord instances.
+        :param str name: name of quality
+        :param Tuple[int] components: components of quality
+        """
+        self._qualities[name] = Quality(name, components)
+
+    def find_quality_from_components(self, components):
+        for q in self._qualities.values():
+            if q.components == components:
+                return copy.deepcopy(q)
+        return None

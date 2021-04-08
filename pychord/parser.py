@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .constants import QUALITY_DICT
-from .quality import Quality
+from .quality import QualityManager
 from .utils import NOTE_VAL_DICT
 
 
@@ -28,10 +27,7 @@ def parse(chord):
         check_note(on, chord)
     else:
         on = None
-    if rest in QUALITY_DICT:
-        quality = Quality(rest)
-    else:
-        raise ValueError("Invalid chord {}: Unknown quality {}".format(chord, rest))
+    quality = QualityManager().get_quality(rest)
     # TODO: Implement parser for appended notes
     appended = []
     return root, quality, appended, on

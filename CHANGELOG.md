@@ -1,6 +1,8 @@
 ## Forthcoming
 
 - Add an example to create a MIDI file.
+- Add `QualityManager` class to overwrite default qualities.
+    - Do not import `QUALITY_DICT` from modules other than quality.
 
 ## v0.5.1
 

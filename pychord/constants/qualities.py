@@ -1,8 +1,4 @@
-# -*- coding, utf-8 -*-
-
-from collections import OrderedDict
-
-QUALITY_DICT = OrderedDict((
+DEFAULT_QUALITIES = [
     # chords consist of 2 notes
     ('5', (0, 7)),
     ('sus', (0, 7)),
@@ -78,4 +74,4 @@ QUALITY_DICT = OrderedDict((
     ('13#9', (0, 4, 7, 10, 15, 21)),
     ('13+11', (0, 4, 7, 10, 18, 21)),
     ('13#11', (0, 4, 7, 10, 18, 21)),
-))
+]
