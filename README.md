@@ -1,6 +1,6 @@
 ![PyChord](./pychord.png)
 
-# PyChord [![Build Status](https://travis-ci.org/yuma-m/pychord.svg?branch=master)](https://travis-ci.org/yuma-m/pychord) [![Documentation Status](https://readthedocs.org/projects/pychord/badge/?version=latest)](http://pychord.readthedocs.io/en/latest/?badge=latest)
+# PyChord ![Build Status](https://github.com/yuma-m/pychord/actions/workflows/build.yml/badge.svg) [![Documentation Status](https://readthedocs.org/projects/pychord/badge/?version=latest)](http://pychord.readthedocs.io/en/latest/?badge=latest)
 
 ## Overview
 
@@ -106,6 +106,19 @@ True
 <Chord: Am7>  # IIIm7 of F major
 >>> Chord.from_note_index(note=5, quality="7", scale="Amin")
 <Chord: E7>  # V7 of A minor
+```
+
+### Overwrite the default Quality components with yours
+
+```python
+>>> from pychord import Chord, QualityManager
+>>> Chord("C11").components()
+['C', 'G', 'Bb', 'D', 'F']
+
+>>> quality_manager = QualityManager()
+>>> quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
+>>> Chord("C11").components()
+['C', 'E', 'G', 'Bb', 'D', 'F']
 ```
 
 ## Examples
