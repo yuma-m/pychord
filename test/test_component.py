@@ -28,6 +28,13 @@ class TestChordComponent(unittest.TestCase):
         com1 = c.components(visible=True)
         self.assertEqual(com1, ["D", "F", "G#"])
 
+    def test_dim7_chord(self):
+        c = Chord("Cdim7")
+        com0 = c.components(visible=False)
+        self.assertEqual(com0, [0, 3, 6, 9])
+        com1 = c.components(visible=True)
+        self.assertEqual(com1, ["C", "Eb", "Gb", "A"])
+
     def test_aug_chord(self):
         c = Chord("Eaug")
         com0 = c.components(visible=False)
