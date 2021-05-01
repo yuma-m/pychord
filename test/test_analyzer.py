@@ -76,7 +76,7 @@ class TestNoteToChord(unittest.TestCase):
 
     def test_dim6(self):
         chords = note_to_chord(["Eb", "Gb", "A", "C"])
-        self.assertEqual(chords, [Chord("Ebdim6"), Chord("Gbdim6/Eb"), Chord("Adim6/Eb"), Chord("Cdim6/Eb")])
+        self.assertEqual(chords, [Chord("Ebdim7"), Chord("Gbdim7/Eb"), Chord("Adim7/Eb"), Chord("Cdim7/Eb")])
 
     def test_aug(self):
         chords = note_to_chord(["F", "A", "Db"])
@@ -97,5 +97,5 @@ class TestNoteToChord(unittest.TestCase):
     def test_call_repeatedly(self):
         for _ in range(2):
             chords = note_to_chord(["Eb", "Gb", "A", "C"])
-            self.assertEqual(chords, [Chord("Ebdim6"), Chord("Gbdim6/Eb"), Chord("Adim6/Eb"), Chord("Cdim6/Eb")])
+            self.assertEqual(chords, [Chord("Ebdim7"), Chord("Gbdim7/Eb"), Chord("Adim7/Eb"), Chord("Cdim7/Eb")])
             self.assertEqual(chords[0].components(visible=True), ["Eb", "Gb", "A", "C"])
