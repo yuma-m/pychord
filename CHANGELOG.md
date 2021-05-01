@@ -1,5 +1,7 @@
 ## Forthcoming
 
+## v0.6.1
+
 - Fix `dim6` to `dim7`.
 - Add `M7+11` and `m7+5` qualities.
 
