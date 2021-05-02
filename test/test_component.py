@@ -6,6 +6,12 @@ from pychord import Chord
 
 
 class TestChordComponent(unittest.TestCase):
+    def _validate_components(self, chord, qualities, notes):
+        c = Chord(chord)
+        com0 = c.components(visible=False)
+        self.assertEqual(com0, qualities)
+        com1 = c.components(visible=True)
+        self.assertEqual(com1, notes)
 
     def test_normal_chord(self):
         c = Chord("C")
@@ -87,7 +93,16 @@ class TestChordComponent(unittest.TestCase):
         self.assertEqual(com0,  base0 + [14])
         com1 = c.components(visible=True)
         self.assertEqual(com1, base1 + ["D"])
+    
+    def test_add4(self):
+        self._validate_components("Cadd4", [0, 4, 5, 7], ["C", "E", "F", "G"])
 
+    def test_major_add4(self):
+        # major add 4 is alternative notation for add4
+        self._validate_components("CMadd4", [0, 4, 5, 7], ["C", "E", "F", "G"])
+
+    def test_minor_add4(self):
+        self._validate_components("Cmadd4", [0, 3, 5, 7], ["C", "Eb", "F", "G"])
 
 class TestChordComponentWithPitch(unittest.TestCase):
 

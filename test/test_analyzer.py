@@ -97,6 +97,14 @@ class TestNoteToChord(unittest.TestCase):
     def test_m7dim5(self):
         chords = note_to_chord(["F#", "A", "C", "E"])
         self.assertEqual(chords, [Chord("F#m7-5"), Chord("Am6/F#")])
+    
+    def test_add4(self):
+        chords = note_to_chord(["C", "E", "F", "G"])
+        self.assertEqual(chords, [Chord("Cadd4")])
+    
+    def test_minor_add4(self):
+        chords = note_to_chord(["C", "Eb", "F", "G"])
+        self.assertEqual(chords, [Chord("Cmadd4")])
 
     def test_call_repeatedly(self):
         for _ in range(2):
