@@ -10,7 +10,7 @@ class TestChordComponent(unittest.TestCase):
         """Validates if a chord is made up of specified qualities and notes.
         :param str chord: A chord, specified as a string, e.g. "C7"
         :param qualities: The expected qualities of the chord, as a list of numbers
-        :param notes: The expected notes of the string, either as a list of strings,
+        :param notes: The expected notes of the chord, either as a list of strings,
           e.g. ["C", "E", "G", "Bb"] or a string, e.g. "C E G Bb"
         """
         c = Chord(chord)

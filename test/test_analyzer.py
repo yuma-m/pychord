@@ -58,9 +58,18 @@ class TestGetAllRotatedNotes(unittest.TestCase):
 
 class TestNoteToChord(unittest.TestCase):
     def _assert_chords(self, notes, expected_chords):
+        """"Validates that the specified notes translated to the expected chords.
+        :param notes: The notes of the chord, either as a list of strings,
+          e.g. ["G", "C", "D"] or a string, e.g. "G C D"
+        :param expected_chords: the chords that the notes could translate to, 
+            specified as a list of strings, e.g. [ "Gsus4", "Csus2/G" ], 
+            or a single string if only one chord expected.
+        """
+        if isinstance(notes, str):
+            notes = notes.split()
         c0 = note_to_chord(notes)
-        if expected_chords is str:
-            is_chords = [expected_chords]
+        if isinstance(expected_chords, str):
+            expected_chords = [expected_chords]
         self.assertEqual(c0, [Chord(c) for c in expected_chords])
     
     def test_major(self):
@@ -112,16 +121,16 @@ class TestNoteToChord(unittest.TestCase):
         self.assertEqual(chords, [Chord("Cmadd4")])
     
     def test_minor7_add11(self):
-        self._assert_chords(["C", "Eb", "G", "Bb", "F"], ["Cm7add11", "F11/C"])
+        self._assert_chords("C Eb G Bb F", ["Cm7add11", "F11/C"])
     
     def test_major7_add11(self):
-        self._assert_chords(["C", "E", "G", "B", "F"], ["CM7add11"])
+        self._assert_chords("C E G B F", "CM7add11")
 
     def test_minormajor7_add11(self):
-        self._assert_chords(["C", "Eb", "G", "B", "F"], ["CmM7add11"])
+        self._assert_chords("C Eb G B F", "CmM7add11")
 
     def test_major7_add13(self):
-        self._assert_chords(["C", "E", "G", "A", "B", "D"], ["CM7add13"])
+        self._assert_chords("C E G A B D", "CM7add13")
 
 
     def test_call_repeatedly(self):
