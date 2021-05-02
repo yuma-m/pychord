@@ -27,6 +27,10 @@ class TestNotesToPositions(unittest.TestCase):
     def test_add9(self):
         pos = notes_to_positions(["Ab", "C", "Eb", "Bb"], "Ab")
         self.assertEqual(pos, [0, 4, 7, 14])
+    
+    def test_major_add_9(self):
+        # major add 9 is the same as add9
+        self.test_add9()
 
     def test_ninth(self):
         pos = notes_to_positions(["F", "A", "C", "Eb", "G"], "F")

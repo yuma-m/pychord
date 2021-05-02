@@ -76,6 +76,17 @@ class TestChordComponent(unittest.TestCase):
         self.assertEqual(com0, [1, 4, 7, 11, 14])
         com1 = c.components(visible=True)
         self.assertEqual(com1, ["C#", "E", "G", "B", "D"])
+    
+    def test_major_add9(self):
+        # mmajor add 9 is a major chord with a Major ninth
+        base = Chord("C")
+        base0 = list(base.components(visible=False))
+        base1 = list(base.components(visible=True))
+        c = Chord("CMadd9")
+        com0 = c.components(visible=False)
+        self.assertEqual(com0,  base0 + [14])
+        com1 = c.components(visible=True)
+        self.assertEqual(com1, base1 + ["D"])
 
 
 class TestChordComponentWithPitch(unittest.TestCase):
