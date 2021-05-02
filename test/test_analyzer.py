@@ -120,6 +120,9 @@ class TestNoteToChord(unittest.TestCase):
     def test_minormajor7_add11(self):
         self._assert_chords(["C", "Eb", "G", "B", "F"], ["CmM7add11"])
 
+    def test_major7_add13(self):
+        self._assert_chords(["C", "E", "G", "A", "B", "D"], ["CM7add13"])
+
 
     def test_call_repeatedly(self):
         for _ in range(2):

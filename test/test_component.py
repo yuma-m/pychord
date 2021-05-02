@@ -112,6 +112,9 @@ class TestChordComponent(unittest.TestCase):
     
     def test_minormajor7_add11(self):
         self._validate_components('CmM7add11', [0, 3, 7, 11, 17], ["C", "Eb", "G", "B", "F"])
+    
+    def test_major7_add13(self):
+        self._validate_components("CM7add13", [0, 4, 7, 9, 11, 14], ["C", "E", "G", "A", "B", "D"])
 
 class TestChordComponentWithPitch(unittest.TestCase):
 
