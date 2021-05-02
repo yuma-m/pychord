@@ -7,10 +7,18 @@ from pychord import Chord
 
 class TestChordComponent(unittest.TestCase):
     def _validate_components(self, chord, qualities, notes):
+        """Validates if a chord is made up of specified qualities and notes.
+        :param str chord: A chord, specified as a string, e.g. "C7"
+        :param qualities: The expected qualities of the chord, as a list of numbers
+        :param notes: The expected notes of the string, either as a list of strings,
+          e.g. ["C", "E", "G", "Bb"] or a string, e.g. "C E G Bb"
+        """
         c = Chord(chord)
         com0 = c.components(visible=False)
         self.assertEqual(com0, qualities)
         com1 = c.components(visible=True)
+        if isinstance(notes, str):
+            notes = notes.split()
         self.assertEqual(com1, notes)
 
     def test_normal_chord(self):
@@ -95,26 +103,26 @@ class TestChordComponent(unittest.TestCase):
         self.assertEqual(com1, base1 + ["D"])
     
     def test_add4(self):
-        self._validate_components("Cadd4", [0, 4, 5, 7], ["C", "E", "F", "G"])
+        self._validate_components("Cadd4", [0, 4, 5, 7], "C E F G")
 
     def test_major_add4(self):
         # major add 4 is alternative notation for add4
-        self._validate_components("CMadd4", [0, 4, 5, 7], ["C", "E", "F", "G"])
+        self._validate_components("CMadd4", [0, 4, 5, 7], "C E F G")
 
     def test_minor_add4(self):
-        self._validate_components("Cmadd4", [0, 3, 5, 7], ["C", "Eb", "F", "G"])
+        self._validate_components("Cmadd4", [0, 3, 5, 7], "C Eb F G")
     
     def test_minor7_add11(self):
-        self._validate_components('Cm7add11', [0, 3, 7, 10, 17], ["C", "Eb", "G", "Bb", "F"])
+        self._validate_components('Cm7add11', [0, 3, 7, 10, 17], "C Eb G Bb F")
     
     def test_major7_add11(self):
-        self._validate_components('CM7add11', [0, 4, 7, 11, 17], ["C", "E", "G", "B", "F"])
+        self._validate_components('CM7add11', [0, 4, 7, 11, 17], "C E G B F")
     
     def test_minormajor7_add11(self):
-        self._validate_components('CmM7add11', [0, 3, 7, 11, 17], ["C", "Eb", "G", "B", "F"])
+        self._validate_components('CmM7add11', [0, 3, 7, 11, 17], "C Eb G B F")
     
     def test_major7_add13(self):
-        self._validate_components("CM7add13", [0, 4, 7, 9, 11, 14], ["C", "E", "G", "A", "B", "D"])
+        self._validate_components("CM7add13", [0, 4, 7, 9, 11, 14], "C E G A B D")
 
 class TestChordComponentWithPitch(unittest.TestCase):
 
