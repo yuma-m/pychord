@@ -57,7 +57,12 @@ class TestGetAllRotatedNotes(unittest.TestCase):
 
 
 class TestNoteToChord(unittest.TestCase):
-
+    def _assert_chords(self, notes, expected_chords):
+        c0 = note_to_chord(notes)
+        if expected_chords is str:
+            is_chords = [expected_chords]
+        self.assertEqual(c0, [Chord(c) for c in expected_chords])
+    
     def test_major(self):
         chords = note_to_chord(["C", "E", "G"])
         self.assertEqual(chords, [Chord("C")])
@@ -105,6 +110,13 @@ class TestNoteToChord(unittest.TestCase):
     def test_minor_add4(self):
         chords = note_to_chord(["C", "Eb", "F", "G"])
         self.assertEqual(chords, [Chord("Cmadd4")])
+    
+    def test_minor7_add11(self):
+        self._assert_chords(["C", "Eb", "G", "Bb", "F"], ["Cm7add11", "F11/C"])
+    
+    def test_major7_add11(self):
+        self._assert_chords(["C", "E", "G", "B", "F"], ["CM7add11"])
+
 
     def test_call_repeatedly(self):
         for _ in range(2):
