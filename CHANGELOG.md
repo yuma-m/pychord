@@ -1,5 +1,8 @@
 ## Forthcoming
 
+- Add `add4`, `add11` and `add13` quality variations.
+- Contributor: @philipmat
+
 ## v0.6.1
 
 - Fix `dim6` to `dim7`.
