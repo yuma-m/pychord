@@ -1,5 +1,7 @@
 ## Forthcoming
 
+## v0.6.2
+
 - Add `add4`, `add11` and `add13` quality variations.
 - Contributor: @philipmat
 
