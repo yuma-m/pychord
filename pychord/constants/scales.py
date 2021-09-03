@@ -67,7 +67,14 @@ SCALE_VAL_DICT = {
     'G#': SHARPED_SCALE,
 }
 
+# https://en.wikipedia.org/wiki/Mode_(music)#Modern_modes
+# Ionian -> maj, Aeolian -> min
 RELATIVE_KEY_DICT = {
     'maj': [0, 2, 4, 5, 7, 9, 11, 12],
+    'Dor': [0, 2, 3, 5, 7, 9, 10, 12],
+    'Phr': [0, 1, 3, 5, 7, 8, 10, 12],
+    'Lyd': [0, 2, 4, 6, 7, 9, 11, 12],
+    'Mix': [0, 2, 4, 5, 7, 9, 10, 12],
     'min': [0, 2, 3, 5, 7, 8, 10, 12],
+    'Loc': [0, 1, 3, 5, 6, 8, 10, 12],
 }
