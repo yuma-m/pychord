@@ -123,6 +123,26 @@ class TestChordFromNoteIndex(unittest.TestCase):
         with self.assertRaises(ValueError):
             Chord.from_note_index(note=9, quality="", scale="Fmaj")
 
+    def test_diatonic_note_1(self):
+        chord = Chord.from_note_index(note=1, quality="", diatonic=True, scale="Dmaj")
+        self.assertEqual(chord, Chord("D"))
+
+    def test_diatonic_note_2_mode(self):
+        chord = Chord.from_note_index(note=2, quality="7", diatonic=True, scale="BLoc")
+        self.assertEqual(chord, Chord("Cmaj7"))
+
+    def test_diatonic_note_3_mode(self):
+        chord = Chord.from_note_index(note=3, quality="m", diatonic=True, scale="G#Mix")
+        self.assertEqual(chord, Chord("Cdim"))
+
+    def test_diatonic_note_4_mode(self):
+        chord = Chord.from_note_index(note=4, quality="-", diatonic=True, scale="AbDor")
+        self.assertEqual(chord, Chord("C#"))
+
+    def test_diatonic_note_nongeneric(self):
+        with self.assertRaises(NotImplementedError):
+            Chord.from_note_index(note=5, quality="sus", diatonic=True, scale="Fmaj")
+
 
 if __name__ == '__main__':
     unittest.main()
