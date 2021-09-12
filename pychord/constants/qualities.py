@@ -1,3 +1,5 @@
+# Do not import DEFAULT_QUALITIES directly
+# Use QualityManager instead
 DEFAULT_QUALITIES = [
     # chords consist of 2 notes
     ('5', (0, 7)),
