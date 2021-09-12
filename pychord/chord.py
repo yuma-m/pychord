@@ -82,7 +82,7 @@ class Chord(object):
 
             # adjust the chord to its root position (as a stack of thirds),
             # then set the root to 0
-            def get_diatonic_chord(chord: tuple):
+            def get_diatonic_chord(chord):
                 uninverted = []
                 for note in chord:
                     if not uninverted:
