@@ -2,6 +2,7 @@
 from .constants import NOTE_VAL_DICT, VAL_NOTE_DICT
 from .constants.scales import RELATIVE_KEY_DICT
 from .parser import parse
+from .quality import QualityManager
 from .utils import transpose_note, display_appended, display_on, note_to_val, val_to_note
 
 
@@ -71,10 +72,6 @@ class Chord(object):
         scale_degrees = RELATIVE_KEY_DICT[scale[-3:]]
 
         if diatonic:
-
-            from .constants.qualities import DEFAULT_QUALITIES
-            from collections import OrderedDict
-
             # construct the chord based on scale degrees, within 1 octave
             third = scale_degrees[(note + 1) % 7]
             fifth = scale_degrees[(note + 3) % 7]
@@ -82,7 +79,7 @@ class Chord(object):
 
             # adjust the chord to its root position (as a stack of thirds),
             # then set the root to 0
-            def get_diatonic_chord(chord: tuple):
+            def get_diatonic_chord(chord):
                 uninverted = []
                 for note in chord:
                     if not uninverted:
@@ -91,7 +88,7 @@ class Chord(object):
                         uninverted.append(note)
                     else:
                         uninverted.append(note + 12)
-                uninverted = tuple([x - uninverted[0] for x in uninverted])
+                uninverted = [x - uninverted[0] for x in uninverted]
                 return uninverted
 
             if quality in ["", "-", "maj", "m", "min"]:
@@ -103,12 +100,11 @@ class Chord(object):
             else:
                 raise NotImplementedError("Only generic chords (triads, sevenths) are supported")
 
-            # look up DEFAULT_QUALITIES to determine chord quality
-            # tuples are used as keys for easier lookup
-            # note: because first matching tuple is used, (0, 3, 7) becomes
-            # "-", which might not be preferred by some
-            qualities = OrderedDict([(c, q) for q, c in DEFAULT_QUALITIES])
-            quality = qualities[q]
+            # look up QualityManager to determine chord quality
+            quality_manager = QualityManager()
+            quality = quality_manager.find_quality_from_components(q)
+            if not quality:
+                raise RuntimeError("Quality with components {} not found".format(q))
 
         return cls("{}{}".format(root, quality))
 
