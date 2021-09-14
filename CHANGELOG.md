@@ -1,5 +1,11 @@
 ## Forthcoming
 
+## v0.6.3
+
+- Add modes to `RELATIVE_KEY_DICT`.
+- Add `diatonic` option for `from_note_index`.
+- Contributor: @hejops
+
 ## v0.6.2
 
 - Add `add4`, `add11` and `add13` quality variations.
