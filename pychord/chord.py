@@ -2,6 +2,7 @@
 from .constants import NOTE_VAL_DICT, VAL_NOTE_DICT
 from .constants.scales import RELATIVE_KEY_DICT
 from .parser import parse
+from .quality import QualityManager
 from .utils import transpose_note, display_appended, display_on, note_to_val, val_to_note
 
 
@@ -50,7 +51,7 @@ class Chord(object):
         return not self.__eq__(other)
 
     @classmethod
-    def from_note_index(cls, note, quality, scale):
+    def from_note_index(cls, note, quality, scale, diatonic=False):
         """ Create a Chord from note index in a scale
 
         Chord.from_note_index(1, "", "Cmaj") returns I of C major => Chord("C")
@@ -67,6 +68,44 @@ class Chord(object):
         relative_key = RELATIVE_KEY_DICT[scale[-3:]][note - 1]
         root_num = NOTE_VAL_DICT[scale[:-3]]
         root = VAL_NOTE_DICT[(root_num + relative_key) % 12][0]
+
+        scale_degrees = RELATIVE_KEY_DICT[scale[-3:]]
+
+        if diatonic:
+            # construct the chord based on scale degrees, within 1 octave
+            third = scale_degrees[(note + 1) % 7]
+            fifth = scale_degrees[(note + 3) % 7]
+            seventh = scale_degrees[(note + 5) % 7]
+
+            # adjust the chord to its root position (as a stack of thirds),
+            # then set the root to 0
+            def get_diatonic_chord(chord):
+                uninverted = []
+                for note in chord:
+                    if not uninverted:
+                        uninverted.append(note)
+                    elif note > uninverted[-1]:
+                        uninverted.append(note)
+                    else:
+                        uninverted.append(note + 12)
+                uninverted = [x - uninverted[0] for x in uninverted]
+                return uninverted
+
+            if quality in ["", "-", "maj", "m", "min"]:
+                triad = (relative_key, third, fifth)
+                q = get_diatonic_chord(triad)
+            elif quality in ["7", "M7", "maj7", "m7"]:
+                seventh_chord = (relative_key, third, fifth, seventh)
+                q = get_diatonic_chord(seventh_chord)
+            else:
+                raise NotImplementedError("Only generic chords (triads, sevenths) are supported")
+
+            # look up QualityManager to determine chord quality
+            quality_manager = QualityManager()
+            quality = quality_manager.find_quality_from_components(q)
+            if not quality:
+                raise RuntimeError("Quality with components {} not found".format(q))
+
         return cls("{}{}".format(root, quality))
 
     @property
