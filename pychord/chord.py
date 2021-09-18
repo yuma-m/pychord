@@ -1,28 +1,34 @@
-# -*- coding: utf-8 -*-
+from typing import List, Union
+
 from .constants import NOTE_VAL_DICT, VAL_NOTE_DICT
 from .constants.scales import RELATIVE_KEY_DICT
 from .parser import parse
-from .quality import QualityManager
+from .quality import QualityManager, Quality
 from .utils import transpose_note, display_appended, display_on, note_to_val, val_to_note
 
 
-class Chord(object):
+class Chord:
     """ Class to handle a chord.
 
-    :param str _chord: Name of the chord. (e.g. C, Am7, F#m7-5/A)
-    :param str _root: The root note of chord.
-    :param pychord.Quality _quality: The quality of chord. (e.g. m7, 6, M9, ...)
-    :param list[str] _appended: The appended notes on chord.
-    :param str _on: The base note of slash chord.
+    Attributes:
+        _chord: Name of the chord. (e.g. C, Am7, F#m7-5/A)
+        _root: The root note of chord. (e.g. C, A, F#)
+        _quality: The quality of chord. (e.g. maj, m7, m7-5)
+        _appended: The appended notes on chord.
+        _on: The base note of slash chord.
     """
-    def __init__(self, chord):
+
+    def __init__(self, chord: str):
         """ Constructor of Chord instance
 
-        :param str chord: Name of chord.
+        :param chord: Name of chord (e.g. C, Am7, F#m7-5/A).
         """
-        self._chord = chord
-        self._root, self._quality, self._appended, self._on = "", "", "", ""
-        self._parse(chord)
+        root, quality, appended, on = parse(chord)
+        self._chord: str = chord
+        self._root: str = root
+        self._quality: Quality = quality
+        self._appended: List[str] = appended
+        self._on: str = on
 
     def __unicode__(self):
         return self._chord
@@ -31,11 +37,11 @@ class Chord(object):
         return self._chord
 
     def __repr__(self):
-        return "<Chord: {}>".format(self._chord)
+        return f"<Chord: {self._chord}>"
 
     def __eq__(self, other):
         if not isinstance(other, Chord):
-            raise TypeError("Cannot compare Chord object with {} object".format(type(other)))
+            raise TypeError(f"Cannot compare Chord object with {type(other)} object")
         if note_to_val(self._root) != note_to_val(other.root):
             return False
         if self._quality != other.quality:
@@ -51,20 +57,20 @@ class Chord(object):
         return not self.__eq__(other)
 
     @classmethod
-    def from_note_index(cls, note, quality, scale, diatonic=False):
+    def from_note_index(cls, note: int, quality: str, scale: str, diatonic: bool = False) -> 'Chord':
         """ Create a Chord from note index in a scale
 
         Chord.from_note_index(1, "", "Cmaj") returns I of C major => Chord("C")
         Chord.from_note_index(3, "m7", "Fmaj") returns IIImin of F major => Chord("Am7")
         Chord.from_note_index(5, "7", "Amin") returns Vmin of A minor => Chord("E7")
 
-        :param int note: Note index in a Scale I, II, ..., VIII
-        :param str quality: Quality of a chord (m7, sus4, ...)
-        :param str scale: Base scale (Cmaj, Amin, F#maj, Ebmin, ...)
-        :rtype: Chord
+        :param note: Note index in a Scale I, II, ..., VIII
+        :param quality: Quality of a chord (m7, sus4, ...)
+        :param scale: Base scale (Cmaj, Amin, F#maj, Ebmin, ...)
+        :param diatonic: Adjust certain chord qualities according to the scale
         """
         if not 1 <= note <= 8:
-            raise ValueError("Invalid note {}".format(note))
+            raise ValueError(f"Invalid note {note}")
         relative_key = RELATIVE_KEY_DICT[scale[-3:]][note - 1]
         root_num = NOTE_VAL_DICT[scale[:-3]]
         root = VAL_NOTE_DICT[(root_num + relative_key) % 12][0]
@@ -104,9 +110,9 @@ class Chord(object):
             quality_manager = QualityManager()
             quality = quality_manager.find_quality_from_components(q)
             if not quality:
-                raise RuntimeError("Quality with components {} not found".format(q))
+                raise RuntimeError(f"Quality with components {q} not found")
 
-        return cls("{}{}".format(root, quality))
+        return cls(f"{root}{quality}")
 
     @property
     def chord(self):
@@ -135,31 +141,29 @@ class Chord(object):
 
     def info(self):
         """ Return information of chord to display """
-        return """{}
-root={}
-quality={}
-appended={}
-on={}""".format(self._chord, self._root, self._quality, self._appended, self._on)
+        return f"""{self._chord}
+root={self._root}
+quality={self._quality}
+appended={self._appended}
+on={self._on}"""
 
-    def transpose(self, trans, scale="C"):
+    def transpose(self, trans: int, scale: str = "C") -> None:
         """ Transpose the chord
 
-        :param int trans: Transpose key
-        :param str scale: key scale
-        :return:
+        :param trans: Transpose key
+        :param scale: key scale
         """
         if not isinstance(trans, int):
-            raise TypeError("Expected integers, not {}".format(type(trans)))
+            raise TypeError(f"Expected integers, not {type(trans)}")
         self._root = transpose_note(self._root, trans, scale)
         if self._on:
             self._on = transpose_note(self._on, trans, scale)
         self._reconfigure_chord()
 
-    def components(self, visible=True):
+    def components(self, visible: bool = True) -> Union[List[str], List[int]]:
         """ Return the component notes of chord
 
-        :param bool visible: returns the name of notes if True else list of int
-        :rtype: list[(str or int)]
+        :param visible: returns the name of notes if True else list of int
         :return: component notes of chord
         """
         if self._on:
@@ -167,11 +171,10 @@ on={}""".format(self._chord, self._root, self._quality, self._appended, self._on
 
         return self._quality.get_components(root=self._root, visible=visible)
 
-    def components_with_pitch(self, root_pitch):
+    def components_with_pitch(self, root_pitch: int) -> List[str]:
         """ Return the component notes of chord formatted like ["C4", "E4", "G4"]
 
-        :param int root_pitch: the pitch of the root note
-        :rtype: list[str]
+        :param root_pitch: the pitch of the root note
         :return: component notes of chord
         """
         if self._on:
@@ -180,38 +183,11 @@ on={}""".format(self._chord, self._root, self._quality, self._appended, self._on
         components = self._quality.get_components(root=self._root)
         if components[0] < 0:
             components = [c + 12 for c in components]
-        return ["{}{}".format(val_to_note(c, scale=self._root), root_pitch + c // 12) for c in components]
-
-    def _parse(self, chord):
-        """ parse a chord
-
-        :param str chord: Name of chord.
-        """
-        root, quality, appended, on = parse(chord)
-        self._root = root
-        self._quality = quality
-        self._appended = appended
-        self._on = on
+        return [f"{val_to_note(c, scale=self._root)}{root_pitch + c // 12}" for c in components]
 
     def _reconfigure_chord(self):
         # TODO: Use appended
         self._chord = "{}{}{}{}".format(self._root,
-                                        self._quality._quality,
+                                        self._quality.quality,
                                         display_appended(self._appended),
                                         display_on(self._on))
-
-
-def as_chord(chord):
-    """ convert from str to Chord instance if input is str
-
-    :type chord: str|pychord.Chord
-    :param chord: Chord name or Chord instance
-    :rtype: pychord.Chord
-    :return: Chord instance
-    """
-    if isinstance(chord, Chord):
-        return chord
-    elif isinstance(chord, str):
-        return Chord(chord)
-    else:
-        raise TypeError("input type should be str or Chord instance.")

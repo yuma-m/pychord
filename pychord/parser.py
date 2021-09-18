@@ -1,14 +1,13 @@
-# -*- coding: utf-8 -*-
+from typing import Tuple, List
 
-from .quality import QualityManager
+from .quality import QualityManager, Quality
 from .utils import NOTE_VAL_DICT
 
 
-def parse(chord):
+def parse(chord: str) -> Tuple[str, Quality, List[str], str]:
     """ Parse a string to get chord component
 
-    :param str chord: str expression of a chord
-    :rtype: (str, pychord.Quality, str, str)
+    :param chord: str expression of a chord
     :return: (root, quality, appended, on)
     """
 
@@ -19,27 +18,20 @@ def parse(chord):
         root = chord[:1]
         rest = chord[1:]
 
-    check_note(root, chord)
+    def check_note(note: str):
+        """ Raise ValueError if note is invalid """
+        if note not in NOTE_VAL_DICT:
+            raise ValueError(f"Invalid note {note}")
+
+    check_note(root)
     on_chord_idx = rest.find("/")
     if on_chord_idx >= 0:
         on = rest[on_chord_idx + 1:]
         rest = rest[:on_chord_idx]
-        check_note(on, chord)
+        check_note(on)
     else:
-        on = None
+        on = ""
     quality = QualityManager().get_quality(rest)
     # TODO: Implement parser for appended notes
-    appended = []
+    appended: List[str] = []
     return root, quality, appended, on
-
-
-def check_note(note, chord):
-    """ Return True if the note is valid.
-
-    :param str note: note to check its validity
-    :param str chord: the chord which includes the note
-    :rtype: bool
-    """
-    if note not in NOTE_VAL_DICT:
-        raise ValueError("Invalid chord {}: Unknown note {}".format(chord, note))
-    return True

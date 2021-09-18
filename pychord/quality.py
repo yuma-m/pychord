@@ -1,24 +1,22 @@
-# -*- coding: utf-8 -*-
 import copy
 from collections import OrderedDict
+from typing import Tuple, List
 
 from .constants.qualities import DEFAULT_QUALITIES
 from .utils import note_to_val, val_to_note
 
 
-class Quality(object):
-    """ Chord quality
+class Quality:
+    """ Chord quality """
 
-    :param str _quality: str expression of chord quality
-    """
-    def __init__(self, name, components):
+    def __init__(self, name: str, components: Tuple[int, ...]):
         """ Constructor of chord quality
 
-        :param str name: name of quality
-        :param Tuple[int]: components of quality
+        :param name: name of quality
+        :param components: components of quality
         """
-        self._quality = name
-        self.components = list(components)
+        self._quality: str = name
+        self.components: Tuple[int, ...] = components
 
     def __unicode__(self):
         return self._quality
@@ -28,7 +26,7 @@ class Quality(object):
 
     def __eq__(self, other):
         if not isinstance(other, Quality):
-            raise TypeError("Cannot compare Quality object with {} object".format(type(other)))
+            raise TypeError(f"Cannot compare Quality object with {type(other)} object")
         return self.components == other.components
 
     def __ne__(self, other):
@@ -68,43 +66,22 @@ class Quality(object):
         root_val = note_to_val(root)
         on_chord_val = note_to_val(on_chord) - root_val
 
-        list_ = list(self.components)
-        for idx, val in enumerate(list_):
+        components = list(self.components)
+        for idx, val in enumerate(self.components):
             if val % 12 == on_chord_val:
-                self.components.remove(val)
+                components.remove(val)
                 break
 
         if on_chord_val > root_val:
             on_chord_val -= 12
 
-        if on_chord_val not in self.components:
-            self.components.insert(0, on_chord_val)
+        if on_chord_val not in components:
+            components.insert(0, on_chord_val)
 
-    def append_note(self, note, root, scale=0):
-        """ Append a note to quality
-
-        :param str note: note to append on quality
-        :param str root: root note of chord
-        :param int scale: key scale
-        """
-        root_val = note_to_val(root)
-        note_val = note_to_val(note) - root_val + scale * 12
-        if note_val not in self.components:
-            self.components.append(note_val)
-            self.components.sort()
-
-    def append_notes(self, notes, root, scale=0):
-        """ Append notes to quality
-
-        :param list[str] notes: notes to append on quality
-        :param str root: root note of chord
-        :param int scale: key scale
-        """
-        for note in notes:
-            self.append_note(note, root, scale)
+        self.components = tuple(components)
 
 
-class QualityManager(object):
+class QualityManager:
     """ Singleton class to manage the qualities """
 
     def __new__(cls, *args, **kwargs):
@@ -118,27 +95,27 @@ class QualityManager(object):
             (q, Quality(q, c)) for q, c in DEFAULT_QUALITIES
         ])
 
-    def get_quality(self, name):
+    def get_quality(self, name: str) -> Quality:
         if name not in self._qualities:
-            raise ValueError("Unknown quality: {}".format(name))
+            raise ValueError(f"Unknown quality: {name}")
         # Create a new instance not to affect any existing instances
         return copy.deepcopy(self._qualities[name])
 
-    def set_quality(self, name, components):
+    def set_quality(self, name: str, components: Tuple[int, ...]):
         """ Set a Quality
 
         This method will not affect any existing Chord instances.
-        :param str name: name of quality
-        :param Tuple[int] components: components of quality
+        :param name: name of quality
+        :param components: components of quality
         """
         self._qualities[name] = Quality(name, components)
 
-    def find_quality_from_components(self, components):
+    def find_quality_from_components(self, components: List[int]):
         """ Find a quality from components
 
-        :param Tuple[int] components: components of quality
+        :param components: components of quality
         """
         for q in self._qualities.values():
-            if q.components == list(components):
+            if list(q.components) == components:
                 return copy.deepcopy(q)
         return None

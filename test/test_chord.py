@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
 from pychord import Chord
-from pychord.chord import as_chord
 
 
 class TestChordCreations(unittest.TestCase):
@@ -73,24 +70,6 @@ class TestChordCreations(unittest.TestCase):
         c = Chord("C")
         with self.assertRaises(TypeError):
             print(c == 0)
-
-
-class TestAsChord(unittest.TestCase):
-
-    def test_as_chord_chord_input(self):
-        c = Chord("C")
-        ac = as_chord(c)
-        self.assertEqual(c, ac)
-
-    def test_as_chord_str_input(self):
-        chord = "C"
-        c = Chord(chord)
-        ac = as_chord(chord)
-        self.assertEqual(c, ac)
-
-    def test_as_chord_invalid_input(self):
-        with self.assertRaises(TypeError):
-            as_chord(1)
 
 
 class TestChordFromNoteIndex(unittest.TestCase):

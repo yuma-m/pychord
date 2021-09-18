@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
 from pychord.constants import NOTE_VAL_DICT, VAL_NOTE_DICT

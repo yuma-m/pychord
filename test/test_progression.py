@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
 from pychord import Chord, ChordProgression
@@ -20,6 +18,11 @@ class TestChordProgressionCreations(unittest.TestCase):
         c = "C"
         cp = ChordProgression(c)
         self.assertEqual(cp.chords, [Chord(c)])
+
+    def test_one_chord_invalid_type(self):
+        c = 1
+        with self.assertRaises(TypeError):
+            ChordProgression(c)
 
     def test_one_chord_list(self):
         c = Chord("C")

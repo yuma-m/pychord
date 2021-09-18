@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
 from pychord import Chord
@@ -7,7 +5,8 @@ from pychord import Chord
 
 class TestChordComponent(unittest.TestCase):
     def _assert_components(self, chord, qualities, notes):
-        """Validates if a chord is made up of specified qualities and notes.
+        """ Validates if a chord is made up of specified qualities and notes.
+
         :param str chord: A chord, specified as a string, e.g. "C7"
         :param qualities: The expected qualities of the chord, as a list of numbers
         :param notes: The expected notes of the chord, either as a list of strings,
@@ -90,18 +89,18 @@ class TestChordComponent(unittest.TestCase):
         self.assertEqual(com0, [1, 4, 7, 11, 14])
         com1 = c.components(visible=True)
         self.assertEqual(com1, ["C#", "E", "G", "B", "D"])
-    
+
     def test_major_add9(self):
-        # mmajor add 9 is a major chord with a Major ninth
+        # major add 9 is a major chord with a Major ninth
         base = Chord("C")
         base0 = list(base.components(visible=False))
         base1 = list(base.components(visible=True))
         c = Chord("CMadd9")
         com0 = c.components(visible=False)
-        self.assertEqual(com0,  base0 + [14])
+        self.assertEqual(com0, base0 + [14])
         com1 = c.components(visible=True)
         self.assertEqual(com1, base1 + ["D"])
-    
+
     def test_add4(self):
         self._assert_components("Cadd4", [0, 4, 5, 7], "C E F G")
 
@@ -111,18 +110,19 @@ class TestChordComponent(unittest.TestCase):
 
     def test_minor_add4(self):
         self._assert_components("Cmadd4", [0, 3, 5, 7], "C Eb F G")
-    
+
     def test_minor7_add11(self):
         self._assert_components('Cm7add11', [0, 3, 7, 10, 17], "C Eb G Bb F")
-    
+
     def test_major7_add11(self):
         self._assert_components('CM7add11', [0, 4, 7, 11, 17], "C E G B F")
-    
+
     def test_minormajor7_add11(self):
         self._assert_components('CmM7add11', [0, 3, 7, 11, 17], "C Eb G B F")
-    
+
     def test_major7_add13(self):
         self._assert_components("CM7add13", [0, 4, 7, 9, 11, 14], "C E G A B D")
+
 
 class TestChordComponentWithPitch(unittest.TestCase):
 
