@@ -1,7 +1,7 @@
 import sys
 
 from setuptools import setup, find_packages
-version = '0.6.3'
+version = '1.0.0'
 
 CURRENT_PYTHON = sys.version_info[:2]
 REQUIRED_PYTHON = (3, 6)
@@ -15,7 +15,7 @@ setup(
     version=version,
     description="A library to handle musical chords in python.",
     classifiers=[
-        "Development Status :: 5 - Production/Stable"
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
         "Intended Audience :: Developers",
         "Natural Language :: English",

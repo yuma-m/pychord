@@ -1,7 +1,13 @@
 ## Forthcoming
 
-- Drop compatibility for Python 2.7 and 3.5
-- Refactor whole library to optimize for Python 3.x
+## v1.0.0
+
+- Drop compatibility for Python 2.7 and 3.5.
+- Refactor whole library to optimize for Python 3.x.
+    - Add type hints.
+    - Use f-strings.
+    - Rename `note_to_chord` to `find_chords_from_notes`.
+    - Use tuple instead of list for `Quality.components`.
 
 ## v0.6.3
 
