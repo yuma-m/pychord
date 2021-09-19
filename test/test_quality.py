@@ -2,7 +2,7 @@
 
 import unittest
 
-from pychord import QualityManager, Chord, note_to_chord
+from pychord import QualityManager, Chord, find_chords_from_notes
 
 
 class TestQuality(unittest.TestCase):
@@ -59,7 +59,7 @@ class TestOverwriteQuality(unittest.TestCase):
 
     def test_find_from_components(self):
         self.quality_manager.set_quality("13", (0, 4, 7, 10, 14, 17, 21))
-        chords = note_to_chord(['C', 'E', 'G', 'Bb', 'D', 'F', 'A'])
+        chords = find_chords_from_notes(['C', 'E', 'G', 'Bb', 'D', 'F', 'A'])
         self.assertEqual(chords, [Chord("C13")])
 
     def test_keep_existing_chord(self):

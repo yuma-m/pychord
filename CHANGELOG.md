@@ -1,5 +1,8 @@
 ## Forthcoming
 
+- Drop compatibility for Python 2.7 and 3.5
+- Refactor whole library to optimize for Python 3.x
+
 ## v0.6.3
 
 - Add modes to `RELATIVE_KEY_DICT`.

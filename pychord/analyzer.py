@@ -1,16 +1,15 @@
-# -*- coding: utf-8 -*-
+from typing import List
 
 from .chord import Chord
 from .quality import QualityManager
 from .utils import note_to_val
 
 
-def note_to_chord(notes):
-    """ Convert note list to chord list
+def find_chords_from_notes(notes: List[str]) -> List[Chord]:
+    """ Find possible chords consisted from notes
 
-    :param list[str] notes: list of note arranged from lower note. ex) ["C", "Eb", "G"]
-    :rtype: list[pychord.Chord]
-    :return: list of chord
+    :param notes: List of note arranged from lower note. ex) ["C", "Eb", "G"]
+    :return: List of chord
     """
     if not notes:
         raise ValueError("Please specify notes which consist a chord.")
@@ -18,7 +17,7 @@ def note_to_chord(notes):
     root_and_positions = []
     for rotated_notes in get_all_rotated_notes(notes):
         rotated_root = rotated_notes[0]
-        root_and_positions.append([rotated_root, notes_to_positions(rotated_notes, rotated_notes[0])])
+        root_and_positions.append((rotated_root, notes_to_positions(rotated_notes, rotated_notes[0])))
     chords = []
     for temp_root, positions in root_and_positions:
         quality = QualityManager().find_quality_from_components(positions)
@@ -32,15 +31,15 @@ def note_to_chord(notes):
     return chords
 
 
-def notes_to_positions(notes, root):
-    """ Get notes positions.
+def notes_to_positions(notes: List[str], root: str) -> List[int]:
+    """ Get notes positions from the root note
 
-    ex) notes_to_positions(["C", "E", "G"], "C") -> [0, 4, 7]
+    >>> notes_to_positions(["C", "E", "G"], "C")
+    [0, 4, 7]
 
-    :param list[str] notes: list of notes
-    :param str root: the root note
-    :rtype: list[int]
-    :return: list of note positions
+    :param notes: List of notes
+    :param root: Root note
+    :return: List of note positions
     """
     root_pos = note_to_val(root)
     current_pos = root_pos
@@ -54,13 +53,10 @@ def notes_to_positions(notes, root):
     return positions
 
 
-def get_all_rotated_notes(notes):
+def get_all_rotated_notes(notes: List[str]) -> List[List[str]]:
     """ Get all rotated notes
 
-    get_all_rotated_notes([1,3,5]) -> [[1,3,5],[3,5,1],[5,1,3]]
-
-    :type notes: list[str]
-    :rtype: list[list[str]]
+    get_all_rotated_notes([A,C,E]) -> [[A,C,E],[C,E,A],[E,A,C]]
     """
     notes_list = []
     for x in range(len(notes)):

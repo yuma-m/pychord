@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
 from pychord import Chord
-from pychord.analyzer import get_all_rotated_notes, note_to_chord, notes_to_positions
+from pychord.analyzer import get_all_rotated_notes, find_chords_from_notes, notes_to_positions
 
 
 class TestNotesToPositions(unittest.TestCase):
@@ -27,7 +25,7 @@ class TestNotesToPositions(unittest.TestCase):
     def test_add9(self):
         pos = notes_to_positions(["Ab", "C", "Eb", "Bb"], "Ab")
         self.assertEqual(pos, [0, 4, 7, 14])
-    
+
     def test_major_add_9(self):
         # major add 9 is the same as add9
         self.test_add9()
@@ -56,73 +54,75 @@ class TestGetAllRotatedNotes(unittest.TestCase):
         self.assertEqual(notes_list, [["C", "F", "G"], ["F", "G", "C"], ["G", "C", "F"]])
 
 
-class TestNoteToChord(unittest.TestCase):
+class TestFindChordsFromNotes(unittest.TestCase):
+
     def _assert_chords(self, notes, expected_chords):
-        """"Validates that the specified notes translated to the expected chords.
+        """ Validates that the specified notes translated to the expected chords.
+
         :param notes: The notes of the chord, either as a list of strings,
           e.g. ["G", "C", "D"] or a string, e.g. "G C D"
-        :param expected_chords: the chords that the notes could translate to, 
-            specified as a list of strings, e.g. [ "Gsus4", "Csus2/G" ], 
+        :param expected_chords: the chords that the notes could translate to,
+            specified as a list of strings, e.g. [ "Gsus4", "Csus2/G" ],
             or a single string if only one chord expected.
         """
         if isinstance(notes, str):
             notes = notes.split()
-        c0 = note_to_chord(notes)
+        c0 = find_chords_from_notes(notes)
         if isinstance(expected_chords, str):
             expected_chords = [expected_chords]
         self.assertEqual(c0, [Chord(c) for c in expected_chords])
-    
+
     def test_major(self):
-        chords = note_to_chord(["C", "E", "G"])
+        chords = find_chords_from_notes(["C", "E", "G"])
         self.assertEqual(chords, [Chord("C")])
 
     def test_major_on_third(self):
-        chords = note_to_chord(["F#", "A", "D"])
+        chords = find_chords_from_notes(["F#", "A", "D"])
         self.assertEqual(chords, [Chord("D/F#")])
 
     def test_major_on_fifth(self):
-        chords = note_to_chord(["B", "E", "G#"])
+        chords = find_chords_from_notes(["B", "E", "G#"])
         self.assertEqual(chords, [Chord("E/B")])
 
     def test_dim(self):
-        chords = note_to_chord(["Eb", "Gb", "A"])
+        chords = find_chords_from_notes(["Eb", "Gb", "A"])
         self.assertEqual(chords, [Chord("Ebdim")])
 
     def test_sus4(self):
-        chords = note_to_chord(["G", "C", "D"])
+        chords = find_chords_from_notes(["G", "C", "D"])
         self.assertEqual(chords, [Chord("Gsus4"), Chord("Csus2/G")])
 
     def test_dim6(self):
-        chords = note_to_chord(["Eb", "Gb", "A", "C"])
+        chords = find_chords_from_notes(["Eb", "Gb", "A", "C"])
         self.assertEqual(chords, [Chord("Ebdim7"), Chord("Gbdim7/Eb"), Chord("Adim7/Eb"), Chord("Cdim7/Eb")])
 
     def test_aug(self):
-        chords = note_to_chord(["F", "A", "Db"])
+        chords = find_chords_from_notes(["F", "A", "Db"])
         self.assertEqual(chords, [Chord("Faug"), Chord("Aaug/F"), Chord("Dbaug/F")])
 
     def test_add9(self):
-        chords = note_to_chord(["C", "E", "G", "D"])
+        chords = find_chords_from_notes(["C", "E", "G", "D"])
         self.assertEqual(chords, [Chord("Cadd9")])
 
     def test_m7b5(self):
-        chords = note_to_chord(["F#", "A", "C", "E"])
+        chords = find_chords_from_notes(["F#", "A", "C", "E"])
         self.assertEqual(chords, [Chord("F#m7-5"), Chord("Am6/F#")])
 
     def test_m7dim5(self):
-        chords = note_to_chord(["F#", "A", "C", "E"])
+        chords = find_chords_from_notes(["F#", "A", "C", "E"])
         self.assertEqual(chords, [Chord("F#m7-5"), Chord("Am6/F#")])
-    
+
     def test_add4(self):
-        chords = note_to_chord(["C", "E", "F", "G"])
+        chords = find_chords_from_notes(["C", "E", "F", "G"])
         self.assertEqual(chords, [Chord("Cadd4")])
-    
+
     def test_minor_add4(self):
-        chords = note_to_chord(["C", "Eb", "F", "G"])
+        chords = find_chords_from_notes(["C", "Eb", "F", "G"])
         self.assertEqual(chords, [Chord("Cmadd4")])
-    
+
     def test_minor7_add11(self):
         self._assert_chords("C Eb G Bb F", ["Cm7add11", "F11/C"])
-    
+
     def test_major7_add11(self):
         self._assert_chords("C E G B F", "CM7add11")
 
@@ -132,9 +132,8 @@ class TestNoteToChord(unittest.TestCase):
     def test_major7_add13(self):
         self._assert_chords("C E G A B D", "CM7add13")
 
-
-    def test_call_repeatedly(self):
+    def test_idempotence(self):
         for _ in range(2):
-            chords = note_to_chord(["Eb", "Gb", "A", "C"])
+            chords = find_chords_from_notes(["Eb", "Gb", "A", "C"])
             self.assertEqual(chords, [Chord("Ebdim7"), Chord("Gbdim7/Eb"), Chord("Adim7/Eb"), Chord("Cdim7/Eb")])
             self.assertEqual(chords[0].components(visible=True), ["Eb", "Gb", "A", "C"])

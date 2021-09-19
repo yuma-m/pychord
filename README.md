@@ -63,16 +63,16 @@ True
 True
 ```
 
-### Find Chords
+### Find Chords from notes
 
 ```python
->>> from pychord import note_to_chord
->>> note_to_chord(["C", "E", "G"])
-[<Chord: C>]
->>> note_to_chord(["F#", "A", "C", "D"])
-[<Chord: D7/F#>]
->>> note_to_chord(["F", "G", "C"])
-[<Chord: Fsus2>, <Chord: Csus4/F>]
+>>> from pychord import find_chords_from_notes
+>>> find_chords_from_notes(["C", "E", "G"])
+[ <Chord: C>]
+>>> find_chords_from_notes(["F#", "A", "C", "D"])
+[ <Chord: D7/F#>]
+>>> find_chords_from_notes(["F", "G", "C"])
+[ <Chord: Fsus2>, <Chord: Csus4/F>]
 ```
 
 ### Create and handle chord progressions
@@ -127,8 +127,9 @@ True
 
 ## Supported Python Versions
 
-- 2.7
-- 3.5 and above
+- 3.6 and above
+
+Python 2.7 and 3.5 compatibility was dropped from version 1.0.0.
 
 ## Links
 
@@ -144,4 +145,4 @@ True
 
 - MIT License
 
-Icon is made by [Freepik](https://www.flaticon.com/authors/freepik")
+Icon is made by [Freepik](https://www.flaticon.com/authors/freepik).
