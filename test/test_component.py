@@ -21,74 +21,34 @@ class TestChordComponent(unittest.TestCase):
         self.assertEqual(com1, notes)
 
     def test_normal_chord(self):
-        c = Chord("C")
-        com0 = c.components(visible=False)
-        self.assertEqual(com0, [0, 4, 7])
-        com1 = c.components(visible=True)
-        self.assertEqual(com1, ["C", "E", "G"])
+        self._assert_components("C", [0, 4, 7], ["C", "E", "G"])
 
     def test_minor_chord(self):
-        c = Chord("Am")
-        com0 = c.components(visible=False)
-        self.assertEqual(com0, [9, 12, 16])
-        com1 = c.components(visible=True)
-        self.assertEqual(com1, ["A", "C", "E"])
+        self._assert_components("Am", [9, 12, 16], ["A", "C", "E"])
 
     def test_dim_chord(self):
-        c = Chord("Ddim")
-        com0 = c.components(visible=False)
-        self.assertEqual(com0, [2, 5, 8])
-        com1 = c.components(visible=True)
-        self.assertEqual(com1, ["D", "F", "G#"])
+        self._assert_components("Ddim", [2, 5, 8], ["D", "F", "G#"])
 
     def test_dim7_chord(self):
-        c = Chord("Cdim7")
-        com0 = c.components(visible=False)
-        self.assertEqual(com0, [0, 3, 6, 9])
-        com1 = c.components(visible=True)
-        self.assertEqual(com1, ["C", "Eb", "Gb", "A"])
+        self._assert_components("Cdim7", [0, 3, 6, 9], ["C", "Eb", "Gb", "A"])
 
     def test_aug_chord(self):
-        c = Chord("Eaug")
-        com0 = c.components(visible=False)
-        self.assertEqual(com0, [4, 8, 12])
-        com1 = c.components(visible=True)
-        self.assertEqual(com1, ["E", "G#", "C"])
+        self._assert_components("Eaug", [4, 8, 12], ["E", "G#", "C"])
 
     def test_slash_chord(self):
-        c = Chord("CM9/D")
-        com0 = c.components(visible=False)
-        self.assertEqual(com0, [-10, 0, 4, 7, 11])
-        com1 = c.components(visible=True)
-        self.assertEqual(com1, ["D", "C", "E", "G", "B"])
+        self._assert_components("CM9/D", [-10, 0, 4, 7, 11], ["D", "C", "E", "G", "B"])
 
     def test_sus4_chord(self):
-        c = Chord("Fsus4")
-        com0 = c.components(visible=False)
-        self.assertEqual(com0, [5, 10, 12])
-        com1 = c.components(visible=True)
-        self.assertEqual(com1, ["F", "Bb", "C"])
+        self._assert_components("Fsus4", [5, 10, 12], ["F", "Bb", "C"])
 
     def test_seventh_chord(self):
-        c = Chord("G7")
-        com0 = c.components(visible=False)
-        self.assertEqual(com0, [7, 11, 14, 17])
-        com1 = c.components(visible=True)
-        self.assertEqual(com1, ["G", "B", "D", "F"])
+        self._assert_components("G7", [7, 11, 14, 17], ["G", "B", "D", "F"])
 
     def test_sixth_chord(self):
-        c = Chord("C6")
-        com0 = c.components(visible=False)
-        self.assertEqual(com0, [0, 4, 7, 9])
-        com1 = c.components(visible=True)
-        self.assertEqual(com1, ["C", "E", "G", "A"])
+        self._assert_components("C6", [0, 4, 7, 9], ["C", "E", "G", "A"])
 
     def test_appended_chord(self):
-        c = Chord("C#m7b9b5")
-        com0 = c.components(visible=False)
-        self.assertEqual(com0, [1, 4, 7, 11, 14])
-        com1 = c.components(visible=True)
-        self.assertEqual(com1, ["C#", "E", "G", "B", "D"])
+        self._assert_components("C#m7b9b5", [1, 4, 7, 11, 14], ["C#", "E", "G", "B", "D"])
 
     def test_major_add9(self):
         # major add 9 is a major chord with a Major ninth
