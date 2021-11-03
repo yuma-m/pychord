@@ -61,6 +61,15 @@ class TestChordComponent(unittest.TestCase):
         com1 = c.components(visible=True)
         self.assertEqual(com1, base1 + ["D"])
 
+    def test_5(self):
+        self._assert_components("Db5", [1, 8], "Db Ab")
+
+    def test_b5(self):
+        self._assert_components("D(b5)", [2, 6, 8], "D F# G#")
+
+    def test_no5(self):
+        self._assert_components("Cno5", [0, 4], "C E")
+
     def test_add4(self):
         self._assert_components("Cadd4", [0, 4, 5, 7], "C E F G")
 
@@ -70,6 +79,9 @@ class TestChordComponent(unittest.TestCase):
 
     def test_minor_add4(self):
         self._assert_components("Cmadd4", [0, 3, 5, 7], "C Eb F G")
+
+    def test_sus4add9(self):
+        self._assert_components("Csus4add9", [0, 5, 7, 14], "C F G D")
 
     def test_minor7_add11(self):
         self._assert_components('Cm7add11', [0, 3, 7, 10, 17], "C Eb G Bb F")
