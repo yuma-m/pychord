@@ -1,5 +1,7 @@
 ## Forthcoming
 
+- Add `no5`, `m(no5)`, `(b5)`, `sus4add2` and `sus4add9` qualities.
+
 ## v1.0.0
 
 - Drop compatibility for Python 2.7 and 3.5.
