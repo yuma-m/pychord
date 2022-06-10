@@ -51,6 +51,8 @@ class Quality:
         if visible:
             components = [val_to_note(c, scale=root) for c in components]
 
+        # De-duplicate notes:
+        components = list(dict.fromkeys(components))
         return components
 
     def append_on_chord(self, on_chord, root):
@@ -76,7 +78,9 @@ class Quality:
             on_chord_val -= 12
 
         if on_chord_val not in components:
-            components.insert(0, on_chord_val)
+            components = [on_chord_val] + [
+                v for v in components if v % 12 != on_chord_val % 12
+            ]
 
         self.components = tuple(components)
 

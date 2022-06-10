@@ -1,7 +1,10 @@
 from typing import Tuple, List
+import re
 
 from .quality import QualityManager, Quality
 from .utils import NOTE_VAL_DICT
+
+inversion_re = re.compile("/([0-9]+)")
 
 
 def parse(chord: str) -> Tuple[str, Quality, List[str], str]:
@@ -24,6 +27,13 @@ def parse(chord: str) -> Tuple[str, Quality, List[str], str]:
             raise ValueError(f"Invalid note {note}")
 
     check_note(root)
+
+    inversion = 0
+    inversion_m = inversion_re.search(rest)
+    if inversion_m:
+        inversion = int(inversion_m.group(1))
+        rest = inversion_re.sub("", rest)
+
     on_chord_idx = rest.find("/")
     if on_chord_idx >= 0:
         on = rest[on_chord_idx + 1:]
@@ -34,4 +44,4 @@ def parse(chord: str) -> Tuple[str, Quality, List[str], str]:
     quality = QualityManager().get_quality(rest)
     # TODO: Implement parser for appended notes
     appended: List[str] = []
-    return root, quality, appended, on
+    return root, quality, appended, on, inversion

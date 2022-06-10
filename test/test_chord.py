@@ -56,6 +56,32 @@ class TestChordCreations(unittest.TestCase):
     def test_invalid_slash_chord(self):
         self.assertRaises(ValueError, Chord, "C/H")
 
+    def test_1st_order_inversion(self):
+        c = Chord("C/1")
+        self.assertEqual(c.root, "C")
+        self.assertEqual(c.quality.quality, "")
+        self.assertEqual(c.components(), ["E", "C", "G"])
+        self.assertEqual(c, Chord("C/E"))
+
+    def test_2nd_order_inversion(self):
+        c = Chord("C/2")
+        self.assertEqual(c.root, "C")
+        self.assertEqual(c.quality.quality, "")
+        self.assertEqual(c.components(), ["G", "C", "E"])
+        self.assertEqual(c, Chord("C/G"))
+
+    def test_inversion_complicated(self):
+        c = Chord("Dm7b5/1")
+        self.assertEqual(c.root, "D")
+        self.assertEqual(c.quality.quality, "m7b5")
+        self.assertEqual(c.components(), ["F", "D", "G#", "C"])
+
+    def test_inversion_with_alternate_bass(self):
+        c = Chord("C/1/F")
+        self.assertEqual(c.root, "C")
+        self.assertEqual(c.quality.quality, "")
+        self.assertEqual(c.components(), ["F", "E", "C", "G"])
+
     def test_eq(self):
         c1 = Chord("C")
         c2 = Chord("C")
@@ -71,9 +97,14 @@ class TestChordCreations(unittest.TestCase):
         with self.assertRaises(TypeError):
             print(c == 0)
 
+    def test_components(self):
+        c = Chord("C/E")
+        quality_components_before = c.quality.components
+        c.components()
+        self.assertEqual(c.quality.components, quality_components_before)
+
 
 class TestChordFromNoteIndex(unittest.TestCase):
-
     def test_note_1(self):
         chord = Chord.from_note_index(note=1, quality="", scale="Cmaj")
         self.assertEqual(chord, Chord("C"))

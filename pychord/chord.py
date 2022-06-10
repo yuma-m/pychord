@@ -16,6 +16,7 @@ class Chord:
         _quality: The quality of chord. (e.g. maj, m7, m7-5)
         _appended: The appended notes on chord.
         _on: The base note of slash chord.
+        _inversion: The order of inversion (eg. 0=none 1=1st 2=2nd ...)
     """
 
     def __init__(self, chord: str):
@@ -23,12 +24,15 @@ class Chord:
 
         :param chord: Name of chord (e.g. C, Am7, F#m7-5/A).
         """
-        root, quality, appended, on = parse(chord)
+        root, quality, appended, on, inversion = parse(chord)
         self._chord: str = chord
         self._root: str = root
         self._quality: Quality = quality
         self._appended: List[str] = appended
         self._on: str = on
+        self._inversion: int = inversion
+
+        self._append_on_chord_and_inversion()
 
     def __unicode__(self):
         return self._chord
@@ -139,6 +143,11 @@ class Chord:
         """ The base note of slash chord """
         return self._on
 
+    @property
+    def inversion(self):
+        """The order of the inversion"""
+        return self._inversion
+
     def info(self):
         """ Return information of chord to display """
         return f"""{self._chord}
@@ -166,9 +175,6 @@ on={self._on}"""
         :param visible: returns the name of notes if True else list of int
         :return: component notes of chord
         """
-        if self._on:
-            self._quality.append_on_chord(self.on, self.root)
-
         return self._quality.get_components(root=self._root, visible=visible)
 
     def components_with_pitch(self, root_pitch: int) -> List[str]:
@@ -177,13 +183,24 @@ on={self._on}"""
         :param root_pitch: the pitch of the root note
         :return: component notes of chord
         """
-        if self._on:
-            self._quality.append_on_chord(self.on, self.root)
-
         components = self._quality.get_components(root=self._root)
         if components[0] < 0:
             components = [c + 12 for c in components]
         return [f"{val_to_note(c, scale=self._root)}{root_pitch + c // 12}" for c in components]
+
+    def _append_on_chord_and_inversion(self):
+        if self._inversion != 0:
+            note = val_to_note(
+                self._quality.components[self._inversion] + note_to_val(self.root)
+            )
+            self._quality.append_on_chord(
+                note,
+                self.root,
+            )
+            if not self._on:
+                self._on = note
+        if self._on:
+            self._quality.append_on_chord(self.on, self.root)
 
     def _reconfigure_chord(self):
         # TODO: Use appended

@@ -32,6 +32,16 @@ class TestChordCreations(unittest.TestCase):
         self.assertEqual(c.root, "C")
         self.assertEqual(c.quality.quality, "m7")
         self.assertEqual(c.on, "Bb")
+        self.assertEqual(c._chord, Chord("Cm7/Bb")._chord)
+        self.assertEqual(c.quality.components, Chord("Cm7/Bb").quality.components)
+        self.assertEqual(c, Chord("Cm7/Bb"))
+
+    def test_transpose_inversion(self):
+        c = Chord("Am7/3")
+        c.transpose(3)
+        self.assertEqual(c.root, "C")
+        self.assertEqual(c.quality.quality, "m7")
+        self.assertEqual(c.on, "Bb")
         self.assertEqual(c, Chord("Cm7/Bb"))
 
     def test_invalid_transpose_type(self):
