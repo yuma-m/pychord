@@ -7,8 +7,8 @@ from .utils import NOTE_VAL_DICT
 inversion_re = re.compile("/([0-9]+)")
 
 
-def parse(chord: str) -> Tuple[str, Quality, List[str], str]:
-    """ Parse a string to get chord component
+def parse(chord: str) -> Tuple[str, Quality, List[str], str, int]:
+    """Parse a string to get chord component
 
     :param chord: str expression of a chord
     :return: (root, quality, appended, on)
