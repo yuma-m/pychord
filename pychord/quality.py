@@ -1,4 +1,5 @@
 import copy
+import math
 from collections import OrderedDict
 from typing import Tuple, List
 
@@ -104,7 +105,10 @@ class QualityManager:
         q = copy.deepcopy(self._qualities[name])
         # apply requested inversion :
         for i in range(inversion):
-            q.components = tuple(q.components[1:] + tuple([q.components[0]]))
+            n = q.components[0]
+            while n < q.components[-1]:
+                n += 12
+            q.components = q.components[1:] + (n,)
         return q
 
     def set_quality(self, name: str, components: Tuple[int, ...]):

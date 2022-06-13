@@ -118,6 +118,45 @@ class TestChordComponentWithPitch(unittest.TestCase):
         com = c.components_with_pitch(root_pitch=5)
         self.assertEqual(com, ["E5", "G#5", "B5", "F#6"])
 
+    def test_first_order_inversion(self):
+        c = Chord("G/1")
+        com = c.components_with_pitch(root_pitch=4)
+        self.assertEqual(com, ["B4", "D5", "G5"])
+        c2 = Chord("G13b9/1")
+        com2 = c2.components_with_pitch(root_pitch=4)
+        self.assertEqual(com2, ['B4', 'D5', 'F5', 'G#5', 'E6', 'G6'])
+
+    def test_second_order_inversion(self):
+        c = Chord("G/2")
+        com = c.components_with_pitch(root_pitch=4)
+        self.assertEqual(com, ["D5", "G5", "B5"])
+        c2 = Chord("G13b9/2")
+        com2 = c2.components_with_pitch(root_pitch=4)
+        self.assertEqual(com2, ['D5', 'F5', 'G#5', 'E6', 'G6', 'B6'])
+
+    def test_third_order_inversion(self):
+        c = Chord("Cm7/3")
+        com = c.components_with_pitch(root_pitch=4)
+        self.assertEqual(com, ['Bb4', 'C5', 'Eb5', 'G5'])
+        c2 = Chord("F#7/3")
+        com2 = c2.components_with_pitch(root_pitch=4)
+        self.assertEqual(com2, ['E5', 'F#5', 'A#5', 'C#6'])
+        c3 = Chord("G13b9/3")
+        com3 = c3.components_with_pitch(root_pitch=4)
+        self.assertEqual(com3, ['F5', 'G#5', 'E6', 'G6', 'B6', 'D7'])
+
+    def test_fourth_order_inversion(self):
+        c = Chord("F7b9")
+        com = c.components_with_pitch(root_pitch=4)
+        self.assertEqual(com, ['F4', 'A4', 'C5', 'Eb5', 'Gb5'])
+        c2 = Chord("G13b9/4")
+        com2 = c2.components_with_pitch(root_pitch=4)
+        self.assertEqual(com2, ['G#5', 'E6', 'G6', 'B6', 'D7', 'F7'])
+
+    def test_fifth_order_inversion(self):
+        c = Chord("G13b9/5")
+        com = c.components_with_pitch(root_pitch=4)
+        self.assertEqual(com, ['E6', 'G6', 'B6', 'D7', 'F7', 'G#7'])
 
 if __name__ == '__main__':
     unittest.main()
