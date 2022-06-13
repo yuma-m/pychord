@@ -16,7 +16,6 @@ class Chord:
         _quality: The quality of chord. (e.g. maj, m7, m7-5)
         _appended: The appended notes on chord.
         _on: The base note of slash chord.
-        _inversion: The order of inversion (eg. 0=none 1=1st 2=2nd ...)
     """
 
     def __init__(self, chord: str):
@@ -24,15 +23,14 @@ class Chord:
 
         :param chord: Name of chord (e.g. C, Am7, F#m7-5/A).
         """
-        root, quality, appended, on, inversion = parse(chord)
+        root, quality, appended, on = parse(chord)
         self._chord: str = chord
         self._root: str = root
         self._quality: Quality = quality
         self._appended: List[str] = appended
         self._on: str = on
-        self._inversion: int = inversion
 
-        self._append_on_chord_and_inversion()
+        self._append_on_chord()
 
     def __unicode__(self):
         return self._chord
@@ -143,11 +141,6 @@ class Chord:
         """ The base note of slash chord """
         return self._on
 
-    @property
-    def inversion(self):
-        """The order of the inversion"""
-        return self._inversion
-
     def info(self):
         """ Return information of chord to display """
         return f"""{self._chord}
@@ -188,17 +181,7 @@ on={self._on}"""
             components = [c + 12 for c in components]
         return [f"{val_to_note(c, scale=self._root)}{root_pitch + c // 12}" for c in components]
 
-    def _append_on_chord_and_inversion(self):
-        if self._inversion != 0:
-            note = val_to_note(
-                self._quality.components[self._inversion] + note_to_val(self.root)
-            )
-            self._quality.append_on_chord(
-                note,
-                self.root,
-            )
-            if not self._on:
-                self._on = note
+    def _append_on_chord(self):
         if self._on:
             self._quality.append_on_chord(self.on, self.root)
 

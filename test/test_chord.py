@@ -60,27 +60,25 @@ class TestChordCreations(unittest.TestCase):
         c = Chord("C/1")
         self.assertEqual(c.root, "C")
         self.assertEqual(c.quality.quality, "")
-        self.assertEqual(c.components(), ["E", "C", "G"])
-        self.assertEqual(c, Chord("C/E"))
+        self.assertEqual(c.components(), ["E", "G", "C"])
 
     def test_2nd_order_inversion(self):
         c = Chord("C/2")
         self.assertEqual(c.root, "C")
         self.assertEqual(c.quality.quality, "")
         self.assertEqual(c.components(), ["G", "C", "E"])
-        self.assertEqual(c, Chord("C/G"))
 
     def test_inversion_complicated(self):
         c = Chord("Dm7b5/1")
         self.assertEqual(c.root, "D")
         self.assertEqual(c.quality.quality, "m7b5")
-        self.assertEqual(c.components(), ["F", "D", "G#", "C"])
+        self.assertEqual(c.components(), ["F", "G#", "C", "D"])
 
     def test_inversion_with_alternate_bass(self):
         c = Chord("C/1/F")
         self.assertEqual(c.root, "C")
         self.assertEqual(c.quality.quality, "")
-        self.assertEqual(c.components(), ["F", "E", "C", "G"])
+        self.assertEqual(c.components(), ["F", "E", "G", "C"])
 
     def test_eq(self):
         c1 = Chord("C")

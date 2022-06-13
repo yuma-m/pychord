@@ -51,8 +51,6 @@ class Quality:
         if visible:
             components = [val_to_note(c, scale=root) for c in components]
 
-        # De-duplicate notes:
-        components = list(dict.fromkeys(components))
         return components
 
     def append_on_chord(self, on_chord, root):
@@ -99,11 +97,15 @@ class QualityManager:
             (q, Quality(q, c)) for q, c in DEFAULT_QUALITIES
         ])
 
-    def get_quality(self, name: str) -> Quality:
+    def get_quality(self, name: str, inversion: int = 0) -> Quality:
         if name not in self._qualities:
             raise ValueError(f"Unknown quality: {name}")
         # Create a new instance not to affect any existing instances
-        return copy.deepcopy(self._qualities[name])
+        q = copy.deepcopy(self._qualities[name])
+        # apply requested inversion :
+        for i in range(inversion):
+            q.components = tuple(q.components[1:] + tuple([q.components[0]]))
+        return q
 
     def set_quality(self, name: str, components: Tuple[int, ...]):
         """ Set a Quality
