@@ -1,7 +1,7 @@
 import sys
 
 from setuptools import setup, find_packages
-version = '1.0.0'
+version = '1.1.0'
 
 CURRENT_PYTHON = sys.version_info[:2]
 REQUIRED_PYTHON = (3, 6)

@@ -1,6 +1,10 @@
 ## Forthcoming
 
+## v1.1.0
+
 - Add `no5`, `m(no5)`, `(b5)`, `sus4add2` and `sus4add9` qualities.
+- Support inversions.
+- Contributor: @EnigmaCurry
 
 ## v1.0.0
 
