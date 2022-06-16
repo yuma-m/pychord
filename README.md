@@ -121,6 +121,22 @@ True
 ['C', 'E', 'G', 'Bb', 'D', 'F']
 ```
 
+### Inversions
+
+Chord inversions are created with a forward slash and a number
+indicating the order. This can optionally be combined with an
+additional forward slash to change the bass note:
+
+```python
+>>> Chord("C/1").components() # First inversion of C
+['E', 'G', 'C']
+>>> Chord("C/2").components() # Second inversion of C
+['G', 'C', 'E']
+
+>>> Chord("Cm7/3/F").components() # Third inversion of Cm7 with an added F bass
+['F', 'Bb', 'C', 'Eb', 'G']
+```
+
 ## Examples
 
 - [pychord-midi.py](./examples/pychord-midi.py) - Create a MIDI file using PyChord and pretty_midi.

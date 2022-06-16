@@ -76,7 +76,9 @@ class Quality:
             on_chord_val -= 12
 
         if on_chord_val not in components:
-            components.insert(0, on_chord_val)
+            components = [on_chord_val] + [
+                v for v in components if v % 12 != on_chord_val % 12
+            ]
 
         self.components = tuple(components)
 
@@ -95,11 +97,18 @@ class QualityManager:
             (q, Quality(q, c)) for q, c in DEFAULT_QUALITIES
         ])
 
-    def get_quality(self, name: str) -> Quality:
+    def get_quality(self, name: str, inversion: int = 0) -> Quality:
         if name not in self._qualities:
             raise ValueError(f"Unknown quality: {name}")
         # Create a new instance not to affect any existing instances
-        return copy.deepcopy(self._qualities[name])
+        q = copy.deepcopy(self._qualities[name])
+        # apply requested inversion :
+        for i in range(inversion):
+            n = q.components[0]
+            while n < q.components[-1]:
+                n += 12
+            q.components = q.components[1:] + (n,)
+        return q
 
     def set_quality(self, name: str, components: Tuple[int, ...]):
         """ Set a Quality

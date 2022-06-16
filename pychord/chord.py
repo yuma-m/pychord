@@ -30,6 +30,8 @@ class Chord:
         self._appended: List[str] = appended
         self._on: str = on
 
+        self._append_on_chord()
+
     def __unicode__(self):
         return self._chord
 
@@ -166,9 +168,6 @@ on={self._on}"""
         :param visible: returns the name of notes if True else list of int
         :return: component notes of chord
         """
-        if self._on:
-            self._quality.append_on_chord(self.on, self.root)
-
         return self._quality.get_components(root=self._root, visible=visible)
 
     def components_with_pitch(self, root_pitch: int) -> List[str]:
@@ -177,13 +176,14 @@ on={self._on}"""
         :param root_pitch: the pitch of the root note
         :return: component notes of chord
         """
-        if self._on:
-            self._quality.append_on_chord(self.on, self.root)
-
         components = self._quality.get_components(root=self._root)
         if components[0] < 0:
             components = [c + 12 for c in components]
         return [f"{val_to_note(c, scale=self._root)}{root_pitch + c // 12}" for c in components]
+
+    def _append_on_chord(self):
+        if self._on:
+            self._quality.append_on_chord(self.on, self.root)
 
     def _reconfigure_chord(self):
         # TODO: Use appended
