@@ -22,6 +22,8 @@ DEFAULT_QUALITIES = [
     ('sus', (0, 5, 7)),
     # 4 notes
     ('6', (0, 4, 7, 9)),
+    ('6b5', (0, 4, 6, 9)),  # https://www.scales-chords.com/chord/piano/C%236b5
+    ('6-5', (0, 4, 6, 9)),  # https://www.scales-chords.com/chord/piano/C%236b5
     ('7', (0, 4, 7, 10)),
     ('7-5', (0, 4, 6, 10)),
     ('7b5', (0, 4, 6, 10)),
