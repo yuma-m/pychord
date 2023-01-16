@@ -64,11 +64,11 @@ def get_all_rotated_notes(notes: List[str]) -> List[List[str]]:
         return [notes]
     if len(notes) == 2:
         return [[notes[0], notes[1]], [notes[1], notes[0]]]
-    l = []
+    list_of_chords = []
     for i in range(0, len(notes)):
         m = notes[i]
         remaining_list = notes[:i] + notes[i + 1:]
         permutations_on_remaining_list = get_all_rotated_notes(remaining_list)
         for p in permutations_on_remaining_list:
-            l.append([m] + p)
-    return l
+            list_of_chords.append([m] + p)
+    return list_of_chords
