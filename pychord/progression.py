@@ -22,7 +22,8 @@ class ChordProgression:
         elif isinstance(initial_chords, list):
             chords = [self._as_chord(chord) for chord in initial_chords]
         else:
-            raise TypeError(f"Cannot initialize ChordProgression with argument of {type(initial_chords)} type")
+            raise TypeError(
+                f"Cannot initialize ChordProgression with argument of {type(initial_chords)} type")
         self._chords: List[Chord] = chords
 
     def __unicode__(self):
