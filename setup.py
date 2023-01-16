@@ -1,7 +1,7 @@
 import sys
 
 from setuptools import setup, find_packages
-version = '1.1.0'
+version = '1.1.1'
 
 CURRENT_PYTHON = sys.version_info[:2]
 REQUIRED_PYTHON = (3, 6)
@@ -25,7 +25,7 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Utilities",
         "License :: OSI Approved :: MIT License",
-        ],
+    ],
     keywords='music chord',
     author='Yuma Mihira',
     author_email='info@yuma.cloud',
