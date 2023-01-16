@@ -111,7 +111,7 @@ class TestFindChordsFromNotes(unittest.TestCase):
     def test_m7dim5(self):
         chords = find_chords_from_notes(["F#", "A", "C", "E"])
         self.assertEqual(chords, [Chord("F#m7-5"), Chord("Am6/F#"), Chord("C6b5/F#")])
-        
+
     def test_add4(self):
         chords = find_chords_from_notes(["C", "E", "F", "G"])
         self.assertEqual(chords, [Chord("Cadd4")])
