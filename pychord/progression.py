@@ -10,13 +10,11 @@ class ChordProgression:
         _chords: component chords of chord progression.
     """
 
-    def __init__(self, initial_chords: Union[str, Chord, List[Union[str, Chord]]] = None):
+    def __init__(self, initial_chords: Union[str, Chord, List[Union[str, Chord]]] = []):
         """ Constructor of ChordProgression instance.
 
         :param initial_chords: Initial chord or chords of the chord progressions
         """
-        if initial_chords is None:
-            initial_chords = []
         if isinstance(initial_chords, Chord):
             chords = [initial_chords]
         elif isinstance(initial_chords, str):
@@ -51,7 +49,8 @@ class ChordProgression:
 
     def __eq__(self, other):
         if not isinstance(other, ChordProgression):
-            raise TypeError(f"Cannot compare ChordProgression object with {type(other)} object")
+            raise TypeError(
+                f"Cannot compare ChordProgression object with {type(other)} object")
         if len(self) != len(other):
             return False
         for c, o in zip(self, other):
