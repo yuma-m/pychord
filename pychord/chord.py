@@ -71,7 +71,7 @@ class Chord:
 
         Chord.from_note_index(1, "", "Cmaj") returns I of C major => Chord("C")
         Chord.from_note_index(3, "m7", "Fmaj") returns IIImin of F major => Chord("Am7")
-        Chord.from_note_index(5, "7", "Amin") returns Vmin of A minor => Chord("Em7")
+        Chord.from_note_index(5, "7", "Amin") returns Vmin of A minor => Chord("E7")
         Chord.from_note_index(2, "", "Cmaj") returns II of C major => Chord("D")
         Chord.from_note_index(2, "m", "Cmaj") returns IImin of C major => Chord("Dm")
         Chord.from_note_index(2, "", "Cmaj", diatonic=True) returns IImin of C major => Chord("Dm")
