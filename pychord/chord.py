@@ -83,9 +83,8 @@ class Chord:
         :param diatonic: If True, chord quality is determined using the base scale (overrides :param quality)
         :param chromatic: Lower or raise the scale degree (and all notes of the chord) by semitone(s)
         """
-        if not 1 <= note <= 7:
+        if not 1 <= note <= 8:
             raise ValueError(f"Invalid note {note}")
-
         relative_key = RELATIVE_KEY_DICT[scale[-3:]][note - 1]
         root_num = NOTE_VAL_DICT[scale[:-3]] + chromatic
         root = VAL_NOTE_DICT[(root_num + relative_key) % 12][0]
