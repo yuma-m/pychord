@@ -71,12 +71,17 @@ class Chord:
 
         Chord.from_note_index(1, "", "Cmaj") returns I of C major => Chord("C")
         Chord.from_note_index(3, "m7", "Fmaj") returns IIImin of F major => Chord("Am7")
-        Chord.from_note_index(5, "7", "Amin") returns Vmin of A minor => Chord("E7")
+        Chord.from_note_index(5, "7", "Amin") returns Vmin of A minor => Chord("Em7")
+        Chord.from_note_index(2, "", "Cmaj") returns II of C major => Chord("D")
+        Chord.from_note_index(2, "m", "Cmaj") returns IImin of C major => Chord("Dm")
+        Chord.from_note_index(2, "", "Cmaj", diatonic=True) returns IImin of C major => Chord("Dm")
+        Chord.from_note_index(2, "", "Cmin", chromatic=-1) returns bII of C minor => Chord("Db")
 
-        :param note: Note index in a Scale I, II, ..., VIII
-        :param quality: Quality of a chord (m7, sus4, ...)
-        :param scale: Base scale (Cmaj, Amin, F#maj, Ebmin, ...)
-        :param diatonic: Adjust certain chord qualities according to the scale
+        :param note: Scale degree of the chord's root (1-7)
+        :param quality: Quality of the chord (e.g. m7, sus4)
+        :param scale: Base scale (e.g. Cmaj, Amin, F#maj, Ebmin)
+        :param diatonic: If True, chord quality is determined using the base scale (overrides :param quality)
+        :param chromatic: Lower or raise the scale degree (and all notes of the chord) by semitone(s)
         """
         if not 1 <= note <= 8:
             raise ValueError(f"Invalid note {note}")
@@ -94,7 +99,8 @@ class Chord:
 
             # adjust the chord to its root position (as a stack of thirds),
             # then set the root to 0
-            def get_diatonic_chord(chord):
+            # e.g. (9, 0, 4) -> [0, 3, 7]
+            def get_diatonic_chord(chord: tuple) -> list[int]:
                 uninverted = []
                 for note in chord:
                     if not uninverted:
