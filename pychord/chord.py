@@ -59,8 +59,15 @@ class Chord:
         return not self.__eq__(other)
 
     @classmethod
-    def from_note_index(cls, note: int, quality: str, scale: str, diatonic: bool = False) -> 'Chord':
-        """ Create a Chord from note index in a scale
+    def from_note_index(
+        cls,
+        note: int,
+        quality: str,
+        scale: str,
+        diatonic: bool = False,
+        chromatic: int = 0,
+    ) -> "Chord":
+        """Create a Chord from note index in a scale
 
         Chord.from_note_index(1, "", "Cmaj") returns I of C major => Chord("C")
         Chord.from_note_index(3, "m7", "Fmaj") returns IIImin of F major => Chord("Am7")
@@ -74,7 +81,7 @@ class Chord:
         if not 1 <= note <= 8:
             raise ValueError(f"Invalid note {note}")
         relative_key = RELATIVE_KEY_DICT[scale[-3:]][note - 1]
-        root_num = NOTE_VAL_DICT[scale[:-3]]
+        root_num = NOTE_VAL_DICT[scale[:-3]] + chromatic
         root = VAL_NOTE_DICT[(root_num + relative_key) % 12][0]
 
         scale_degrees = RELATIVE_KEY_DICT[scale[-3:]]
