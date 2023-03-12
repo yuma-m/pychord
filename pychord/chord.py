@@ -59,22 +59,34 @@ class Chord:
         return not self.__eq__(other)
 
     @classmethod
-    def from_note_index(cls, note: int, quality: str, scale: str, diatonic: bool = False) -> 'Chord':
-        """ Create a Chord from note index in a scale
+    def from_note_index(
+        cls,
+        note: int,
+        quality: str,
+        scale: str,
+        diatonic: bool = False,
+        chromatic: int = 0,
+    ) -> "Chord":
+        """Create a Chord from note index in a scale
 
         Chord.from_note_index(1, "", "Cmaj") returns I of C major => Chord("C")
         Chord.from_note_index(3, "m7", "Fmaj") returns IIImin of F major => Chord("Am7")
         Chord.from_note_index(5, "7", "Amin") returns Vmin of A minor => Chord("E7")
+        Chord.from_note_index(2, "", "Cmaj") returns II of C major => Chord("D")
+        Chord.from_note_index(2, "m", "Cmaj") returns IImin of C major => Chord("Dm")
+        Chord.from_note_index(2, "", "Cmaj", diatonic=True) returns IImin of C major => Chord("Dm")
+        Chord.from_note_index(2, "", "Cmin", chromatic=-1) returns bII of C minor => Chord("Db")
 
-        :param note: Note index in a Scale I, II, ..., VIII
-        :param quality: Quality of a chord (m7, sus4, ...)
-        :param scale: Base scale (Cmaj, Amin, F#maj, Ebmin, ...)
-        :param diatonic: Adjust certain chord qualities according to the scale
+        :param note: Scale degree of the chord's root (1-7)
+        :param quality: Quality of the chord (e.g. m7, sus4)
+        :param scale: Base scale (e.g. Cmaj, Amin, F#maj, Ebmin)
+        :param diatonic: If True, chord quality is determined using the base scale (overrides :param quality)
+        :param chromatic: Lower or raise the scale degree (and all notes of the chord) by semitone(s)
         """
         if not 1 <= note <= 8:
             raise ValueError(f"Invalid note {note}")
         relative_key = RELATIVE_KEY_DICT[scale[-3:]][note - 1]
-        root_num = NOTE_VAL_DICT[scale[:-3]]
+        root_num = NOTE_VAL_DICT[scale[:-3]] + chromatic
         root = VAL_NOTE_DICT[(root_num + relative_key) % 12][0]
 
         scale_degrees = RELATIVE_KEY_DICT[scale[-3:]]
@@ -87,6 +99,7 @@ class Chord:
 
             # adjust the chord to its root position (as a stack of thirds),
             # then set the root to 0
+            # e.g. (9, 0, 4) -> [0, 3, 7]
             def get_diatonic_chord(chord):
                 uninverted = []
                 for note in chord:
