@@ -1,5 +1,11 @@
 ## Forthcoming
 
+## v1.2.0
+
+- Add `chromatic` parameter for `from_note_index`.
+- Add `7(b9)`, `6b5` qualities.
+- Contributor: @Moustov, @hejops
+
 ## v1.1.1
 
 - Add `m11` and `maj13` qualities.
