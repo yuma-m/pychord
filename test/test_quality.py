@@ -68,5 +68,28 @@ class TestOverwriteQuality(unittest.TestCase):
         self.assertEqual(chord.components(), ['C', 'G', 'Bb', 'D', 'F'])
 
 
+class TestIterateQualities(unittest.TestCase):
+    def setUp(self):
+        self.quality_manager = QualityManager()
+
+    def tearDown(self):
+        self.quality_manager.load_default_qualities()
+
+    def test_iterate_qualities(self):
+        assert 'm' in self.quality_manager.get_qualities()
+
+    def test_immutable_qualities(self):
+        qualities = self.quality_manager.get_qualities()
+        assert 'testquality' not in qualities
+        qualities['testquality'] = qualities['m']
+        qualities = self.quality_manager.get_qualities()
+        assert 'testquality' not in qualities
+
+    def test_iterate_added_qualities(self):
+        self.quality_manager.set_quality('testquality', (0))
+        qualities = self.quality_manager.get_qualities()
+        assert 'testquality' in qualities
+
+
 if __name__ == '__main__':
     unittest.main()
