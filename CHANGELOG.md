@@ -1,5 +1,10 @@
 ## Forthcoming
 
+## v1.2.1
+
+- Add `get_qualities` method to `QualityManager`.
+- Contributor: @nickurak
+
 ## v1.2.0
 
 - Add `chromatic` parameter for `from_note_index`.
