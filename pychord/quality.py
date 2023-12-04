@@ -110,6 +110,9 @@ class QualityManager:
             q.components = q.components[1:] + (n,)
         return q
 
+    def get_qualities(self):
+        return dict(self._qualities)
+
     def set_quality(self, name: str, components: Tuple[int, ...]):
         """ Set a Quality
 
