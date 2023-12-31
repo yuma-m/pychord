@@ -1,5 +1,11 @@
 ## Forthcoming
 
+## v1.2.2
+
+- Add tests for "M" and "maj" qualities synonyms
+- Add missing synonyms for M qualities
+- Contributor: @nickurak
+
 ## v1.2.1
 
 - Add `get_qualities` method to `QualityManager`.
