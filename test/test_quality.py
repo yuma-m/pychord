@@ -36,6 +36,21 @@ class TestQuality(unittest.TestCase):
         with self.assertRaises(TypeError):
             print(q == 0)
 
+    def subtest_quality_synonym(self, a, b):
+        with self.subTest(msg=f"{a}_has_{b}_synonym"):
+            a_quality = self.quality_manager.get_quality(a)
+            b_quality = self.quality_manager.get_quality(b)
+            self.assertEqual(a_quality, b_quality)
+
+    def test_maj_synonyms(self):
+        for q in self.quality_manager.get_qualities():
+            if q in ['M', 'maj']:
+                continue
+            if "maj" in q:
+                self.subtest_quality_synonym(q, q.replace("maj", "M"))
+            elif "M" in q:
+                self.subtest_quality_synonym(q, q.replace("M", "maj"))
+
 
 class TestQualityManager(unittest.TestCase):
 
