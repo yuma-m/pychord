@@ -58,7 +58,17 @@ def get_all_rotated_notes(notes: List[str]) -> List[List[str]]:
 
     get_all_rotated_notes([A,C,E]) -> [[A,C,E],[C,E,A],[E,A,C]]
     """
-    notes_list = []
-    for x in range(len(notes)):
-        notes_list.append(notes[x:] + notes[:x])
-    return notes_list
+    if len(notes) == 0:
+        return []
+    if len(notes) == 1:
+        return [notes]
+    if len(notes) == 2:
+        return [[notes[0], notes[1]], [notes[1], notes[0]]]
+    list_of_chords = []
+    for i in range(0, len(notes)):
+        m = notes[i]
+        remaining_list = notes[:i] + notes[i + 1:]
+        permutations_on_remaining_list = get_all_rotated_notes(remaining_list)
+        for p in permutations_on_remaining_list:
+            list_of_chords.append([m] + p)
+    return list_of_chords
