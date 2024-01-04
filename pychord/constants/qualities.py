@@ -44,6 +44,7 @@ DEFAULT_QUALITIES = [
     ('M7+5', (0, 4, 8, 11)),
     ('mmaj7', (0, 3, 7, 11)),
     ('mM7', (0, 3, 7, 11)),
+    ('mmaj7', (0, 3, 7, 11)),   # https://jguitar.com/chordsearch/Gmmaj7
     ('add4', (0, 4, 5, 7)),
     ('majadd4', (0, 4, 5, 7)),
     ('Madd4', (0, 4, 5, 7)),
@@ -58,6 +59,7 @@ DEFAULT_QUALITIES = [
     ('add11', (0, 4, 7, 17)),
     ('4', (0, 4, 7, 17)),
     # 5 notes
+    ('m7add4', (0, 3, 5, 7, 22)),  # https://www.worshipchords.net/piano-chords/C/m7add4
     ('m69', (0, 3, 7, 9, 14)),
     ('69', (0, 4, 7, 9, 14)),
     ('9', (0, 4, 7, 10, 14)),
