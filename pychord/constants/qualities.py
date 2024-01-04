@@ -30,6 +30,7 @@ DEFAULT_QUALITIES = [
     ('7+5', (0, 4, 8, 10)),
     ('7#5', (0, 4, 8, 10)),
     ('7sus4', (0, 5, 7, 10)),
+    ('7sus', (0, 5, 7, 10)),    # https://www.pianochord.org/g7-sus.html
     ('m6', (0, 3, 7, 9)),
     ('m7', (0, 3, 7, 10)),
     ('m7-5', (0, 3, 6, 10)),
@@ -44,6 +45,7 @@ DEFAULT_QUALITIES = [
     ('M7+5', (0, 4, 8, 11)),
     ('mmaj7', (0, 3, 7, 11)),
     ('mM7', (0, 3, 7, 11)),
+    ('mMaj7', (0, 3, 7, 11)),   # https://chord-c.com/guitar-chord/A/minor-major-seventh/
     ('add4', (0, 4, 5, 7)),
     ('majadd4', (0, 4, 5, 7)),
     ('Madd4', (0, 4, 5, 7)),
@@ -65,6 +67,7 @@ DEFAULT_QUALITIES = [
     ('M9', (0, 4, 7, 11, 14)),
     ('maj9', (0, 4, 7, 11, 14)),
     ('9sus4', (0, 5, 7, 10, 14)),
+    ('9sus', (0, 5, 7, 10, 14)),   # https://jguitar.com/chordsearch/G9sus
     ('7-9', (0, 4, 7, 10, 13)),
     ('7b9', (0, 4, 7, 10, 13)),
     ('7(b9)', (0, 4, 7, 10, 13)),   # https://www.oolimo.com/guitarchords/Fsharp7(b9)
