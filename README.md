@@ -4,7 +4,7 @@
 
 ## Overview
 
-Pychord is a python library to handle musical chords.
+PyChord is a python library to handle musical chords.
 
 ## Installation
 
@@ -143,9 +143,7 @@ additional forward slash to change the bass note:
 
 ## Supported Python Versions
 
-- 3.6 and above
-
-Python 2.7 and 3.5 compatibility was dropped from version 1.0.0.
+- 3.8 and above
 
 ## Links
 
