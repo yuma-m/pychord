@@ -159,4 +159,4 @@ additional forward slash to change the bass note:
 
 - MIT License
 
-Icon is made by [Freepik](https://www.flaticon.com/authors/freepik).
+Icon is made from [Freepik](https://www.flaticon.com/authors/freepik).
