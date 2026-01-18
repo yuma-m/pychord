@@ -4,7 +4,7 @@
 
 ## Overview
 
-PyChord is a python library to handle musical chords.
+PyChord is a Python library to handle musical chords.
 
 ## Installation
 
