@@ -24,33 +24,37 @@ def val_to_note(val: int, scale: str = "C", index: Optional[int] = None, quality
     >>> val_to_note(11, "D")
     "D#"
     """
-    def process(n: str) -> str:
-        return n.replace("#b", "").replace("b#", "")
-
     val %= 12
     if index is None or quality is None:
         return SCALE_VAL_DICT[scale][val]
-    if (quality.find("b5") >= 1 or quality.find("-5") >= 1) and index == 2:
-        temp = SCALE_VAL_DICT[scale][val + 1 % 12]
-        return process(f"{temp}b")
-    if (quality.find("#5") >= 1 or quality.find("+5") >= 1) and index == 2:
-        temp = SCALE_VAL_DICT[scale][val - 1 % 12]
-        return process(f"{temp}#")
-    if (quality.find("b9") >= 1 or quality.find("-9") >= 1) and index == 4:
-        temp = SCALE_VAL_DICT[scale][val + 1 % 12]
-        return process(f"{temp}b")
-    if (quality.find("#9") >= 1 or quality.find("+9") >= 1) and index == 4:
-        temp = SCALE_VAL_DICT[scale][val - 1 % 12]
-        return process(f"{temp}#")
-    if (quality.find("7#11") >= 0 or quality.find("7+11") >= 0) and index == 5:
-        temp = SCALE_VAL_DICT[scale][val - 1 % 12]
-        return process(f"{temp}#")
-    if (quality in ("13#11", "13+11")) and index == 5:
-        temp = SCALE_VAL_DICT[scale][val - 1 % 12]
-        return process(f"{temp}#")
-    if (quality.find("9#11") >= 0 or quality.find("9+11") >= 0) and index == 6:
-        temp = SCALE_VAL_DICT[scale][val - 1 % 12]
-        return process(f"{temp}#")
+
+    is_flatted = (
+        # -3
+        (quality.find("dim") >= 0 and index == 1) or
+        # -5
+        ((quality.find("b5") >= 1 or quality.find("-5") >= 1 or quality.find("dim") >= 0) and index == 2) or
+        # -7
+        ((quality == "dim7") and index == 3) or
+        # -9
+        ((quality.find("b9") >= 1 or quality.find("-9") >= 1) and index == 4)
+    )
+    if is_flatted:
+        temp = SCALE_VAL_DICT[scale][(val + 1) % 12]
+        return f"{temp}b".replace("#b", "")
+
+    is_sharped = (
+        # +5
+        ((quality.find("#5") >= 1 or quality.find("+5") >= 1 or quality == "aug") and index == 2) or
+        # +9
+        ((quality.find("#9") >= 1 or quality.find("+9") >= 1) and index == 4) or
+        # +11
+        ((quality.find("7#11") >= 0 or quality.find("7+11") >= 0) and index == 5) or
+        ((quality in ("13#11", "13+11")) and index == 5) or
+        ((quality.find("9#11") >= 0 or quality.find("9+11") >= 0) and index == 6)
+    )
+    if is_sharped:
+        temp = SCALE_VAL_DICT[scale][(val - 1) % 12]
+        return f"{temp}#".replace("b#", "")
 
     return SCALE_VAL_DICT[scale][val]
 

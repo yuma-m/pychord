@@ -8,9 +8,15 @@ class TestChordComponent(unittest.TestCase):
     @parameterized.expand([
         ("C", [0, 4, 7], ["C", "E", "G"]),
         ("Am", [9, 12, 16], ["A", "C", "E"]),
-        ("Ddim", [2, 5, 8], ["D", "F", "G#"]),
-        ("Cdim7", [0, 3, 6, 9], ["C", "Eb", "Gb", "A"]),
-        ("Eaug", [4, 8, 12], ["E", "G#", "C"]),
+        ("Bdim", [11, 14, 17], ["B", "D", "F"]),
+        ("Cdim", [0, 3, 6], ["C", "Eb", "Gb"]),
+        ("Dbdim", [1, 4, 7], ["Db", "Fb", "Abb"]),
+        ("Ddim", [2, 5, 8], ["D", "F", "Ab"]),
+        ("Gbdim", [6, 9, 12], ["Gb", "Bbb", "Dbb"]),
+        ("Cdim7", [0, 3, 6, 9], ["C", "Eb", "Gb", "Bbb"]),
+        ("Dbdim7", [1, 4, 7, 10], ["Db", "Fb", "Abb", "Bb"]),
+        ("Dbaug", [1, 5, 9], ["Db", "F", "A"]),
+        ("Eaug", [4, 8, 12], ["E", "G#", "B#"]),
         ("CM9/D", [-10, 0, 4, 7, 11], ["D", "C", "E", "G", "B"]),
         ("Fsus4", [5, 10, 12], ["F", "Bb", "C"]),
         ("G7", [7, 11, 14, 17], ["G", "B", "D", "F"]),
@@ -40,9 +46,9 @@ class TestChordComponent(unittest.TestCase):
         """
         c = Chord(chord)
         com0 = c.components(visible=False)
-        self.assertEqual(com0, qualities)
+        self.assertEqual(qualities, com0)
         com1 = c.components(visible=True)
-        self.assertEqual(com1, notes)
+        self.assertEqual(notes, com1)
 
     def test_major_add9(self):
         # major add 9 is a major chord with a Major ninth
@@ -74,7 +80,7 @@ class TestChordComponentWithPitch(unittest.TestCase):
         """
         c = Chord(chord)
         com = c.components_with_pitch(root_pitch=root_pitch)
-        self.assertEqual(com, expected)
+        self.assertEqual(expected, com)
 
     def test_first_order_inversion(self):
         c = Chord("G/1")
