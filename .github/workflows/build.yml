@@ -22,7 +22,7 @@ jobs:
           cache: pip
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade pip setuptools wheel parameterized
       - name: Run tests
         run: |
           python -m unittest -v
