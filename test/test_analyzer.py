@@ -134,6 +134,6 @@ class TestFindChordsFromNotes(unittest.TestCase):
 
     def test_idempotence(self):
         for _ in range(2):
-            chords = find_chords_from_notes(["Eb", "Gb", "A", "C"])
+            chords = find_chords_from_notes(["Eb", "Gb", "Bbb", "Dbb"])
             self.assertEqual(chords, [Chord("Ebdim7"), Chord("Gbdim7/Eb"), Chord("Adim7/Eb"), Chord("Cdim7/Eb")])
-            self.assertEqual(chords[0].components(visible=True), ["Eb", "Gb", "A", "C"])
+            self.assertEqual(chords[0].components(visible=True), ["Eb", "Gb", "Bbb", "Dbb"])
