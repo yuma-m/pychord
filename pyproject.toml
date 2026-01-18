@@ -8,7 +8,7 @@ version = "1.2.2"
 description = "A library to handle musical chords in python."
 readme = "README.md"
 requires-python = ">=3.6"
-license = {text = "MIT"}
+license = "MIT"
 authors = [
     {name = "Yuma Mihira", email = "info@yuma.cloud"},
 ]
