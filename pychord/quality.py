@@ -49,7 +49,7 @@ class Quality:
         components = [v + root_val for v in self.components]
 
         if visible:
-            components = [val_to_note(c, scale=root) for c in components]
+            components = [val_to_note(c, scale=root, index=i, quality=self._quality) for i, c in enumerate(components)]
 
         return components
 

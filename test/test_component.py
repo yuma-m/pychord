@@ -65,7 +65,7 @@ class TestChordComponent(unittest.TestCase):
         self._assert_components("Db5", [1, 8], "Db Ab")
 
     def test_b5(self):
-        self._assert_components("D(b5)", [2, 6, 8], "D F# G#")
+        self._assert_components("D(b5)", [2, 6, 8], "D F# Ab")
 
     def test_no5(self):
         self._assert_components("Cno5", [0, 4], "C E")
@@ -88,6 +88,15 @@ class TestChordComponent(unittest.TestCase):
 
     def test_major7_add11(self):
         self._assert_components('CM7add11', [0, 4, 7, 11, 17], "C E G B F")
+
+    def test_minor7_flat5_1(self):
+        self._assert_components("Dm7b5", [2, 5, 8, 12], ["D", "F", "Ab", "C"])
+
+    def test_minor7_flat5_2(self):
+        self._assert_components("Bm7-5", [11, 14, 17, 21], ["B", "D", "F", "A"])
+
+    def test_minor7_flat5_3(self):
+        self._assert_components("Ebm7b5", [3, 6, 9, 13], ["Eb", "Gb", "Bbb", "Db"])
 
     def test_minormajor7_add11(self):
         self._assert_components('CmM7add11', [0, 3, 7, 11, 17], "C Eb G B F")

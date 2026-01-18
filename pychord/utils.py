@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from .constants import NOTE_VAL_DICT, SCALE_VAL_DICT
 
@@ -16,7 +16,7 @@ def note_to_val(note: str) -> int:
     return NOTE_VAL_DICT[note]
 
 
-def val_to_note(val: int, scale: str = "C") -> str:
+def val_to_note(val: int, scale: str = "C", index: Optional[int] = None, quality: Optional[str] = None) -> str:
     """ Return note by index in a scale
 
     >>> val_to_note(0)
@@ -24,7 +24,34 @@ def val_to_note(val: int, scale: str = "C") -> str:
     >>> val_to_note(11, "D")
     "D#"
     """
+    def process(n: str) -> str:
+        return n.replace("#b", "").replace("b#", "")
+
     val %= 12
+    if index is None or quality is None:
+        return SCALE_VAL_DICT[scale][val]
+    if (quality.find("b5") >= 1 or quality.find("-5") >= 1) and index == 2:
+        temp = SCALE_VAL_DICT[scale][val + 1 % 12]
+        return process(f"{temp}b")
+    if (quality.find("#5") >= 1 or quality.find("+5") >= 1) and index == 2:
+        temp = SCALE_VAL_DICT[scale][val - 1 % 12]
+        return process(f"{temp}#")
+    if (quality.find("b9") >= 1 or quality.find("-9") >= 1) and index == 4:
+        temp = SCALE_VAL_DICT[scale][val + 1 % 12]
+        return process(f"{temp}b")
+    if (quality.find("#9") >= 1 or quality.find("+9") >= 1) and index == 4:
+        temp = SCALE_VAL_DICT[scale][val - 1 % 12]
+        return process(f"{temp}#")
+    if (quality.find("7#11") >= 0 or quality.find("7+11") >= 0) and index == 5:
+        temp = SCALE_VAL_DICT[scale][val - 1 % 12]
+        return process(f"{temp}#")
+    if (quality in ("13#11", "13+11")) and index == 5:
+        temp = SCALE_VAL_DICT[scale][val - 1 % 12]
+        return process(f"{temp}#")
+    if (quality.find("9#11") >= 0 or quality.find("9+11") >= 0) and index == 6:
+        temp = SCALE_VAL_DICT[scale][val - 1 % 12]
+        return process(f"{temp}#")
+
     return SCALE_VAL_DICT[scale][val]
 
 
