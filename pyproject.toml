@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pychord"
-version = "1.2.2"
+version = "1.2.3"
 description = "A library to handle musical chords in python."
 readme = "README.md"
 requires-python = ">=3.8"
