@@ -1,4 +1,4 @@
-![PyChord](./pychord.png)
+![PyChord](https://github.com/yuma-m/pychord/raw/main/pychord.png)
 
 # PyChord ![Build Status](https://github.com/yuma-m/pychord/actions/workflows/build.yml/badge.svg) [![Documentation Status](https://readthedocs.org/projects/pychord/badge/?version=latest)](http://pychord.readthedocs.io/en/latest/?badge=latest)
 
@@ -7,6 +7,8 @@
 PyChord is a Python library to handle musical chords.
 
 ## Installation
+
+PyChord supports Python 3.8 and above.
 
 ```sh
 $ pip install pychord
@@ -141,15 +143,11 @@ additional forward slash to change the bass note:
 
 - [pychord-midi.py](./examples/pychord-midi.py) - Create a MIDI file using PyChord and pretty_midi.
 
-## Supported Python Versions
-
-- 3.8 and above
-
 ## Links
 
-- PyPI: https://pypi.python.org/pypi/pychord
-- GitHub: https://github.com/yuma-m/pychord
-- Documentation: http://pychord.readthedocs.io/en/latest/
+- [PyPI](https://pypi.python.org/pypi/pychord)
+- [GitHub](https://github.com/yuma-m/pychord)
+- [Documentation](http://pychord.readthedocs.io/en/latest/)
 
 ## Author
 
@@ -159,4 +157,4 @@ additional forward slash to change the bass note:
 
 - MIT License
 
-Icon is made from [Freepik](https://www.flaticon.com/authors/freepik).
+The logo is made from [Freepik](https://www.flaticon.com/authors/freepik).
