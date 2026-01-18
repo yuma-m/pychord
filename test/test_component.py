@@ -62,7 +62,6 @@ class TestChordComponent(unittest.TestCase):
         self.assertEqual(com1, base1 + ["D"])
 
 
-
 class TestChordComponentWithPitch(unittest.TestCase):
 
     @parameterized.expand([

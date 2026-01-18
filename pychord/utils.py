@@ -4,7 +4,7 @@ from .constants import NOTE_VAL_DICT, SCALE_VAL_DICT
 
 
 def note_to_val(note: str) -> int:
-    """ Get index value of a note
+    """Get index value of a note
 
     >>> note_to_val("C")
     0
@@ -16,8 +16,13 @@ def note_to_val(note: str) -> int:
     return NOTE_VAL_DICT[note]
 
 
-def val_to_note(val: int, scale: str = "C", index: Optional[int] = None, quality: Optional[str] = None) -> str:
-    """ Return note by index in a scale
+def val_to_note(
+    val: int,
+    scale: str = "C",
+    index: Optional[int] = None,
+    quality: Optional[str] = None,
+) -> str:
+    """Return note by index in a scale
 
     >>> val_to_note(0)
     "C"
@@ -29,28 +34,31 @@ def val_to_note(val: int, scale: str = "C", index: Optional[int] = None, quality
         return SCALE_VAL_DICT[scale][val]
 
     is_flatted = (
-        # -3
-        (quality.find("dim") >= 0 and index == 1) or
-        # -5
-        ((quality.find("b5") >= 1 or quality.find("-5") >= 1 or quality.find("dim") >= 0) and index == 2) or
-        # -7
-        ((quality == "dim7") and index == 3) or
-        # -9
-        ((quality.find("b9") >= 1 or quality.find("-9") >= 1) and index == 4)
+        (quality.find("dim") >= 0 and index == 1)
+        or (
+            (
+                quality.find("b5") >= 1
+                or quality.find("-5") >= 1
+                or quality.find("dim") >= 0
+            )
+            and index == 2
+        )
+        or ((quality == "dim7") and index == 3)
+        or ((quality.find("b9") >= 1 or quality.find("-9") >= 1) and index == 4)
     )
     if is_flatted:
         temp = SCALE_VAL_DICT[scale][(val + 1) % 12]
         return f"{temp}b".replace("#b", "")
 
     is_sharped = (
-        # +5
-        ((quality.find("#5") >= 1 or quality.find("+5") >= 1 or quality == "aug") and index == 2) or
-        # +9
-        ((quality.find("#9") >= 1 or quality.find("+9") >= 1) and index == 4) or
-        # +11
-        ((quality.find("7#11") >= 0 or quality.find("7+11") >= 0) and index == 5) or
-        ((quality in ("13#11", "13+11")) and index == 5) or
-        ((quality.find("9#11") >= 0 or quality.find("9+11") >= 0) and index == 6)
+        (
+            (quality.find("#5") >= 1 or quality.find("+5") >= 1 or quality == "aug")
+            and index == 2
+        )
+        or ((quality.find("#9") >= 1 or quality.find("+9") >= 1) and index == 4)
+        or ((quality.find("7#11") >= 0 or quality.find("7+11") >= 0) and index == 5)
+        or ((quality in ("13#11", "13+11")) and index == 5)
+        or ((quality.find("9#11") >= 0 or quality.find("9+11") >= 0) and index == 6)
     )
     if is_sharped:
         temp = SCALE_VAL_DICT[scale][(val - 1) % 12]
@@ -60,7 +68,7 @@ def val_to_note(val: int, scale: str = "C", index: Optional[int] = None, quality
 
 
 def transpose_note(note: str, transpose: int, scale: str = "C") -> str:
-    """ Transpose a note
+    """Transpose a note
 
     >>> transpose_note("C", 1)
     "Db"

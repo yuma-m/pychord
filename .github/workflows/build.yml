@@ -31,7 +31,7 @@ jobs:
           pip install flake8 mypy
       - name: Run style check
         run: |
-          flake8 --ignore=E501 pychord test
+          flake8 --ignore=E501,W503 pychord test
       - name: Run type check
         run: |
           mypy pychord
