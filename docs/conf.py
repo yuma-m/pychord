@@ -16,10 +16,10 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '../pychord'))
+import os
+import sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
 # -- General configuration ------------------------------------------------
 
@@ -48,7 +48,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pychord'
-copyright = u'2016 - 2019, Yuma Mihira'
+copyright = u'2016 - 2026, Yuma Mihira'
 author = u'Yuma Mihira'
 
 # The version info for the project you're documenting, acts as replacement for
