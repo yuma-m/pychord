@@ -1,7 +1,7 @@
-name: Upload Python Package
+name: Publish Python package
 
 on:
-  create:
+  push:
     tags:
       - 'v*'
 
