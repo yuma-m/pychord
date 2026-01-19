@@ -58,5 +58,5 @@ class TestChordCreations(unittest.TestCase):
         self.assertEqual(c, Chord("D"))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

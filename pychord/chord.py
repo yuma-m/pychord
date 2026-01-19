@@ -4,11 +4,17 @@ from .constants import NOTE_VAL_DICT, VAL_NOTE_DICT
 from .constants.scales import RELATIVE_KEY_DICT
 from .parser import parse
 from .quality import QualityManager, Quality
-from .utils import transpose_note, display_appended, display_on, note_to_val, val_to_note
+from .utils import (
+    transpose_note,
+    display_appended,
+    display_on,
+    note_to_val,
+    val_to_note,
+)
 
 
 class Chord:
-    """ Class to handle a chord.
+    """Class to handle a chord.
 
     Attributes:
         _chord: Name of the chord. (e.g. C, Am7, F#m7-5/A)
@@ -19,7 +25,7 @@ class Chord:
     """
 
     def __init__(self, chord: str):
-        """ Constructor of Chord instance
+        """Constructor of Chord instance
 
         :param chord: Name of chord (e.g. C, Am7, F#m7-5/A).
         """
@@ -119,7 +125,9 @@ class Chord:
                 seventh_chord = (relative_key, third, fifth, seventh)
                 q = get_diatonic_chord(seventh_chord)
             else:
-                raise NotImplementedError("Only generic chords (triads, sevenths) are supported")
+                raise NotImplementedError(
+                    "Only generic chords (triads, sevenths) are supported"
+                )
 
             # look up QualityManager to determine chord quality
             quality_manager = QualityManager()
@@ -131,31 +139,31 @@ class Chord:
 
     @property
     def chord(self):
-        """ The name of chord """
+        """The name of chord"""
         return self._chord
 
     @property
     def root(self):
-        """ The root note of chord """
+        """The root note of chord"""
         return self._root
 
     @property
     def quality(self):
-        """ The quality of chord """
+        """The quality of chord"""
         return self._quality
 
     @property
     def appended(self):
-        """ The appended notes on chord """
+        """The appended notes on chord"""
         return self._appended
 
     @property
     def on(self):
-        """ The base note of slash chord """
+        """The base note of slash chord"""
         return self._on
 
     def info(self):
-        """ Return information of chord to display """
+        """Return information of chord to display"""
         return f"""{self._chord}
 root={self._root}
 quality={self._quality}
@@ -163,7 +171,7 @@ appended={self._appended}
 on={self._on}"""
 
     def transpose(self, trans: int, scale: str = "C") -> None:
-        """ Transpose the chord
+        """Transpose the chord
 
         :param trans: Transpose key
         :param scale: key scale
@@ -176,7 +184,7 @@ on={self._on}"""
         self._reconfigure_chord()
 
     def components(self, visible: bool = True) -> Union[List[str], List[int]]:
-        """ Return the component notes of chord
+        """Return the component notes of chord
 
         :param visible: returns the name of notes if True else list of int
         :return: component notes of chord
@@ -184,7 +192,7 @@ on={self._on}"""
         return self._quality.get_components(root=self._root, visible=visible)
 
     def components_with_pitch(self, root_pitch: int) -> List[str]:
-        """ Return the component notes of chord formatted like ["C4", "E4", "G4"]
+        """Return the component notes of chord formatted like ["C4", "E4", "G4"]
 
         :param root_pitch: the pitch of the root note
         :return: component notes of chord
@@ -192,7 +200,10 @@ on={self._on}"""
         components = self._quality.get_components(root=self._root)
         if components[0] < 0:
             components = [c + 12 for c in components]
-        return [f"{val_to_note(c, scale=self._root)}{root_pitch + c // 12}" for c in components]
+        return [
+            f"{val_to_note(c, scale=self._root)}{root_pitch + c // 12}"
+            for c in components
+        ]
 
     def _append_on_chord(self):
         if self._on:
@@ -200,7 +211,9 @@ on={self._on}"""
 
     def _reconfigure_chord(self):
         # TODO: Use appended
-        self._chord = "{}{}{}{}".format(self._root,
-                                        self._quality.quality,
-                                        display_appended(self._appended),
-                                        display_on(self._on))
+        self._chord = "{}{}{}{}".format(
+            self._root,
+            self._quality.quality,
+            display_appended(self._appended),
+            display_on(self._on),
+        )
