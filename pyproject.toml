@@ -29,7 +29,11 @@ classifiers = [
 Homepage = "https://github.com/yuma-m/pychord"
 
 [project.optional-dependencies]
-test = ["parameterized>=0.8.0"]
+test = [
+    "black>=26.1.0",
+    "mypy>=1.19.1",
+    "parameterized>=0.8.0",
+]
 
 [tool.setuptools]
 include-package-data = true

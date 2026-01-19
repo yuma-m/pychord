@@ -28,10 +28,10 @@ jobs:
           python -m unittest -v
       - name: Install linting tools
         run: |
-          pip install flake8 mypy
+          pip install black mypy
       - name: Run style check
         run: |
-          flake8 --ignore=E501,W503 pychord test
+          black --check pychord test
       - name: Run type check
         run: |
           mypy pychord

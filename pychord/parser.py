@@ -25,7 +25,7 @@ def parse(chord: str) -> Tuple[str, Quality, List[str], str]:
         rest = chord[1:]
 
     def check_note(note: str):
-        """ Raise ValueError if note is invalid """
+        """Raise ValueError if note is invalid"""
         if note not in NOTE_VAL_DICT:
             raise ValueError(f"Invalid note {note}")
 
@@ -39,7 +39,7 @@ def parse(chord: str) -> Tuple[str, Quality, List[str], str]:
 
     on_chord_idx = rest.find("/")
     if on_chord_idx >= 0:
-        on = rest[on_chord_idx + 1:]
+        on = rest[on_chord_idx + 1 :]
         rest = rest[:on_chord_idx]
         check_note(on)
     else:

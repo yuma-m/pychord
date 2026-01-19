@@ -6,7 +6,7 @@ from .utils import note_to_val
 
 
 def find_chords_from_notes(notes: List[str]) -> List[Chord]:
-    """ Find possible chords consisted from notes
+    """Find possible chords consisted from notes
 
     :param notes: List of note arranged from lower note. ex) ["C", "Eb", "G"]
     :return: List of chord
@@ -17,7 +17,9 @@ def find_chords_from_notes(notes: List[str]) -> List[Chord]:
     root_and_positions = []
     for rotated_notes in get_all_rotated_notes(notes):
         rotated_root = rotated_notes[0]
-        root_and_positions.append((rotated_root, notes_to_positions(rotated_notes, rotated_notes[0])))
+        root_and_positions.append(
+            (rotated_root, notes_to_positions(rotated_notes, rotated_notes[0]))
+        )
     chords = []
     for temp_root, positions in root_and_positions:
         quality = QualityManager().find_quality_from_components(positions)
@@ -32,7 +34,7 @@ def find_chords_from_notes(notes: List[str]) -> List[Chord]:
 
 
 def notes_to_positions(notes: List[str], root: str) -> List[int]:
-    """ Get notes positions from the root note
+    """Get notes positions from the root note
 
     >>> notes_to_positions(["C", "E", "G"], "C")
     [0, 4, 7]
@@ -54,7 +56,7 @@ def notes_to_positions(notes: List[str], root: str) -> List[int]:
 
 
 def get_all_rotated_notes(notes: List[str]) -> List[List[str]]:
-    """ Get all rotated notes
+    """Get all rotated notes
 
     get_all_rotated_notes([A,C,E]) -> [[A,C,E],[C,E,A],[E,A,C]]
     """

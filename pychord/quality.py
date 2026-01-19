@@ -7,10 +7,10 @@ from .utils import note_to_val, val_to_note
 
 
 class Quality:
-    """ Chord quality """
+    """Chord quality"""
 
     def __init__(self, name: str, components: Tuple[int, ...]):
-        """ Constructor of chord quality
+        """Constructor of chord quality
 
         :param name: name of quality
         :param components: components of quality
@@ -34,11 +34,11 @@ class Quality:
 
     @property
     def quality(self):
-        """ Get name of quality """
+        """Get name of quality"""
         return self._quality
 
-    def get_components(self, root='C', visible=False):
-        """ Get components of chord quality
+    def get_components(self, root="C", visible=False):
+        """Get components of chord quality
 
         :param str root: the root note of the chord
         :param bool visible: returns the name of notes if True
@@ -49,12 +49,15 @@ class Quality:
         components = [v + root_val for v in self.components]
 
         if visible:
-            components = [val_to_note(c, scale=root, index=i, quality=self._quality) for i, c in enumerate(components)]
+            components = [
+                val_to_note(c, scale=root, index=i, quality=self._quality)
+                for i, c in enumerate(components)
+            ]
 
         return components
 
     def append_on_chord(self, on_chord, root):
-        """ Append on chord
+        """Append on chord
 
         To create Am7/G
         q = Quality('m7')
@@ -84,7 +87,7 @@ class Quality:
 
 
 class QualityManager:
-    """ Singleton class to manage the qualities """
+    """Singleton class to manage the qualities"""
 
     def __new__(cls, *args, **kwargs):
         if not hasattr(cls, "_instance"):
@@ -93,9 +96,9 @@ class QualityManager:
         return cls._instance
 
     def load_default_qualities(self):
-        self._qualities = OrderedDict([
-            (q, Quality(q, c)) for q, c in DEFAULT_QUALITIES
-        ])
+        self._qualities = OrderedDict(
+            [(q, Quality(q, c)) for q, c in DEFAULT_QUALITIES]
+        )
 
     def get_quality(self, name: str, inversion: int = 0) -> Quality:
         if name not in self._qualities:
@@ -114,7 +117,7 @@ class QualityManager:
         return dict(self._qualities)
 
     def set_quality(self, name: str, components: Tuple[int, ...]):
-        """ Set a Quality
+        """Set a Quality
 
         This method will not affect any existing Chord instances.
         :param name: name of quality
@@ -123,7 +126,7 @@ class QualityManager:
         self._qualities[name] = Quality(name, components)
 
     def find_quality_from_components(self, components: List[int]):
-        """ Find a quality from components
+        """Find a quality from components
 
         :param components: components of quality
         """

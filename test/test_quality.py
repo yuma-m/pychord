@@ -44,7 +44,7 @@ class TestQuality(unittest.TestCase):
 
     def test_maj_synonyms(self):
         for q in self.quality_manager.get_qualities():
-            if q in ['M', 'maj']:
+            if q in ["M", "maj"]:
                 continue
             if "maj" in q:
                 self.subtest_quality_synonym(q, q.replace("maj", "M"))
@@ -70,17 +70,17 @@ class TestOverwriteQuality(unittest.TestCase):
     def test_overwrite(self):
         self.quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
         chord = Chord("C11")
-        self.assertEqual(chord.components(), ['C', 'E', 'G', 'Bb', 'D', 'F'])
+        self.assertEqual(chord.components(), ["C", "E", "G", "Bb", "D", "F"])
 
     def test_find_from_components(self):
         self.quality_manager.set_quality("13", (0, 4, 7, 10, 14, 17, 21))
-        chords = find_chords_from_notes(['C', 'E', 'G', 'Bb', 'D', 'F', 'A'])
+        chords = find_chords_from_notes(["C", "E", "G", "Bb", "D", "F", "A"])
         self.assertEqual(chords, [Chord("C13")])
 
     def test_keep_existing_chord(self):
         chord = Chord("C11")
         self.quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
-        self.assertEqual(chord.components(), ['C', 'G', 'Bb', 'D', 'F'])
+        self.assertEqual(chord.components(), ["C", "G", "Bb", "D", "F"])
 
 
 class TestIterateQualities(unittest.TestCase):
@@ -91,20 +91,20 @@ class TestIterateQualities(unittest.TestCase):
         self.quality_manager.load_default_qualities()
 
     def test_iterate_qualities(self):
-        assert 'm' in self.quality_manager.get_qualities()
+        assert "m" in self.quality_manager.get_qualities()
 
     def test_immutable_qualities(self):
         qualities = self.quality_manager.get_qualities()
-        assert 'testquality' not in qualities
-        qualities['testquality'] = qualities['m']
+        assert "testquality" not in qualities
+        qualities["testquality"] = qualities["m"]
         qualities = self.quality_manager.get_qualities()
-        assert 'testquality' not in qualities
+        assert "testquality" not in qualities
 
     def test_iterate_added_qualities(self):
-        self.quality_manager.set_quality('testquality', (0))
+        self.quality_manager.set_quality("testquality", (0))
         qualities = self.quality_manager.get_qualities()
-        assert 'testquality' in qualities
+        assert "testquality" in qualities
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
