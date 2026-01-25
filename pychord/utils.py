@@ -33,18 +33,28 @@ def val_to_note(
     if index is None or quality is None:
         return SCALE_VAL_DICT[scale][val]
 
+    # NOTE: Is there a better way to implement this?
     is_flatted = (
-        (quality.find("dim") >= 0 and index == 1)
+        (quality.startswith("dim") and index == 1)
         or (
             (
                 quality.find("b5") >= 1
                 or quality.find("-5") >= 1
-                or quality.find("dim") >= 0
+                or quality.startswith("dim")
             )
             and index == 2
         )
         or ((quality == "dim7") and index == 3)
         or ((quality.find("b9") >= 1 or quality.find("-9") >= 1) and index == 4)
+        # TODO: Remove special logic below for Gm
+        or (
+            val == 10
+            and index == 1
+            and (
+                (quality.startswith("m") and not quality.startswith("maj"))
+                or quality.startswith("dim")
+            )
+        )
     )
     if is_flatted:
         temp = SCALE_VAL_DICT[scale][(val + 1) % 12]
