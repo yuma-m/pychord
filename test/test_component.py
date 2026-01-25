@@ -1,6 +1,7 @@
 import unittest
 
 from parameterized import parameterized
+
 from pychord import Chord
 
 
@@ -8,12 +9,14 @@ class TestChordComponent(unittest.TestCase):
     @parameterized.expand(
         [
             ("C", [0, 4, 7], ["C", "E", "G"]),
+            ("Gm", [7, 10, 14], ["G", "Bb", "D"]),
             ("Am", [9, 12, 16], ["A", "C", "E"]),
             ("Bdim", [11, 14, 17], ["B", "D", "F"]),
             ("Cdim", [0, 3, 6], ["C", "Eb", "Gb"]),
             ("Dbdim", [1, 4, 7], ["Db", "Fb", "Abb"]),
             ("Ddim", [2, 5, 8], ["D", "F", "Ab"]),
             ("Gbdim", [6, 9, 12], ["Gb", "Bbb", "Dbb"]),
+            ("Gdim", [7, 10, 13], ["G", "Bb", "Db"]),
             ("Cdim7", [0, 3, 6, 9], ["C", "Eb", "Gb", "Bbb"]),
             ("Dbdim7", [1, 4, 7, 10], ["Db", "Fb", "Abb", "Bb"]),
             ("Dbaug", [1, 5, 9], ["Db", "F", "A"]),
@@ -21,6 +24,7 @@ class TestChordComponent(unittest.TestCase):
             ("CM9/D", [-10, 0, 4, 7, 11], ["D", "C", "E", "G", "B"]),
             ("Fsus4", [5, 10, 12], ["F", "Bb", "C"]),
             ("G7", [7, 11, 14, 17], ["G", "B", "D", "F"]),
+            ("Gm7", [7, 10, 14, 17], ["G", "Bb", "D", "F"]),
             ("C6", [0, 4, 7, 9], ["C", "E", "G", "A"]),
             ("C#m7b9b5", [1, 4, 7, 11, 14], ["C#", "E", "G", "B", "D"]),
             ("Db5", [1, 8], ["Db", "Ab"]),
