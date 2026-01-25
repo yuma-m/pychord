@@ -23,10 +23,10 @@ def val_to_note(
     index: Optional[int] = None,
 ) -> str:
     """Return note by index in a scale
-    val: index value of note
-    root: root note of the chord
-    quality: quality of the chord
-    index: index of the note in the chord
+    :param val: index value of note
+    :param root: root note of the chord
+    :param quality: quality of the chord
+    :param index: index of the note in the chord
 
     >>> val_to_note(0)
     "C"
