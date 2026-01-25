@@ -18,20 +18,30 @@ def note_to_val(note: str) -> int:
 
 def val_to_note(
     val: int,
-    scale: str = "C",
-    index: Optional[int] = None,
+    root: str = "C",
     quality: Optional[str] = None,
+    index: Optional[int] = None,
 ) -> str:
     """Return note by index in a scale
+    val: index value of note
+    root: root note of the chord
+    quality: quality of the chord
+    index: index of the note in the chord
 
     >>> val_to_note(0)
     "C"
-    >>> val_to_note(11, "D")
+    >>> val_to_note(1, "A")
+    "D#"
+    >>> val_to_note(1, "B")
+    "Cb"
+    >>> val_to_note(3, "C", "m", 1)
+    "Eb"
+    >>> val_to_note(3, "B", "maj", 1)
     "D#"
     """
     val %= 12
     if index is None or quality is None:
-        return SCALE_VAL_DICT[scale][val]
+        return SCALE_VAL_DICT[root][val]
 
     # NOTE: Is there a better way to implement this?
     is_flatted = (
@@ -57,7 +67,7 @@ def val_to_note(
         )
     )
     if is_flatted:
-        temp = SCALE_VAL_DICT[scale][(val + 1) % 12]
+        temp = SCALE_VAL_DICT[root][(val + 1) % 12]
         return f"{temp}b".replace("#b", "")
 
     is_sharped = (
@@ -71,10 +81,10 @@ def val_to_note(
         or ((quality.find("9#11") >= 0 or quality.find("9+11") >= 0) and index == 6)
     )
     if is_sharped:
-        temp = SCALE_VAL_DICT[scale][(val - 1) % 12]
+        temp = SCALE_VAL_DICT[root][(val - 1) % 12]
         return f"{temp}#".replace("b#", "")
 
-    return SCALE_VAL_DICT[scale][val]
+    return SCALE_VAL_DICT[root][val]
 
 
 def transpose_note(note: str, transpose: int, scale: str = "C") -> str:
