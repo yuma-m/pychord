@@ -201,7 +201,7 @@ on={self._on}"""
         if components[0] < 0:
             components = [c + 12 for c in components]
         return [
-            f"{val_to_note(c, scale=self._root)}{root_pitch + c // 12}"
+            f"{val_to_note(c, root=self._root)}{root_pitch + c // 12}"
             for c in components
         ]
 
