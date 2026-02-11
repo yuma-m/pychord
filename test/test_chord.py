@@ -23,8 +23,14 @@ class TestChordCreations(unittest.TestCase):
 
     @parameterized.expand(
         [
+            ("",),
+            ("Ab#"),  # mix of flat and sharp
+            ("A#b"),  # mix of flat and sharp
+            ("Abbb"),  # too many flats
+            ("A###"),  # too many sharps
             ("H",),
             ("Csus3",),
+            ("C/B###"),
         ]
     )
     def test_invalid_chord(self, chord_str):
@@ -49,7 +55,7 @@ class TestChordCreations(unittest.TestCase):
         [
             ("C/1", "C", "", ["E", "G", "C"]),
             ("C/2", "C", "", ["G", "C", "E"]),
-            ("Dm7b5/1", "D", "m7b5", ["F", "G#", "C", "D"]),
+            ("Dm7b5/1", "D", "m7b5", ["F", "Ab", "C", "D"]),
             ("C/1/F", "C", "", ["F", "E", "G", "C"]),
         ]
     )

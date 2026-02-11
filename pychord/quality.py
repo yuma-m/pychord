@@ -1,10 +1,11 @@
 import copy
+import functools
 import re
 from typing import Any, Literal, overload
 
 from .constants.qualities import DEFAULT_QUALITIES
 from .constants.scales import RELATIVE_KEY_DICT
-from .utils import note_to_val, val_to_note
+from .utils import note_to_val
 
 
 class Quality:
@@ -17,7 +18,7 @@ class Quality:
         :param components: components of quality
         """
         self._quality: str = name
-        self.components = tuple(_get_interval_pitch(i) for i in intervals)
+        self._intervals = intervals
 
     def __str__(self) -> str:
         return self._quality
@@ -26,6 +27,10 @@ class Quality:
         if not isinstance(other, Quality):
             raise TypeError(f"Cannot compare Quality object with {type(other)} object")
         return self.components == other.components
+
+    @property
+    def components(self) -> tuple[int, ...]:
+        return tuple(_get_interval_pitch(i) for i in self._intervals)
 
     @property
     def quality(self) -> str:
@@ -51,45 +56,11 @@ class Quality:
         :rtype: list[str|int]
         :return: components of chord quality
         """
-        root_val = note_to_val(root)
-        components = [v + root_val for v in self.components]
-
         if visible:
-            return [
-                val_to_note(c, root=root, quality=self._quality, index=i)
-                for i, c in enumerate(components)
-            ]
+            return [_apply_interval_to_note(root, i) for i in self._intervals]
         else:
-            return components
-
-    def append_on_chord(self, on_chord: str, root: str) -> None:
-        """Append on chord
-
-        To create Am7/G
-        q = Quality('m7')
-        q.append_on_chord('G', root='A')
-
-        :param str on_chord: bass note of the chord
-        :param str root: root note of the chord
-        """
-        root_val = note_to_val(root)
-        on_chord_val = note_to_val(on_chord) - root_val
-
-        components = list(self.components)
-        for idx, val in enumerate(self.components):
-            if val % 12 == on_chord_val:
-                components.remove(val)
-                break
-
-        if on_chord_val > root_val:
-            on_chord_val -= 12
-
-        if on_chord_val not in components:
-            components = [on_chord_val] + [
-                v for v in components if v % 12 != on_chord_val % 12
-            ]
-
-        self.components = tuple(components)
+            root_val = note_to_val(root)
+            return [v + root_val for v in self.components]
 
 
 class QualityManager:
@@ -111,10 +82,11 @@ class QualityManager:
         q = copy.deepcopy(self._qualities[name])
         # apply requested inversion :
         for i in range(inversion):
-            n = q.components[0]
-            while n < q.components[-1]:
-                n += 12
-            q.components = q.components[1:] + (n,)
+            max_a, max_o = _parse_interval(q._intervals[-1])
+            a, o = _parse_interval(q._intervals[0])
+            while o < max_o:
+                o += 7
+            q._intervals = q._intervals[1:] + (f"{a}{o + 1}",)
         return q
 
     def get_qualities(self) -> dict[str, Quality]:
@@ -140,6 +112,20 @@ class QualityManager:
         return None
 
 
+def _apply_interval_to_note(root: str, interval: str) -> str:
+    alterations, offset = _parse_interval(interval)
+
+    # Apply the interval and alteration.
+    notes_in_key = _major_scale_notes(root)
+    note = notes_in_key[offset % 7]
+    for alteration in alterations:
+        if alteration == "#":
+            note = _augment(note)
+        else:
+            note = _diminish(note)
+    return note
+
+
 def _get_interval_pitch(interval: str) -> int:
     alterations, offset = _parse_interval(interval)
 
@@ -158,3 +144,57 @@ def _parse_interval(interval: str) -> tuple[str, int]:
     alterations = m.group(1)
     offset = int(m.group(2)) - 1
     return alterations, offset
+
+
+def _augment(note: str) -> str:
+    """
+    Augment the given note.
+    """
+    if note.endswith("b"):
+        return note[:-1]
+    else:
+        return note + "#"
+
+
+def _diminish(note: str) -> str:
+    """
+    Diminish the given note.
+    """
+    if note.endswith("#"):
+        return note[:-1]
+    else:
+        return note + "b"
+
+
+@functools.lru_cache()
+def _major_scale_notes(root: str) -> list[str]:
+    """
+    Return the list of note names in the given major scale.
+    """
+    alphabet = ["C", "D", "E", "F", "G", "A", "B"]
+    root_val = note_to_val(root)
+
+    # Determine whether we use a flatted or sharped scale.
+    if root == "F" or len(root) > 1 and root[1] == "b":
+        alter = _diminish
+    else:
+        alter = _augment
+
+    # Name notes in the key.
+    notes = [root]
+    index = alphabet.index(root[0])
+    for offset in RELATIVE_KEY_DICT["maj"][1:-1]:
+        index = (index + 1) % 7
+        note_val = (root_val + offset) % 12
+
+        # Find the accidental to match the pitch.
+        note = alphabet[index]
+        for i in range(3):
+            if note_to_val(note) == note_val:
+                notes.append(note)
+                break
+            note = alter(note)
+        else:
+            raise ValueError(f"{root} major scale requires too many accidentals")
+
+    return notes
