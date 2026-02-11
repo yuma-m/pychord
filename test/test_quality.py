@@ -68,18 +68,18 @@ class TestOverwriteQuality(unittest.TestCase):
         self.quality_manager.load_default_qualities()
 
     def test_overwrite(self):
-        self.quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
+        self.quality_manager.set_quality("11", ("1", "3", "5", "b7", "9", "11"))
         chord = Chord("C11")
         self.assertEqual(chord.components(), ["C", "E", "G", "Bb", "D", "F"])
 
     def test_find_from_components(self):
-        self.quality_manager.set_quality("13", (0, 4, 7, 10, 14, 17, 21))
+        self.quality_manager.set_quality("13", ("1", "3", "5", "b7", "9", "11", "13"))
         chords = find_chords_from_notes(["C", "E", "G", "Bb", "D", "F", "A"])
         self.assertEqual(chords, [Chord("C13")])
 
     def test_keep_existing_chord(self):
         chord = Chord("C11")
-        self.quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
+        self.quality_manager.set_quality("11", ("1", "3", "5", "b7", "9", "11"))
         self.assertEqual(chord.components(), ["C", "G", "Bb", "D", "F"])
 
 
@@ -101,7 +101,7 @@ class TestIterateQualities(unittest.TestCase):
         assert "testquality" not in qualities
 
     def test_iterate_added_qualities(self):
-        self.quality_manager.set_quality("testquality", (0))
+        self.quality_manager.set_quality("testquality", ("1",))
         qualities = self.quality_manager.get_qualities()
         assert "testquality" in qualities
 
