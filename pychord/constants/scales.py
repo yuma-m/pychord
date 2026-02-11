@@ -12,7 +12,15 @@ VAL_NOTE_DICT = {
     10: ["Bb", "A#", "Cbb"],
     11: ["B", "Cb", "A##"],
 }
-
+NOTE_VALUES = {
+    "C": 0,
+    "D": 2,
+    "E": 4,
+    "F": 5,
+    "G": 7,
+    "A": 9,
+    "B": 11,
+}
 NOTE_VAL_DICT = {}
 for val, notes in VAL_NOTE_DICT.items():
     for note in notes:
