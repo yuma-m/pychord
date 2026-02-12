@@ -68,19 +68,22 @@ class TestOverwriteQuality(unittest.TestCase):
         self.quality_manager.load_default_qualities()
 
     def test_overwrite(self):
-        self.quality_manager.set_quality("11", ("1", "3", "5", "b7", "9", "11"))
+        # Remove the 9th from the "11" quality before building a chord.
+        self.quality_manager.set_quality("11", ("1", "3", "5", "b7", "11"))
         chord = Chord("C11")
-        self.assertEqual(chord.components(), ["C", "E", "G", "Bb", "D", "F"])
+        self.assertEqual(chord.components(), ["C", "E", "G", "Bb", "F"])
 
     def test_find_from_components(self):
-        self.quality_manager.set_quality("13", ("1", "3", "5", "b7", "9", "11", "13"))
-        chords = find_chords_from_notes(["C", "E", "G", "Bb", "D", "F", "A"])
-        self.assertEqual(chords, [Chord("C13")])
+        # Remove the 9th from the "11" quality then lookup a chord.
+        self.quality_manager.set_quality("11", ("1", "3", "5", "b7", "11"))
+        chords = find_chords_from_notes(["C", "E", "G", "Bb", "F"])
+        self.assertEqual(chords, [Chord("C11")])
 
     def test_keep_existing_chord(self):
+        # Remove the 9th from the "11" quality after building a chord.
         chord = Chord("C11")
-        self.quality_manager.set_quality("11", ("1", "3", "5", "b7", "9", "11"))
-        self.assertEqual(chord.components(), ["C", "G", "Bb", "D", "F"])
+        self.quality_manager.set_quality("11", ("1", "3", "5", "b7", "11"))
+        self.assertEqual(chord.components(), ["C", "E", "G", "Bb", "D", "F"])
 
 
 class TestIterateQualities(unittest.TestCase):

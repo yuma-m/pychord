@@ -42,7 +42,9 @@ class TestChordComponent(unittest.TestCase):
             ("Bm7-5", [11, 14, 17, 21], ["B", "D", "F", "A"]),
             ("Ebm7b5", [3, 6, 9, 13], ["Eb", "Gb", "Bbb", "Db"]),
             ("CmM7add11", [0, 3, 7, 11, 17], ["C", "Eb", "G", "B", "F"]),
-            ("CM7add13", [0, 4, 7, 9, 11, 14], ["C", "E", "G", "A", "B", "D"]),
+            ("CM7add13", [0, 4, 7, 11, 21], ["C", "E", "G", "B", "A"]),
+            ("C11", [0, 4, 7, 10, 14, 17], ["C", "E", "G", "Bb", "D", "F"]),
+            ("C13", [0, 4, 7, 10, 14, 17, 21], ["C", "E", "G", "Bb", "D", "F", "A"]),
         ]
     )
     def test_chord_components(self, chord, qualities, notes):
@@ -71,7 +73,6 @@ class TestChordComponent(unittest.TestCase):
 
 
 class TestChordComponentWithPitch(unittest.TestCase):
-
     @parameterized.expand(
         [
             ("C", 1, ["C1", "E1", "G1"]),
@@ -97,7 +98,7 @@ class TestChordComponentWithPitch(unittest.TestCase):
         self.assertEqual(com, ["B4", "D5", "G5"])
         c2 = Chord("G13b9/1")
         com2 = c2.components_with_pitch(root_pitch=4)
-        self.assertEqual(com2, ["B4", "D5", "F5", "G#5", "E6", "G6"])
+        self.assertEqual(com2, ["B4", "D5", "F5", "G#5", "C6", "E6", "G6"])
 
     def test_second_order_inversion(self):
         c = Chord("G/2")
@@ -105,7 +106,7 @@ class TestChordComponentWithPitch(unittest.TestCase):
         self.assertEqual(com, ["D5", "G5", "B5"])
         c2 = Chord("G13b9/2")
         com2 = c2.components_with_pitch(root_pitch=4)
-        self.assertEqual(com2, ["D5", "F5", "G#5", "E6", "G6", "B6"])
+        self.assertEqual(com2, ["D5", "F5", "G#5", "C6", "E6", "G6", "B6"])
 
     def test_third_order_inversion(self):
         c = Chord("Cm7/3")
@@ -116,7 +117,7 @@ class TestChordComponentWithPitch(unittest.TestCase):
         self.assertEqual(com2, ["E5", "F#5", "A#5", "C#6"])
         c3 = Chord("G13b9/3")
         com3 = c3.components_with_pitch(root_pitch=4)
-        self.assertEqual(com3, ["F5", "G#5", "E6", "G6", "B6", "D7"])
+        self.assertEqual(com3, ["F5", "G#5", "C6", "E6", "G6", "B6", "D7"])
 
     def test_fourth_order_inversion(self):
         c = Chord("F7b9")
@@ -124,12 +125,12 @@ class TestChordComponentWithPitch(unittest.TestCase):
         self.assertEqual(com, ["F4", "A4", "C5", "Eb5", "Gb5"])
         c2 = Chord("G13b9/4")
         com2 = c2.components_with_pitch(root_pitch=4)
-        self.assertEqual(com2, ["G#5", "E6", "G6", "B6", "D7", "F7"])
+        self.assertEqual(com2, ["G#5", "C6", "E6", "G6", "B6", "D7", "F7"])
 
     def test_fifth_order_inversion(self):
         c = Chord("G13b9/5")
         com = c.components_with_pitch(root_pitch=4)
-        self.assertEqual(com, ["E6", "G6", "B6", "D7", "F7", "G#7"])
+        self.assertEqual(com, ["C6", "E6", "G6", "B6", "D7", "F7", "G#7"])
 
 
 if __name__ == "__main__":
