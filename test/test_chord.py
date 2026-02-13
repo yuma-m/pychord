@@ -72,7 +72,7 @@ class TestChordCreations(unittest.TestCase):
         c2 = Chord("CM7")
         self.assertEqual(c1, c2)
 
-    def test_invalid_eq(self):
+    def test_eq_invalid(self):
         c = Chord("C")
         with self.assertRaises(TypeError):
             print(c == 0)
@@ -82,6 +82,28 @@ class TestChordCreations(unittest.TestCase):
         quality_components_before = c.quality.components
         c.components()
         self.assertEqual(c.quality.components, quality_components_before)
+
+    def test_info(self):
+        c = Chord("Cmaj7")
+
+        # String representations.
+        self.assertEqual(repr(c), "<Chord: Cmaj7>")
+        self.assertEqual(str(c), "Cmaj7")
+
+        # Properties.
+        self.assertEqual(c.chord, "Cmaj7")
+        self.assertEqual(str(c.quality), "maj7")
+        self.assertEqual(c.root, "C")
+
+        # Methods.
+        self.assertEqual(
+            c.info(),
+            """Cmaj7
+root=C
+quality=maj7
+appended=[]
+on=""",
+        )
 
 
 class TestChordFromNoteIndex(unittest.TestCase):
