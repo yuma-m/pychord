@@ -27,9 +27,6 @@ class ChordProgression:
             )
         self._chords: List[Chord] = chords
 
-    def __unicode__(self):
-        return " | ".join([chord.chord for chord in self._chords])
-
     def __str__(self):
         return " | ".join([chord.chord for chord in self._chords])
 

@@ -35,6 +35,9 @@ test = [
     "parameterized>=0.8.0",
 ]
 
+[tool.coverage.run]
+include = ["pychord/*"]
+
 [tool.setuptools]
 include-package-data = true
 

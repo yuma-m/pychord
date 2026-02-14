@@ -22,10 +22,11 @@ jobs:
           cache: pip
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip setuptools wheel parameterized
+          python -m pip install --upgrade pip setuptools wheel parameterized coverage[toml]
       - name: Run tests
         run: |
-          python -m unittest -v
+          coverage run -m unittest -v
+          coverage report
       - name: Install linting tools
         run: |
           pip install black mypy
