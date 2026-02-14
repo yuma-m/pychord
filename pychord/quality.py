@@ -1,22 +1,24 @@
 import copy
+import re
 from collections import OrderedDict
 from typing import Tuple, List
 
 from .constants.qualities import DEFAULT_QUALITIES
+from .constants.scales import RELATIVE_KEY_DICT
 from .utils import note_to_val, val_to_note
 
 
 class Quality:
     """Chord quality"""
 
-    def __init__(self, name: str, components: Tuple[int, ...]):
+    def __init__(self, name: str, intervals: Tuple[str, ...]):
         """Constructor of chord quality
 
         :param name: name of quality
         :param components: components of quality
         """
         self._quality: str = name
-        self.components: Tuple[int, ...] = components
+        self.components = tuple(_get_interval_pitch(i) for i in intervals)
 
     def __unicode__(self):
         return self._quality
@@ -116,14 +118,14 @@ class QualityManager:
     def get_qualities(self):
         return dict(self._qualities)
 
-    def set_quality(self, name: str, components: Tuple[int, ...]):
+    def set_quality(self, name: str, intervals: Tuple[str, ...]):
         """Set a Quality
 
         This method will not affect any existing Chord instances.
         :param name: name of quality
-        :param components: components of quality
+        :param intervals: intervals of quality
         """
-        self._qualities[name] = Quality(name, components)
+        self._qualities[name] = Quality(name, intervals)
 
     def find_quality_from_components(self, components: List[int]):
         """Find a quality from components
@@ -134,3 +136,23 @@ class QualityManager:
             if list(q.components) == components:
                 return copy.deepcopy(q)
         return None
+
+
+def _get_interval_pitch(interval: str) -> int:
+    alterations, offset = _parse_interval(interval)
+
+    value = RELATIVE_KEY_DICT["maj"][offset % 7] + 12 * (offset // 7)
+    for alteration in alterations:
+        if alteration == "#":
+            value += 1
+        else:
+            value -= 1
+    return value
+
+
+def _parse_interval(interval: str) -> Tuple[str, int]:
+    m = re.match(r"^([b#]*)(\d+)$", interval)
+    assert m, f"Invalid interval {interval}"
+    alterations = m.group(1)
+    offset = int(m.group(2)) - 1
+    return alterations, offset

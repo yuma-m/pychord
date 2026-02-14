@@ -66,10 +66,10 @@ class TestFindChordsFromNotes(unittest.TestCase):
 
     @parameterized.expand(
         [
-            ("C Eb G Bb F", ["Cm7add11", "F11/C"]),
+            ("C Eb G Bb F", "Cm7add11"),
             ("C E G B F", "CM7add11"),
             ("C Eb G B F", "CmM7add11"),
-            ("C E G A B D", "CM7add13"),
+            ("C E G B A", ["CM7add13", "Am9/C"]),
         ]
     )
     def test_add_extension(self, notes, expected_chords):
