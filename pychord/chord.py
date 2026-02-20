@@ -38,9 +38,6 @@ class Chord:
 
         self._append_on_chord()
 
-    def __unicode__(self):
-        return self._chord
-
     def __str__(self):
         return self._chord
 

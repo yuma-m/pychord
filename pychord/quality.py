@@ -20,9 +20,6 @@ class Quality:
         self._quality: str = name
         self.components = tuple(_get_interval_pitch(i) for i in intervals)
 
-    def __unicode__(self):
-        return self._quality
-
     def __str__(self):
         return self._quality
 
