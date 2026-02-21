@@ -1,5 +1,3 @@
-from typing import List, Union
-
 from .constants import NOTE_VAL_DICT, VAL_NOTE_DICT
 from .constants.scales import RELATIVE_KEY_DICT
 from .parser import parse
@@ -33,7 +31,7 @@ class Chord:
         self._chord: str = chord
         self._root: str = root
         self._quality: Quality = quality
-        self._appended: List[str] = appended
+        self._appended: list[str] = appended
         self._on: str = on
 
         self._append_on_chord()
@@ -180,7 +178,7 @@ on={self._on}"""
             self._on = transpose_note(self._on, trans, scale)
         self._reconfigure_chord()
 
-    def components(self, visible: bool = True) -> Union[List[str], List[int]]:
+    def components(self, visible: bool = True) -> list[str] | list[int]:
         """Return the component notes of chord
 
         :param visible: returns the name of notes if True else list of int
@@ -188,7 +186,7 @@ on={self._on}"""
         """
         return self._quality.get_components(root=self._root, visible=visible)
 
-    def components_with_pitch(self, root_pitch: int) -> List[str]:
+    def components_with_pitch(self, root_pitch: int) -> list[str]:
         """Return the component notes of chord formatted like ["C4", "E4", "G4"]
 
         :param root_pitch: the pitch of the root note

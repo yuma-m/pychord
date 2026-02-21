@@ -1,4 +1,3 @@
-from typing import Tuple, List
 import re
 
 from .quality import QualityManager, Quality
@@ -7,7 +6,7 @@ from .utils import NOTE_VAL_DICT
 inversion_re = re.compile("/([0-9]+)")
 
 
-def parse(chord: str) -> Tuple[str, Quality, List[str], str]:
+def parse(chord: str) -> tuple[str, Quality, list[str], str]:
     """Parse a string to get chord component
 
     :param chord: str expression of a chord
@@ -46,5 +45,5 @@ def parse(chord: str) -> Tuple[str, Quality, List[str], str]:
         on = ""
     quality = QualityManager().get_quality(rest, inversion)
     # TODO: Implement parser for appended notes
-    appended: List[str] = []
+    appended: list[str] = []
     return root, quality, appended, on

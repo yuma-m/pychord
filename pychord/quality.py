@@ -1,7 +1,5 @@
 import copy
 import re
-from collections import OrderedDict
-from typing import Tuple, List
 
 from .constants.qualities import DEFAULT_QUALITIES
 from .constants.scales import RELATIVE_KEY_DICT
@@ -11,7 +9,7 @@ from .utils import note_to_val, val_to_note
 class Quality:
     """Chord quality"""
 
-    def __init__(self, name: str, intervals: Tuple[str, ...]):
+    def __init__(self, name: str, intervals: tuple[str, ...]):
         """Constructor of chord quality
 
         :param name: name of quality
@@ -95,9 +93,7 @@ class QualityManager:
         return cls._instance
 
     def load_default_qualities(self):
-        self._qualities = OrderedDict(
-            [(q, Quality(q, c)) for q, c in DEFAULT_QUALITIES]
-        )
+        self._qualities = {q: Quality(q, c) for q, c in DEFAULT_QUALITIES}
 
     def get_quality(self, name: str, inversion: int = 0) -> Quality:
         if name not in self._qualities:
@@ -115,7 +111,7 @@ class QualityManager:
     def get_qualities(self):
         return dict(self._qualities)
 
-    def set_quality(self, name: str, intervals: Tuple[str, ...]):
+    def set_quality(self, name: str, intervals: tuple[str, ...]):
         """Set a Quality
 
         This method will not affect any existing Chord instances.
@@ -124,7 +120,7 @@ class QualityManager:
         """
         self._qualities[name] = Quality(name, intervals)
 
-    def find_quality_from_components(self, components: List[int]):
+    def find_quality_from_components(self, components: list[int]):
         """Find a quality from components
 
         :param components: components of quality
@@ -147,7 +143,7 @@ def _get_interval_pitch(interval: str) -> int:
     return value
 
 
-def _parse_interval(interval: str) -> Tuple[str, int]:
+def _parse_interval(interval: str) -> tuple[str, int]:
     m = re.match(r"^([b#]*)(\d+)$", interval)
     assert m, f"Invalid interval {interval}"
     alterations = m.group(1)
