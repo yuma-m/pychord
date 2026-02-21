@@ -1,5 +1,6 @@
 import copy
 import re
+from typing import Any, Literal, overload
 
 from .constants.qualities import DEFAULT_QUALITIES
 from .constants.scales import RELATIVE_KEY_DICT
@@ -9,7 +10,7 @@ from .utils import note_to_val, val_to_note
 class Quality:
     """Chord quality"""
 
-    def __init__(self, name: str, intervals: tuple[str, ...]):
+    def __init__(self, name: str, intervals: tuple[str, ...]) -> None:
         """Constructor of chord quality
 
         :param name: name of quality
@@ -18,23 +19,31 @@ class Quality:
         self._quality: str = name
         self.components = tuple(_get_interval_pitch(i) for i in intervals)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._quality
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, Quality):
             raise TypeError(f"Cannot compare Quality object with {type(other)} object")
         return self.components == other.components
 
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
     @property
-    def quality(self):
+    def quality(self) -> str:
         """Get name of quality"""
         return self._quality
 
-    def get_components(self, root="C", visible=False):
+    @overload
+    def get_components(self, root: str, visible: Literal[True]) -> list[str]: ...
+
+    @overload
+    def get_components(self, root: str, visible: Literal[False]) -> list[int]: ...
+
+    @overload
+    def get_components(self, root: str, visible: bool) -> list[str] | list[int]: ...
+
+    def get_components(
+        self, root: str = "C", visible: bool = False
+    ) -> list[str] | list[int]:
         """Get components of chord quality
 
         :param str root: the root note of the chord
@@ -46,14 +55,14 @@ class Quality:
         components = [v + root_val for v in self.components]
 
         if visible:
-            components = [
+            return [
                 val_to_note(c, root=root, quality=self._quality, index=i)
                 for i, c in enumerate(components)
             ]
+        else:
+            return components
 
-        return components
-
-    def append_on_chord(self, on_chord, root):
+    def append_on_chord(self, on_chord: str, root: str) -> None:
         """Append on chord
 
         To create Am7/G
@@ -86,13 +95,13 @@ class Quality:
 class QualityManager:
     """Singleton class to manage the qualities"""
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls) -> "QualityManager":
         if not hasattr(cls, "_instance"):
             cls._instance = super(QualityManager, cls).__new__(cls)
             cls._instance.load_default_qualities()
         return cls._instance
 
-    def load_default_qualities(self):
+    def load_default_qualities(self) -> None:
         self._qualities = {q: Quality(q, c) for q, c in DEFAULT_QUALITIES}
 
     def get_quality(self, name: str, inversion: int = 0) -> Quality:
@@ -108,10 +117,10 @@ class QualityManager:
             q.components = q.components[1:] + (n,)
         return q
 
-    def get_qualities(self):
+    def get_qualities(self) -> dict[str, Quality]:
         return dict(self._qualities)
 
-    def set_quality(self, name: str, intervals: tuple[str, ...]):
+    def set_quality(self, name: str, intervals: tuple[str, ...]) -> None:
         """Set a Quality
 
         This method will not affect any existing Chord instances.
@@ -120,7 +129,7 @@ class QualityManager:
         """
         self._qualities[name] = Quality(name, intervals)
 
-    def find_quality_from_components(self, components: list[int]):
+    def find_quality_from_components(self, components: list[int]) -> Quality | None:
         """Find a quality from components
 
         :param components: components of quality

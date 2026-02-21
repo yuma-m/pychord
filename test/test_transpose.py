@@ -3,8 +3,7 @@ import unittest
 from pychord import Chord
 
 
-class TestChordCreations(unittest.TestCase):
-
+class TestChordTranspose(unittest.TestCase):
     def test_transpose_zero(self):
         c = Chord("Am")
         c.transpose(0)
@@ -56,7 +55,3 @@ class TestChordCreations(unittest.TestCase):
         c = Chord("C")
         c.transpose(2)
         self.assertEqual(c, Chord("D"))
-
-
-if __name__ == "__main__":
-    unittest.main()

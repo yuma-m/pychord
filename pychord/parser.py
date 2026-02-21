@@ -1,7 +1,7 @@
 import re
 
+from .constants import NOTE_VAL_DICT
 from .quality import QualityManager, Quality
-from .utils import NOTE_VAL_DICT
 
 inversion_re = re.compile("/([0-9]+)")
 
@@ -23,7 +23,7 @@ def parse(chord: str) -> tuple[str, Quality, list[str], str]:
         root = chord[:1]
         rest = chord[1:]
 
-    def check_note(note: str):
+    def check_note(note: str) -> None:
         """Raise ValueError if note is invalid"""
         if note not in NOTE_VAL_DICT:
             raise ValueError(f"Invalid note {note}")

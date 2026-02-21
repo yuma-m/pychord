@@ -131,7 +131,3 @@ class TestChordComponentWithPitch(unittest.TestCase):
         c = Chord("G13b9/5")
         com = c.components_with_pitch(root_pitch=4)
         self.assertEqual(com, ["C6", "E6", "G6", "B6", "D7", "F7", "G#7"])
-
-
-if __name__ == "__main__":
-    unittest.main()

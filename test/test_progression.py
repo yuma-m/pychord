@@ -4,25 +4,29 @@ from pychord import Chord, ChordProgression
 
 
 class TestChordProgressionCreations(unittest.TestCase):
-
     def test_none(self):
         cp = ChordProgression()
         self.assertEqual(cp.chords, [])
+        self.assertEqual(str(cp), "")
+        self.assertEqual(repr(cp), "<ChordProgression: >")
 
     def test_one_chord(self):
         c = Chord("C")
         cp = ChordProgression(c)
         self.assertEqual(cp.chords, [c])
+        self.assertEqual(str(cp), "C")
+        self.assertEqual(repr(cp), "<ChordProgression: C>")
 
     def test_one_chord_str(self):
         c = "C"
         cp = ChordProgression(c)
         self.assertEqual(cp.chords, [Chord(c)])
+        self.assertEqual(str(cp), "C")
+        self.assertEqual(repr(cp), "<ChordProgression: C>")
 
     def test_one_chord_invalid_type(self):
-        c = 1
         with self.assertRaises(TypeError):
-            ChordProgression(c)
+            ChordProgression(1)
 
     def test_one_chord_list(self):
         c = Chord("C")
@@ -33,22 +37,31 @@ class TestChordProgressionCreations(unittest.TestCase):
         c = "C"
         cp = ChordProgression([c])
         self.assertEqual(cp.chords, [Chord(c)])
+        self.assertEqual(str(cp), "C")
+        self.assertEqual(repr(cp), "<ChordProgression: C>")
+
+    def test_one_chord_list_invalid_type(self):
+        with self.assertRaises(TypeError):
+            ChordProgression([1])
 
     def test_multiple_chords(self):
         c1 = Chord("C")
         c2 = Chord("D")
         cp = ChordProgression([c1, c2])
         self.assertEqual(cp.chords, [c1, c2])
+        self.assertEqual(str(cp), "C | D")
+        self.assertEqual(repr(cp), "<ChordProgression: C | D>")
 
     def test_multiple_chords_str(self):
         c1 = "C"
         c2 = "D"
         cp = ChordProgression([c1, c2])
         self.assertEqual(cp.chords, [Chord(c1), Chord(c2)])
+        self.assertEqual(str(cp), "C | D")
+        self.assertEqual(repr(cp), "<ChordProgression: C | D>")
 
 
 class TestChordProgressionFunctions(unittest.TestCase):
-
     def test_append(self):
         cp = ChordProgression(["C", "D", "E"])
         cp.append("F")

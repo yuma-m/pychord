@@ -38,6 +38,9 @@ test = [
 [tool.coverage.run]
 include = ["pychord/*"]
 
+[tool.mypy]
+strict = true
+
 [tool.setuptools]
 include-package-data = true
 
