@@ -8,21 +8,26 @@ class TestChordProgressionCreations(unittest.TestCase):
     def test_none(self):
         cp = ChordProgression()
         self.assertEqual(cp.chords, [])
+        self.assertEqual(str(cp), "")
+        self.assertEqual(repr(cp), "<ChordProgression: >")
 
     def test_one_chord(self):
         c = Chord("C")
         cp = ChordProgression(c)
         self.assertEqual(cp.chords, [c])
+        self.assertEqual(str(cp), "C")
+        self.assertEqual(repr(cp), "<ChordProgression: C>")
 
     def test_one_chord_str(self):
         c = "C"
         cp = ChordProgression(c)
         self.assertEqual(cp.chords, [Chord(c)])
+        self.assertEqual(str(cp), "C")
+        self.assertEqual(repr(cp), "<ChordProgression: C>")
 
     def test_one_chord_invalid_type(self):
-        c = 1
         with self.assertRaises(TypeError):
-            ChordProgression(c)
+            ChordProgression(1)
 
     def test_one_chord_list(self):
         c = Chord("C")
@@ -33,6 +38,10 @@ class TestChordProgressionCreations(unittest.TestCase):
         c = "C"
         cp = ChordProgression([c])
         self.assertEqual(cp.chords, [Chord(c)])
+
+    def test_one_chord_list_invalid_type(self):
+        with self.assertRaises(TypeError):
+            ChordProgression([1])
 
     def test_multiple_chords(self):
         c1 = Chord("C")
