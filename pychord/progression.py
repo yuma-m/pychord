@@ -1,5 +1,3 @@
-from typing import Union, List
-
 from .chord import Chord
 
 
@@ -10,7 +8,7 @@ class ChordProgression:
         _chords: component chords of chord progression.
     """
 
-    def __init__(self, initial_chords: Union[str, Chord, List[Union[str, Chord]]] = []):
+    def __init__(self, initial_chords: str | Chord | list[str] | list[Chord] = []):
         """Constructor of ChordProgression instance.
 
         :param initial_chords: Initial chord or chords of the chord progressions
@@ -25,7 +23,7 @@ class ChordProgression:
             raise TypeError(
                 f"Cannot initialize ChordProgression with argument of {type(initial_chords)} type"
             )
-        self._chords: List[Chord] = chords
+        self._chords: list[Chord] = chords
 
     def __str__(self):
         return " | ".join([chord.chord for chord in self._chords])
@@ -64,18 +62,18 @@ class ChordProgression:
         return not self.__eq__(other)
 
     @property
-    def chords(self) -> List[Chord]:
+    def chords(self) -> list[Chord]:
         """Get component chords of chord progression"""
         return self._chords
 
-    def append(self, chord: Union[str, Chord]) -> None:
+    def append(self, chord: str | Chord) -> None:
         """Append a chord to chord progressions
 
         :param chord: A chord to append
         """
         self._chords.append(self._as_chord(chord))
 
-    def insert(self, index: int, chord: Union[str, Chord]) -> None:
+    def insert(self, index: int, chord: str | Chord) -> None:
         """Insert a chord to chord progressions
 
         :param index: Index to insert a chord
@@ -99,7 +97,7 @@ class ChordProgression:
             chord.transpose(trans)
 
     @staticmethod
-    def _as_chord(chord: Union[str, Chord]) -> Chord:
+    def _as_chord(chord: str | Chord) -> Chord:
         """Convert from str to Chord instance if input is str
 
         :param chord: Chord name or Chord instance

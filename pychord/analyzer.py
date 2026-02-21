@@ -1,11 +1,9 @@
-from typing import List
-
 from .chord import Chord
 from .quality import QualityManager
 from .utils import note_to_val
 
 
-def find_chords_from_notes(notes: List[str]) -> List[Chord]:
+def find_chords_from_notes(notes: list[str]) -> list[Chord]:
     """Find possible chords consisted from notes
 
     :param notes: List of note arranged from lower note. ex) ["C", "Eb", "G"]
@@ -33,7 +31,7 @@ def find_chords_from_notes(notes: List[str]) -> List[Chord]:
     return chords
 
 
-def notes_to_positions(notes: List[str], root: str) -> List[int]:
+def notes_to_positions(notes: list[str], root: str) -> list[int]:
     """Get notes positions from the root note
 
     >>> notes_to_positions(["C", "E", "G"], "C")
@@ -55,7 +53,7 @@ def notes_to_positions(notes: List[str], root: str) -> List[int]:
     return positions
 
 
-def get_all_rotated_notes(notes: List[str]) -> List[List[str]]:
+def get_all_rotated_notes(notes: list[str]) -> list[list[str]]:
     """Get all rotated notes
 
     get_all_rotated_notes([A,C,E]) -> [[A,C,E],[C,E,A],[E,A,C]]
