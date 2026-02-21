@@ -43,6 +43,9 @@ class TestGetAllRotatedNotes(unittest.TestCase):
 
 
 class TestFindChordsFromNotes(unittest.TestCase):
+    def test_empty(self):
+        with self.assertRaises(ValueError):
+            find_chords_from_notes([])
 
     @parameterized.expand(
         [
