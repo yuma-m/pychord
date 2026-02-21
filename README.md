@@ -115,12 +115,12 @@ True
 ```python
 >>> from pychord import Chord, QualityManager
 >>> Chord("C11").components()
-['C', 'G', 'Bb', 'D', 'F']
+['C', 'E', 'G', 'Bb', 'D', 'F']
 
 >>> quality_manager = QualityManager()
->>> quality_manager.set_quality("11", (0, 4, 7, 10, 14, 17))
+>>> quality_manager.set_quality("11", ("1", "3", "5", "b7", "11"))
 >>> Chord("C11").components()
-['C', 'E', 'G', 'Bb', 'D', 'F']
+['C', 'E', 'G', 'Bb', 'F']
 ```
 
 ### Inversions
