@@ -36,8 +36,7 @@ class ChordProgression:
         return f"<ChordProgression: {self}>"
 
     def __add__(self, other: "ChordProgression") -> "ChordProgression":
-        self._chords += other.chords
-        return self
+        return ChordProgression(self._chords + other._chords)
 
     def __len__(self) -> int:
         return len(self._chords)

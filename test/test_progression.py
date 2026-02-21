@@ -94,6 +94,10 @@ class TestChordProgressionFunctions(unittest.TestCase):
             cp.chords, [Chord("C"), Chord("F"), Chord("G"), Chord("Am"), Chord("Em")]
         )
 
+        # Check the original progressions have not changed.
+        self.assertEqual(len(cp1), 3)
+        self.assertEqual(len(cp2), 2)
+
     def test_self_add(self):
         cp1 = ChordProgression(["C", "F", "G"])
         cp2 = ChordProgression(["Am", "Em"])
