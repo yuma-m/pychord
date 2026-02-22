@@ -68,19 +68,29 @@ class TestChordCreations(unittest.TestCase):
         self.assertEqual(expected_components, c.components())
 
     def test_eq(self):
-        c1 = Chord("C")
-        c2 = Chord("C")
-        self.assertEqual(c1, c2)
+        self.assertEqual(Chord("C"), Chord("C"))
+        self.assertEqual(Chord("C/G"), Chord("C/G"))
 
-    def test_eq_alias(self):
-        c1 = Chord("Cmaj7")
-        c2 = Chord("CM7")
-        self.assertEqual(c1, c2)
+    def test_eq_quality_alias(self):
+        self.assertEqual(Chord("Cmaj7"), Chord("CM7"))
+
+    def test_eq_root_alias(self):
+        self.assertEqual(Chord("C#"), Chord("Db"))
 
     def test_eq_invalid(self):
-        c = Chord("C")
         with self.assertRaises(TypeError):
-            print(c == 0)
+            Chord("C") == 0
+
+    def test_eq_different_root(self):
+        self.assertNotEqual(Chord("C"), Chord("D"))
+
+    def test_eq_different_quality(self):
+        self.assertNotEqual(Chord("C"), Chord("Cm"))
+
+    def test_eq_different_on(self):
+        self.assertNotEqual(Chord("C"), Chord("C/G"))
+        self.assertNotEqual(Chord("C/G"), Chord("C"))
+        self.assertNotEqual(Chord("C/B"), Chord("C/G"))
 
     def test_components(self):
         c = Chord("C/E")

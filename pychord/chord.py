@@ -48,12 +48,20 @@ class Chord:
             return False
         if self._quality != other.quality:
             return False
-        if self._appended != other.appended:
+
+        if (
+            # If one chord has an "on" and not the other, they differ.
+            bool(self._on)
+            != bool(other.on)
+        ) or (
+            # If both chords have an "on" and they are not enharmonic, they differ.
+            self._on
+            and other.on
+            and note_to_val(self._on) != note_to_val(other.on)
+        ):
             return False
-        if self._on and other.on:
-            if note_to_val(self._on) != note_to_val(other.on):
-                return False
-        return True
+
+        return self._appended == other.appended
 
     @classmethod
     def from_note_index(

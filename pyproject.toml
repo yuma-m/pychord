@@ -35,6 +35,9 @@ test = [
     "parameterized>=0.8.0",
 ]
 
+[tool.coverage.report]
+fail_under = 100
+
 [tool.coverage.run]
 include = ["pychord/*"]
 
