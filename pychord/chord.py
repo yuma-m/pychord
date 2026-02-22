@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import Any, Literal, overload
 
 from .constants import NOTE_VAL_DICT, VAL_NOTE_DICT
 from .constants.scales import RELATIVE_KEY_DICT
@@ -24,7 +24,7 @@ class Chord:
         _on: The base note of slash chord.
     """
 
-    def __init__(self, chord: str):
+    def __init__(self, chord: str) -> None:
         """Constructor of Chord instance
 
         :param chord: Name of chord (e.g. C, Am7, F#m7-5/A).
@@ -33,18 +33,18 @@ class Chord:
         self._chord: str = chord
         self._root: str = root
         self._quality: Quality = quality
-        self._appended: List[str] = appended
+        self._appended: list[str] = appended
         self._on: str = on
 
         self._append_on_chord()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._chord
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<Chord: {self._chord}>"
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, Chord):
             raise TypeError(f"Cannot compare Chord object with {type(other)} object")
         if note_to_val(self._root) != note_to_val(other.root):
@@ -57,9 +57,6 @@ class Chord:
             if note_to_val(self._on) != note_to_val(other.on):
                 return False
         return True
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
 
     @classmethod
     def from_note_index(
@@ -103,8 +100,8 @@ class Chord:
             # adjust the chord to its root position (as a stack of thirds),
             # then set the root to 0
             # e.g. (9, 0, 4) -> [0, 3, 7]
-            def get_diatonic_chord(chord):
-                uninverted = []
+            def get_diatonic_chord(chord: tuple[int, ...]) -> list[int]:
+                uninverted: list[int] = []
                 for note in chord:
                     if not uninverted:
                         uninverted.append(note)
@@ -128,38 +125,38 @@ class Chord:
 
             # look up QualityManager to determine chord quality
             quality_manager = QualityManager()
-            quality = quality_manager.find_quality_from_components(q)
-            if not quality:
-                raise RuntimeError(f"Quality with components {q} not found")
+            quality_instance = quality_manager.find_quality_from_components(q)
+            assert quality_instance is not None
+            quality = quality_instance.quality
 
         return cls(f"{root}{quality}")
 
     @property
-    def chord(self):
+    def chord(self) -> str:
         """The name of chord"""
         return self._chord
 
     @property
-    def root(self):
+    def root(self) -> str:
         """The root note of chord"""
         return self._root
 
     @property
-    def quality(self):
+    def quality(self) -> Quality:
         """The quality of chord"""
         return self._quality
 
     @property
-    def appended(self):
+    def appended(self) -> list[str]:
         """The appended notes on chord"""
         return self._appended
 
     @property
-    def on(self):
+    def on(self) -> str:
         """The base note of slash chord"""
         return self._on
 
-    def info(self):
+    def info(self) -> str:
         """Return information of chord to display"""
         return f"""{self._chord}
 root={self._root}
@@ -180,7 +177,13 @@ on={self._on}"""
             self._on = transpose_note(self._on, trans, scale)
         self._reconfigure_chord()
 
-    def components(self, visible: bool = True) -> Union[List[str], List[int]]:
+    @overload
+    def components(self, visible: Literal[True]) -> list[str]: ...
+
+    @overload
+    def components(self, visible: Literal[False]) -> list[int]: ...
+
+    def components(self, visible: bool = True) -> list[str] | list[int]:
         """Return the component notes of chord
 
         :param visible: returns the name of notes if True else list of int
@@ -188,13 +191,13 @@ on={self._on}"""
         """
         return self._quality.get_components(root=self._root, visible=visible)
 
-    def components_with_pitch(self, root_pitch: int) -> List[str]:
+    def components_with_pitch(self, root_pitch: int) -> list[str]:
         """Return the component notes of chord formatted like ["C4", "E4", "G4"]
 
         :param root_pitch: the pitch of the root note
         :return: component notes of chord
         """
-        components = self._quality.get_components(root=self._root)
+        components = self._quality.get_components(root=self._root, visible=False)
         if components[0] < 0:
             components = [c + 12 for c in components]
         return [
@@ -202,11 +205,11 @@ on={self._on}"""
             for c in components
         ]
 
-    def _append_on_chord(self):
+    def _append_on_chord(self) -> None:
         if self._on:
             self._quality.append_on_chord(self.on, self.root)
 
-    def _reconfigure_chord(self):
+    def _reconfigure_chord(self) -> None:
         # TODO: Use appended
         self._chord = "{}{}{}{}".format(
             self._root,

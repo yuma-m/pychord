@@ -53,7 +53,6 @@ class TestQuality(unittest.TestCase):
 
 
 class TestQualityManager(unittest.TestCase):
-
     def test_singleton(self):
         quality_manager = QualityManager()
         quality_manager2 = QualityManager()
@@ -107,7 +106,3 @@ class TestIterateQualities(unittest.TestCase):
         self.quality_manager.set_quality("testquality", ("1",))
         qualities = self.quality_manager.get_qualities()
         assert "testquality" in qualities
-
-
-if __name__ == "__main__":
-    unittest.main()

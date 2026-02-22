@@ -1,5 +1,3 @@
-from typing import List, Optional
-
 from .constants import NOTE_VAL_DICT, SCALE_VAL_DICT
 
 
@@ -19,8 +17,8 @@ def note_to_val(note: str) -> int:
 def val_to_note(
     val: int,
     root: str = "C",
-    quality: Optional[str] = None,
-    index: Optional[int] = None,
+    quality: str | None = None,
+    index: int | None = None,
 ) -> str:
     """Return note by index in a scale
     :param val: index value of note
@@ -100,7 +98,7 @@ def transpose_note(note: str, transpose: int, scale: str = "C") -> str:
     return val_to_note(val, scale)
 
 
-def display_appended(appended: List[str]) -> str:
+def display_appended(appended: list[str]) -> str:
     # TODO: Implement this
     return ""
 

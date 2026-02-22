@@ -6,7 +6,6 @@ from pychord import Chord
 
 
 class TestChordCreations(unittest.TestCase):
-
     @parameterized.expand(
         [
             ("C", "C", ""),
@@ -107,7 +106,6 @@ on=""",
 
 
 class TestChordFromNoteIndex(unittest.TestCase):
-
     @parameterized.expand(
         [
             (1, "", "Cmaj", "C"),
@@ -150,7 +148,3 @@ class TestChordFromNoteIndex(unittest.TestCase):
     def test_diatonic_note_non_generic(self):
         with self.assertRaises(NotImplementedError):
             Chord.from_note_index(note=5, quality="sus", diatonic=True, scale="Fmaj")
-
-
-if __name__ == "__main__":
-    unittest.main()

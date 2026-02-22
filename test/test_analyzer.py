@@ -11,7 +11,6 @@ from pychord.analyzer import (
 
 
 class TestNotesToPositions(unittest.TestCase):
-
     @parameterized.expand(
         [
             (["C"], "C", [0]),
@@ -30,7 +29,6 @@ class TestNotesToPositions(unittest.TestCase):
 
 
 class TestGetAllRotatedNotes(unittest.TestCase):
-
     @parameterized.expand(
         [
             (["C", "G"], [["C", "G"], ["G", "C"]]),
@@ -43,6 +41,9 @@ class TestGetAllRotatedNotes(unittest.TestCase):
 
 
 class TestFindChordsFromNotes(unittest.TestCase):
+    def test_empty(self):
+        with self.assertRaises(ValueError):
+            find_chords_from_notes([])
 
     @parameterized.expand(
         [
