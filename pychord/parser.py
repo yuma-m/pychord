@@ -1,7 +1,9 @@
 import re
 
-from .constants import NOTE_VAL_DICT
 from .quality import QualityManager, Quality
+
+# We accept notes with up to two flats or two sharps.
+note_re = re.compile("^[A-G](b{0,2}|#{0,2})$")
 
 inversion_re = re.compile("/([0-9]+)")
 
@@ -25,7 +27,7 @@ def parse(chord: str) -> tuple[str, Quality, list[str], str]:
 
     def check_note(note: str) -> None:
         """Raise ValueError if note is invalid"""
-        if note not in NOTE_VAL_DICT:
+        if not note_re.match(note):
             raise ValueError(f"Invalid note {note}")
 
     check_note(root)

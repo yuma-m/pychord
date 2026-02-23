@@ -9,7 +9,6 @@ from .utils import (
     display_appended,
     display_on,
     note_to_val,
-    val_to_note,
 )
 
 
@@ -36,8 +35,6 @@ class Chord:
         self._appended: list[str] = appended
         self._on: str = on
 
-        self._append_on_chord()
-
     def __str__(self) -> str:
         return self._chord
 
@@ -51,12 +48,20 @@ class Chord:
             return False
         if self._quality != other.quality:
             return False
-        if self._appended != other.appended:
+
+        if (
+            # If one chord has an "on" and not the other, they differ.
+            bool(self._on)
+            != bool(other.on)
+        ) or (
+            # If both chords have an "on" and they are not enharmonic, they differ.
+            self._on
+            and other.on
+            and note_to_val(self._on) != note_to_val(other.on)
+        ):
             return False
-        if self._on and other.on:
-            if note_to_val(self._on) != note_to_val(other.on):
-                return False
-        return True
+
+        return self._appended == other.appended
 
     @classmethod
     def from_note_index(
@@ -189,7 +194,21 @@ on={self._on}"""
         :param visible: returns the name of notes if True else list of int
         :return: component notes of chord
         """
-        return self._quality.get_components(root=self._root, visible=visible)
+        if visible:
+            notes = self._quality.get_components(root=self._root, visible=True)
+            if self._on:
+                notes = [n for n in notes if n != self._on]
+                notes.insert(0, self._on)
+            return notes
+        else:
+            components = self._quality.get_components(root=self._root, visible=False)
+            if self._on:
+                on_value = note_to_val(self._on)
+                components = [c for c in components if c % 12 != on_value % 12]
+                if on_value > components[0]:
+                    on_value -= 12
+                components.insert(0, on_value)
+            return components
 
     def components_with_pitch(self, root_pitch: int) -> list[str]:
         """Return the component notes of chord formatted like ["C4", "E4", "G4"]
@@ -197,17 +216,11 @@ on={self._on}"""
         :param root_pitch: the pitch of the root note
         :return: component notes of chord
         """
-        components = self._quality.get_components(root=self._root, visible=False)
+        components = self.components(visible=False)
+        notes = self.components(visible=True)
         if components[0] < 0:
             components = [c + 12 for c in components]
-        return [
-            f"{val_to_note(c, root=self._root)}{root_pitch + c // 12}"
-            for c in components
-        ]
-
-    def _append_on_chord(self) -> None:
-        if self._on:
-            self._quality.append_on_chord(self.on, self.root)
+        return [f"{n}{root_pitch + c // 12}" for (n, c) in zip(notes, components)]
 
     def _reconfigure_chord(self) -> None:
         # TODO: Use appended

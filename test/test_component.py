@@ -8,9 +8,40 @@ from pychord import Chord
 class TestChordComponent(unittest.TestCase):
     @parameterized.expand(
         [
+            # Major chords with all supported accidentals.
+            ("Abb", [7, 11, 14], ["Abb", "Cb", "Ebb"]),
+            ("Ab", [8, 12, 15], ["Ab", "C", "Eb"]),
+            ("A", [9, 13, 16], ["A", "C#", "E"]),
+            ("A#", [10, 14, 17], ["A#", "C##", "E#"]),
+            ("Bbb", [9, 13, 16], ["Bbb", "Db", "Fb"]),
+            ("Bb", [10, 14, 17], ["Bb", "D", "F"]),
+            ("B", [11, 15, 18], ["B", "D#", "F#"]),
+            ("B#", [0, 4, 7], ["B#", "D##", "F##"]),
+            ("Cbb", [10, 14, 17], ["Cbb", "Ebb", "Gbb"]),
+            ("Cb", [11, 15, 18], ["Cb", "Eb", "Gb"]),
             ("C", [0, 4, 7], ["C", "E", "G"]),
-            ("Gm", [7, 10, 14], ["G", "Bb", "D"]),
+            ("C#", [1, 5, 8], ["C#", "E#", "G#"]),
+            ("C##", [2, 6, 9], ["C##", "E##", "G##"]),
+            ("Dbb", [0, 4, 7], ["Dbb", "Fb", "Abb"]),
+            ("Db", [1, 5, 8], ["Db", "F", "Ab"]),
+            ("D", [2, 6, 9], ["D", "F#", "A"]),
+            ("D#", [3, 7, 10], ["D#", "F##", "A#"]),
+            ("Ebb", [2, 6, 9], ["Ebb", "Gb", "Bbb"]),
+            ("Eb", [3, 7, 10], ["Eb", "G", "Bb"]),
+            ("E", [4, 8, 11], ["E", "G#", "B"]),
+            ("E#", [5, 9, 12], ["E#", "G##", "B#"]),
+            ("Fb", [4, 8, 11], ["Fb", "Ab", "Cb"]),
+            ("F", [5, 9, 12], ["F", "A", "C"]),
+            ("F#", [6, 10, 13], ["F#", "A#", "C#"]),
+            ("F##", [7, 11, 14], ["F##", "A##", "C##"]),
+            ("Gbb", [5, 9, 12], ["Gbb", "Bbb", "Dbb"]),
+            ("Gb", [6, 10, 13], ["Gb", "Bb", "Db"]),
+            ("G", [7, 11, 14], ["G", "B", "D"]),
+            ("G#", [8, 12, 15], ["G#", "B#", "D#"]),
+            # Other chords.
             ("Am", [9, 12, 16], ["A", "C", "E"]),
+            ("Cbm", [11, 14, 18], ["Cb", "Ebb", "Gb"]),
+            ("Gm", [7, 10, 14], ["G", "Bb", "D"]),
             ("Bdim", [11, 14, 17], ["B", "D", "F"]),
             ("Cdim", [0, 3, 6], ["C", "Eb", "Gb"]),
             ("Dbdim", [1, 4, 7], ["Db", "Fb", "Abb"]),
@@ -18,7 +49,7 @@ class TestChordComponent(unittest.TestCase):
             ("Gbdim", [6, 9, 12], ["Gb", "Bbb", "Dbb"]),
             ("Gdim", [7, 10, 13], ["G", "Bb", "Db"]),
             ("Cdim7", [0, 3, 6, 9], ["C", "Eb", "Gb", "Bbb"]),
-            ("Dbdim7", [1, 4, 7, 10], ["Db", "Fb", "Abb", "Bb"]),
+            ("Dbdim7", [1, 4, 7, 10], ["Db", "Fb", "Abb", "Cbb"]),
             ("Dbaug", [1, 5, 9], ["Db", "F", "A"]),
             ("Eaug", [4, 8, 12], ["E", "G#", "B#"]),
             ("CM9/D", [-10, 0, 4, 7, 11], ["D", "C", "E", "G", "B"]),
@@ -71,6 +102,24 @@ class TestChordComponent(unittest.TestCase):
         com1 = c.components(visible=True)
         self.assertEqual(com1, base1 + ["D"])
 
+    def test_too_many_accidentals(self):
+        for chord in [
+            "A##",
+            "B##",
+            "D##",
+            "E##",
+            "Fbb",
+            "G##",
+        ]:
+            with self.subTest(chord=chord):
+                c = Chord(chord)
+                with self.assertRaises(ValueError) as cm:
+                    c.components()
+                self.assertEqual(
+                    str(cm.exception),
+                    f"{chord} major scale requires too many accidentals",
+                )
+
 
 class TestChordComponentWithPitch(unittest.TestCase):
     @parameterized.expand(
@@ -98,7 +147,7 @@ class TestChordComponentWithPitch(unittest.TestCase):
         self.assertEqual(com, ["B4", "D5", "G5"])
         c2 = Chord("G13b9/1")
         com2 = c2.components_with_pitch(root_pitch=4)
-        self.assertEqual(com2, ["B4", "D5", "F5", "G#5", "C6", "E6", "G6"])
+        self.assertEqual(com2, ["B4", "D5", "F5", "Ab5", "C6", "E6", "G6"])
 
     def test_second_order_inversion(self):
         c = Chord("G/2")
@@ -106,7 +155,7 @@ class TestChordComponentWithPitch(unittest.TestCase):
         self.assertEqual(com, ["D5", "G5", "B5"])
         c2 = Chord("G13b9/2")
         com2 = c2.components_with_pitch(root_pitch=4)
-        self.assertEqual(com2, ["D5", "F5", "G#5", "C6", "E6", "G6", "B6"])
+        self.assertEqual(com2, ["D5", "F5", "Ab5", "C6", "E6", "G6", "B6"])
 
     def test_third_order_inversion(self):
         c = Chord("Cm7/3")
@@ -117,7 +166,7 @@ class TestChordComponentWithPitch(unittest.TestCase):
         self.assertEqual(com2, ["E5", "F#5", "A#5", "C#6"])
         c3 = Chord("G13b9/3")
         com3 = c3.components_with_pitch(root_pitch=4)
-        self.assertEqual(com3, ["F5", "G#5", "C6", "E6", "G6", "B6", "D7"])
+        self.assertEqual(com3, ["F5", "Ab5", "C6", "E6", "G6", "B6", "D7"])
 
     def test_fourth_order_inversion(self):
         c = Chord("F7b9")
@@ -125,9 +174,9 @@ class TestChordComponentWithPitch(unittest.TestCase):
         self.assertEqual(com, ["F4", "A4", "C5", "Eb5", "Gb5"])
         c2 = Chord("G13b9/4")
         com2 = c2.components_with_pitch(root_pitch=4)
-        self.assertEqual(com2, ["G#5", "C6", "E6", "G6", "B6", "D7", "F7"])
+        self.assertEqual(com2, ["Ab5", "C6", "E6", "G6", "B6", "D7", "F7"])
 
     def test_fifth_order_inversion(self):
         c = Chord("G13b9/5")
         com = c.components_with_pitch(root_pitch=4)
-        self.assertEqual(com, ["C6", "E6", "G6", "B6", "D7", "F7", "G#7"])
+        self.assertEqual(com, ["C6", "E6", "G6", "B6", "D7", "F7", "Ab7"])
