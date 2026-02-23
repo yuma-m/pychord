@@ -117,31 +117,52 @@ class TestChordFromNoteIndex(unittest.TestCase):
     def test_from_note_index(self):
         for note, quality, scale, expected_chord_str in [
             (1, "", "Cmaj", "C"),
-            (2, "m7", "F#min", "Abm7"),  # wrong, should be G#m7
+            (2, "m7", "F#min", "G#m7"),
             (3, "sus2", "Cmin", "Ebsus2"),
             (7, "7", "Amin", "G7"),
-            (8, "", "Emaj", "E"),
         ]:
             with self.subTest(note=note, quality=quality, scale=scale):
                 chord = Chord.from_note_index(note=note, quality=quality, scale=scale)
                 self.assertEqual(str(chord), expected_chord_str)
 
-    def test_invalid_note_index(self):
-        for note, quality, scale in [
-            (0, "", "Cmaj"),
-            (9, "", "Fmaj"),
+    def test_from_note_index_with_chromatic(self):
+        for note, quality, scale, chromatic, expected_chord_str in [
+            (1, "", "Cmaj", -1, "Cb"),
+            (1, "", "Cmaj", 1, "C#"),
         ]:
-            with (
-                self.subTest(note=note, quality=quality, scale=scale),
-                self.assertRaises(ValueError),
+            with self.subTest(
+                note=note, quality=quality, scale=scale, chromatic=chromatic
             ):
-                Chord.from_note_index(note=note, quality=quality, scale=scale)
+                chord = Chord.from_note_index(
+                    note=note, quality=quality, scale=scale, chromatic=chromatic
+                )
+                self.assertEqual(str(chord), expected_chord_str)
+
+    def test_invalid_note_index(self):
+        for note, quality, scale, exception_str in [
+            (0, "", "Cmaj", "Invalid note 0"),
+            (8, "", "Fmaj", "Invalid note 8"),
+        ]:
+            with self.subTest(note=note, quality=quality, scale=scale):
+                with self.assertRaises(ValueError) as cm:
+                    Chord.from_note_index(note=note, quality=quality, scale=scale)
+                self.assertEqual(str(cm.exception), exception_str)
+
+    def test_invalid_scale(self):
+        for note, quality, scale, exception_str in [
+            (1, "", "Xmaj", "Invalid note X"),
+            (1, "", "Cbob", "Invalid mode bob"),
+        ]:
+            with self.subTest(note=note, quality=quality, scale=scale):
+                with self.assertRaises(ValueError) as cm:
+                    Chord.from_note_index(note=note, quality=quality, scale=scale)
+                self.assertEqual(str(cm.exception), exception_str)
 
     def test_diatonic_from_note_index(self):
         for note, quality, diatonic, scale, expected_chord_str in [
             (1, "", True, "Dmaj", "D"),
             (2, "7", True, "BLoc", "CM7"),
-            (3, "m", True, "G#Mix", "Cdim"),  # wrong, should be B#dim
+            (3, "m", True, "G#Mix", "B#dim"),
             (4, "-", True, "AbDor", "Db"),
         ]:
             with self.subTest(note=note, quality=quality, scale=scale):
