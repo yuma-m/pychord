@@ -1,10 +1,9 @@
 from typing import Any, Literal, overload
 
-from .constants import NOTE_VAL_DICT, VAL_NOTE_DICT
 from .constants.scales import RELATIVE_KEY_DICT
-from .parser import parse
-from .quality import QualityManager, Quality
-from .utils import transpose_note, note_to_val
+from .parser import parse, parse_scale
+from .quality import QualityManager, Quality, scale_notes
+from .utils import augment, diminish, transpose_note, note_to_val
 
 
 class Chord:
@@ -74,16 +73,20 @@ class Chord:
         :param diatonic: If True, chord quality is determined using the base scale (overrides ``quality``).
         :param chromatic: Lower or raise the scale degree (and all notes of the chord) by semitone(s).
         """
-        if not 1 <= note <= 8:
+        if not 1 <= note <= 7:
             raise ValueError(f"Invalid note {note}")
-        relative_key = RELATIVE_KEY_DICT[scale[-3:]][note - 1]
-        root_num = NOTE_VAL_DICT[scale[:-3]] + chromatic
-        root = VAL_NOTE_DICT[(root_num + relative_key) % 12][0]
-
-        scale_degrees = RELATIVE_KEY_DICT[scale[-3:]]
+        scale_root, scale_mode = parse_scale(scale)
+        root = scale_notes(scale_root, scale_mode)[note - 1]
+        if chromatic != 0:
+            alter = augment if chromatic > 0 else diminish
+            for i in range(abs(chromatic)):
+                root = alter(root)
 
         if diatonic:
+            scale_degrees = RELATIVE_KEY_DICT[scale_mode]
+
             # construct the chord based on scale degrees, within 1 octave
+            first = scale_degrees[note - 1]
             third = scale_degrees[(note + 1) % 7]
             fifth = scale_degrees[(note + 3) % 7]
             seventh = scale_degrees[(note + 5) % 7]
@@ -104,10 +107,10 @@ class Chord:
                 return uninverted
 
             if quality in ["", "-", "maj", "m", "min"]:
-                triad = (relative_key, third, fifth)
+                triad = (first, third, fifth)
                 q = get_diatonic_chord(triad)
             elif quality in ["7", "M7", "maj7", "m7"]:
-                seventh_chord = (relative_key, third, fifth, seventh)
+                seventh_chord = (first, third, fifth, seventh)
                 q = get_diatonic_chord(seventh_chord)
             else:
                 raise NotImplementedError(
