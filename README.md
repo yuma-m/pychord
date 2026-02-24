@@ -8,7 +8,7 @@ PyChord is a Python library to handle musical chords.
 
 ## Installation
 
-PyChord supports Python 3.8 and above.
+PyChord supports Python 3.10 and above.
 
 ```sh
 $ pip install pychord
