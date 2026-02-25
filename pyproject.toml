@@ -32,7 +32,6 @@ Homepage = "https://github.com/yuma-m/pychord"
 test = [
     "black>=26.1.0",
     "mypy>=1.19.1",
-    "parameterized>=0.8.0",
 ]
 
 [tool.coverage.report]

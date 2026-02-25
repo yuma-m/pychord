@@ -1,7 +1,5 @@
 import unittest
 
-from parameterized import parameterized
-
 from pychord import Chord
 from pychord.analyzer import (
     get_all_rotated_notes,
@@ -11,8 +9,8 @@ from pychord.analyzer import (
 
 
 class TestNotesToPositions(unittest.TestCase):
-    @parameterized.expand(
-        [
+    def test_notes_to_positions(self):
+        for notes, root, expected_positions in [
             (["C"], "C", [0]),
             (["C", "G"], "C", [0, 7]),
             (["D", "F#", "A"], "D", [0, 4, 7]),
@@ -21,23 +19,19 @@ class TestNotesToPositions(unittest.TestCase):
             (["F", "A", "C", "Eb", "G"], "F", [0, 4, 7, 10, 14]),
             (["G", "B", "D", "F", "A", "C"], "G", [0, 4, 7, 10, 14, 17]),
             (["A", "C#", "E", "G", "B", "D", "F#"], "A", [0, 4, 7, 10, 14, 17, 21]),
-        ]
-    )
-    def test_notes_to_positions(self, notes, root, expected_positions):
-        pos = notes_to_positions(notes, root)
-        self.assertEqual(expected_positions, pos)
+        ]:
+            with self.subTest(notes=notes, root=root):
+                self.assertEqual(notes_to_positions(notes, root), expected_positions)
 
 
 class TestGetAllRotatedNotes(unittest.TestCase):
-    @parameterized.expand(
-        [
+    def test_get_all_rotated_notes(self):
+        for notes, expected_rotations in [
             (["C", "G"], [["C", "G"], ["G", "C"]]),
             (["C", "F", "G"], [["C", "F", "G"], ["F", "G", "C"], ["G", "C", "F"]]),
-        ]
-    )
-    def test_get_all_rotated_notes(self, notes, expected_rotations):
-        notes_list = get_all_rotated_notes(notes)
-        self.assertEqual(expected_rotations, notes_list)
+        ]:
+            with self.subTest(notes=notes):
+                self.assertEqual(get_all_rotated_notes(notes), expected_rotations)
 
 
 class TestFindChordsFromNotes(unittest.TestCase):
@@ -45,8 +39,11 @@ class TestFindChordsFromNotes(unittest.TestCase):
         with self.assertRaises(ValueError):
             find_chords_from_notes([])
 
-    @parameterized.expand(
-        [
+    def test_find_chords_from_notes(self):
+        """
+        Validates that the specified notes translated to the expected chords.
+        """
+        for notes, expected_chord_strs in [
             (["C", "E", "G"], ["C"]),
             (["F#", "A", "D"], ["D/F#"]),
             (["B", "E", "G#"], ["E/B"]),
@@ -58,23 +55,14 @@ class TestFindChordsFromNotes(unittest.TestCase):
             (["F#", "A", "C", "E"], ["F#m7-5", "Am6/F#", "C6b5/F#"]),
             (["C", "E", "F", "G"], ["Cadd4"]),
             (["C", "Eb", "F", "G"], ["Cmadd4"]),
-        ]
-    )
-    def test_find_chords_from_notes(self, notes, expected_chord_strs):
-        chords = find_chords_from_notes(notes)
-        expected_chords = [Chord(c) for c in expected_chord_strs]
-        self.assertEqual(expected_chords, chords)
-
-    @parameterized.expand(
-        [
-            ("C Eb G Bb F", "Cm7add11"),
-            ("C E G B F", "CM7add11"),
-            ("C Eb G B F", "CmM7add11"),
-            ("C E G B A", ["CM7add13", "Am9/C"]),
-        ]
-    )
-    def test_add_extension(self, notes, expected_chords):
-        self._assert_chords(notes, expected_chords)
+            (["C", "Eb", "G", "Bb", "F"], ["Cm7add11"]),
+            (["C", "E", "G", "B", "F"], ["Cmaj7add11"]),
+            (["C", "Eb", "G", "B", "F"], ["Cmmaj7add11"]),
+            (["C", "E", "G", "B", "A"], ["Cmaj7add13", "Am9/C"]),
+        ]:
+            with self.subTest(notes=notes):
+                chords = find_chords_from_notes(notes)
+                self.assertEqual([str(c) for c in chords], expected_chord_strs)
 
     def test_idempotence(self):
         for _ in range(2):
@@ -91,19 +79,3 @@ class TestFindChordsFromNotes(unittest.TestCase):
             self.assertEqual(
                 chords[0].components(visible=True), ["Eb", "Gb", "Bbb", "Dbb"]
             )
-
-    def _assert_chords(self, notes, expected_chords):
-        """Validates that the specified notes translated to the expected chords.
-
-        :param notes: The notes of the chord, either as a list of strings,
-          e.g. ["G", "C", "D"] or a string, e.g. "G C D"
-        :param expected_chords: the chords that the notes could translate to,
-            specified as a list of strings, e.g. [ "Gsus4", "Csus2/G" ],
-            or a single string if only one chord expected.
-        """
-        if isinstance(notes, str):
-            notes = notes.split()
-        c0 = find_chords_from_notes(notes)
-        if isinstance(expected_chords, str):
-            expected_chords = [expected_chords]
-        self.assertEqual([Chord(c) for c in expected_chords], c0)

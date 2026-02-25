@@ -1,13 +1,14 @@
 import unittest
 
-from parameterized import parameterized
-
 from pychord import Chord
 
 
 class TestChordComponent(unittest.TestCase):
-    @parameterized.expand(
-        [
+    def test_chord_components(self):
+        """
+        Validates if a chord is made up of specified qualities and notes.
+        """
+        for chord, expected_qualities, expected_notes in [
             # Major chords with all supported accidentals.
             ("Abb", [7, 11, 14], ["Abb", "Cb", "Ebb"]),
             ("Ab", [8, 12, 15], ["Ab", "C", "Eb"]),
@@ -76,20 +77,11 @@ class TestChordComponent(unittest.TestCase):
             ("CM7add13", [0, 4, 7, 11, 21], ["C", "E", "G", "B", "A"]),
             ("C11", [0, 4, 7, 10, 14, 17], ["C", "E", "G", "Bb", "D", "F"]),
             ("C13", [0, 4, 7, 10, 14, 17, 21], ["C", "E", "G", "Bb", "D", "F", "A"]),
-        ]
-    )
-    def test_chord_components(self, chord, qualities, notes):
-        """Validates if a chord is made up of specified qualities and notes.
-
-        :param str chord: A chord, specified as a string, e.g. "C7"
-        :param qualities: The expected qualities of the chord, as a list of numbers
-        :param notes: The expected notes of the chord, as a list of strings
-        """
-        c = Chord(chord)
-        com0 = c.components(visible=False)
-        self.assertEqual(qualities, com0)
-        com1 = c.components(visible=True)
-        self.assertEqual(notes, com1)
+        ]:
+            with self.subTest(chord=chord):
+                c = Chord(chord)
+                self.assertEqual(c.components(visible=False), expected_qualities)
+                self.assertEqual(c.components(visible=True), expected_notes)
 
     def test_major_add9(self):
         # major add 9 is a major chord with a Major ninth
@@ -122,24 +114,21 @@ class TestChordComponent(unittest.TestCase):
 
 
 class TestChordComponentWithPitch(unittest.TestCase):
-    @parameterized.expand(
-        [
+    def test_basic_chords_with_pitch(self):
+        """
+        Validates if a chord with pitch is correctly calculated.
+        """
+        for chord, root_pitch, expected in [
             ("C", 1, ["C1", "E1", "G1"]),
             ("Am", 2, ["A2", "C3", "E3"]),
             ("Dm7/G", 3, ["G3", "D4", "F4", "A4", "C5"]),
             ("Eadd9", 5, ["E5", "G#5", "B5", "F#6"]),
-        ]
-    )
-    def test_basic_chords_with_pitch(self, chord, root_pitch, expected):
-        """Validates if a chord with pitch is correctly calculated.
-
-        :param str chord: A chord, specified as a string, e.g. "C"
-        :param int root_pitch: The root pitch for the chord
-        :param list expected: The expected components with pitch
-        """
-        c = Chord(chord)
-        com = c.components_with_pitch(root_pitch=root_pitch)
-        self.assertEqual(expected, com)
+        ]:
+            with self.subTest(chord=chord, root_pitch=root_pitch):
+                c = Chord(chord)
+                self.assertEqual(
+                    c.components_with_pitch(root_pitch=root_pitch), expected
+                )
 
     def test_first_order_inversion(self):
         c = Chord("G/1")
