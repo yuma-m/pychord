@@ -8,11 +8,11 @@ note_re = re.compile("^[A-G](b{0,2}|#{0,2})$")
 inversion_re = re.compile("/([0-9]+)")
 
 
-def parse(chord: str) -> tuple[str, Quality, list[str], str]:
+def parse(chord: str) -> tuple[str, Quality, str]:
     """Parse a string to get chord component
 
     :param chord: str expression of a chord
-    :return: (root, quality, appended, on)
+    :return: (root, quality, on)
     """
 
     if len(chord) > 2 and chord[1:3] in ("bb", "##"):
@@ -46,6 +46,4 @@ def parse(chord: str) -> tuple[str, Quality, list[str], str]:
     else:
         on = ""
     quality = QualityManager().get_quality(rest, inversion)
-    # TODO: Implement parser for appended notes
-    appended: list[str] = []
-    return root, quality, appended, on
+    return root, quality, on
