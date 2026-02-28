@@ -1,5 +1,4 @@
-from .constants import SCALE_VAL_DICT
-from .constants.scales import NOTE_VALUES
+from .constants.scales import NOTE_VALUES, SCALE_VAL_DICT
 
 
 def note_to_val(note: str) -> int:

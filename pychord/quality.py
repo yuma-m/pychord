@@ -116,7 +116,7 @@ def _apply_interval_to_note(root: str, interval: str) -> str:
     alterations, offset = _parse_interval(interval)
 
     # Apply the interval and alteration.
-    notes_in_key = _major_scale_notes(root)
+    notes_in_key = _scale_notes(root, "maj")
     note = notes_in_key[offset % 7]
     for alteration in alterations:
         if alteration == "#":
@@ -167,7 +167,7 @@ def _diminish(note: str) -> str:
 
 
 @functools.lru_cache()
-def _major_scale_notes(root: str) -> list[str]:
+def _scale_notes(root: str, mode: str) -> list[str]:
     """
     Return the list of note names in the given major scale.
     """
@@ -183,18 +183,24 @@ def _major_scale_notes(root: str) -> list[str]:
     # Name notes in the key.
     notes = [root]
     index = alphabet.index(root[0])
-    for offset in RELATIVE_KEY_DICT["maj"][1:-1]:
+    for offset in RELATIVE_KEY_DICT[mode][1:-1]:
         index = (index + 1) % 7
         note_val = (root_val + offset) % 12
 
         # Find the accidental to match the pitch.
-        note = alphabet[index]
-        for i in range(3):
+        letter = alphabet[index]
+        for note in [
+            _diminish(_diminish(letter)),
+            _diminish(letter),
+            letter,
+            _augment(letter),
+            _augment(_augment(letter)),
+        ]:
             if note_to_val(note) == note_val:
                 notes.append(note)
                 break
             note = alter(note)
         else:
-            raise ValueError(f"{root} major scale requires too many accidentals")
+            raise ValueError(f"{root}{mode} scale requires too many accidentals")
 
     return notes

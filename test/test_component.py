@@ -109,7 +109,7 @@ class TestChordComponent(unittest.TestCase):
                     c.components()
                 self.assertEqual(
                     str(cm.exception),
-                    f"{chord} major scale requires too many accidentals",
+                    f"{chord}maj scale requires too many accidentals",
                 )
 
 
