@@ -108,7 +108,6 @@ class TestChordCreations(unittest.TestCase):
             """Cmaj7
 root=C
 quality=maj7
-appended=[]
 on=""",
         )
 
