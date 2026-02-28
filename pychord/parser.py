@@ -9,9 +9,10 @@ inversion_re = re.compile("/([0-9]+)")
 
 
 def parse(chord: str) -> tuple[str, Quality, str]:
-    """Parse a string to get chord component
+    """
+    Parse a string to get chord component.
 
-    :param chord: str expression of a chord
+    :param chord: Name of the chord.
     :return: (root, quality, on)
     """
 

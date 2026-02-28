@@ -4,19 +4,15 @@ from .chord import Chord
 
 
 class ChordProgression:
-    """Class to handle chord progressions.
+    """
+    A chord progression, which is a sequence of :class:`Chord` instances.
 
-    Attributes:
-        _chords: component chords of chord progression.
+    :param initial_chords: Initial chord or chords of the chord progression.
     """
 
     def __init__(
         self, initial_chords: str | Chord | list[str] | list[Chord] = []
     ) -> None:
-        """Constructor of ChordProgression instance.
-
-        :param initial_chords: Initial chord or chords of the chord progressions
-        """
         if isinstance(initial_chords, Chord):
             chords = [initial_chords]
         elif isinstance(initial_chords, str):
@@ -56,45 +52,50 @@ class ChordProgression:
 
     @property
     def chords(self) -> list[Chord]:
-        """Get component chords of chord progression"""
+        """
+        The component chords of the chord progression.
+        """
         return self._chords
 
     def append(self, chord: str | Chord) -> None:
-        """Append a chord to chord progressions
+        """
+        Append a chord to the chord progression.
 
-        :param chord: A chord to append
+        :param chord: A chord to append.
         """
         self._chords.append(self._as_chord(chord))
 
     def insert(self, index: int, chord: str | Chord) -> None:
-        """Insert a chord to chord progressions
+        """
+        Insert a chord into the chord progression.
 
-        :param index: Index to insert a chord
-        :param chord: A chord to insert
+        :param index: Index to insert a chord.
+        :param chord: A chord to insert.
         """
         self._chords.insert(index, self._as_chord(chord))
 
     def pop(self, index: int = -1) -> Chord:
-        """Pop a chord from chord progressions
+        """
+        Pop a chord from the chord progression.
 
-        :param index: Index of the chord to pop (default: -1)
+        :param index: Index of the chord to pop (default: -1).
         """
         return self._chords.pop(index)
 
     def transpose(self, trans: int) -> None:
-        """Transpose whole chord progressions
+        """
+        Transpose the whole chord progression.
 
-        :param trans: Transpose key
+        :param trans: The number of semitones.
         """
         for chord in self._chords:
             chord.transpose(trans)
 
     @staticmethod
     def _as_chord(chord: str | Chord) -> Chord:
-        """Convert from str to Chord instance if input is str
+        """Convert from str to Chord instance if input is str.
 
-        :param chord: Chord name or Chord instance
-        :return: Chord instance
+        :param chord: Chord name or :class:`Chord` instance.
         """
         if isinstance(chord, Chord):
             return chord

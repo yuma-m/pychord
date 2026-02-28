@@ -8,20 +8,13 @@ from .utils import transpose_note, note_to_val
 
 
 class Chord:
-    """Class to handle a chord.
+    """
+    A chord, made up of two or more notes.
 
-    Attributes:
-        _chord: Name of the chord. (e.g. C, Am7, F#m7-5/A)
-        _root: The root note of chord. (e.g. C, A, F#)
-        _quality: The quality of chord. (e.g. maj, m7, m7-5)
-        _on: The base note of slash chord.
+    :param chord: Name of the chord, e.g. ``"C"``, ``"Am7"``, ``"F#m7-5/A"``.
     """
 
     def __init__(self, chord: str) -> None:
-        """Constructor of Chord instance
-
-        :param chord: Name of chord (e.g. C, Am7, F#m7-5/A).
-        """
         root, quality, on = parse(chord)
         self._chord: str = chord
         self._root: str = root
@@ -65,21 +58,21 @@ class Chord:
         diatonic: bool = False,
         chromatic: int = 0,
     ) -> "Chord":
-        """Create a Chord from note index in a scale
+        """Create a :class:`Chord` from a note index in a scale.
 
-        Chord.from_note_index(1, "", "Cmaj") returns I of C major => Chord("C")
-        Chord.from_note_index(3, "m7", "Fmaj") returns IIImin of F major => Chord("Am7")
-        Chord.from_note_index(5, "7", "Amin") returns Vmin of A minor => Chord("E7")
-        Chord.from_note_index(2, "", "Cmaj") returns II of C major => Chord("D")
-        Chord.from_note_index(2, "m", "Cmaj") returns IImin of C major => Chord("Dm")
-        Chord.from_note_index(2, "", "Cmaj", diatonic=True) returns IImin of C major => Chord("Dm")
-        Chord.from_note_index(2, "", "Cmin", chromatic=-1) returns bII of C minor => Chord("Db")
+        - ``Chord.from_note_index(1, "", "Cmaj")`` returns I of C major => Chord("C")
+        - ``Chord.from_note_index(3, "m7", "Fmaj")`` returns IIImin of F major => Chord("Am7")
+        - ``Chord.from_note_index(5, "7", "Amin")`` returns Vmin of A minor => Chord("E7")
+        - ``Chord.from_note_index(2, "", "Cmaj")`` returns II of C major => Chord("D")
+        - ``Chord.from_note_index(2, "m", "Cmaj")`` returns IImin of C major => Chord("Dm")
+        - ``Chord.from_note_index(2, "", "Cmaj", diatonic=True)`` returns IImin of C major => Chord("Dm")
+        - ``Chord.from_note_index(2, "", "Cmin", chromatic=-1)`` returns bII of C minor => Chord("Db")
 
-        :param note: Scale degree of the chord's root (1-7)
-        :param quality: Quality of the chord (e.g. m7, sus4)
-        :param scale: Base scale (e.g. Cmaj, Amin, F#maj, Ebmin)
-        :param diatonic: If True, chord quality is determined using the base scale (overrides :param quality)
-        :param chromatic: Lower or raise the scale degree (and all notes of the chord) by semitone(s)
+        :param note: Scale degree of the chord's root, ``1`` to ``7``.
+        :param quality: Quality of the chord, e.g. ``"m7"``, ``"sus4"``.
+        :param scale: Base scale, e.g. ``"Cmaj"``, ``"Amin"``, ``"F#maj"``, ``"Ebmin"``.
+        :param diatonic: If True, chord quality is determined using the base scale (overrides ``quality``).
+        :param chromatic: Lower or raise the scale degree (and all notes of the chord) by semitone(s).
         """
         if not 1 <= note <= 8:
             raise ValueError(f"Invalid note {note}")
@@ -131,36 +124,47 @@ class Chord:
 
     @property
     def chord(self) -> str:
-        """The name of chord"""
+        """
+        The name of the chord, e.g. ``"C"``, ``"Am7"``, ``"F#m7-5/A"``.
+        """
         return self._chord
 
     @property
     def root(self) -> str:
-        """The root note of chord"""
+        """
+        The root note of the chord, e.g. ``"C"``, ``"A"``, ``"F#"``.
+        """
         return self._root
 
     @property
     def quality(self) -> Quality:
-        """The quality of chord"""
+        """
+        The quality of the chord, e.g. ``"maj"``, ``"m7"``, ``"m7-5"``.
+        """
         return self._quality
 
     @property
     def on(self) -> str:
-        """The base note of slash chord"""
+        """
+        The bass note of a slash chord.
+        """
         return self._on
 
     def info(self) -> str:
-        """Return information of chord to display"""
+        """
+        Return information of chord to display.
+        """
         return f"""{self._chord}
 root={self._root}
 quality={self._quality}
 on={self._on}"""
 
     def transpose(self, trans: int, scale: str = "C") -> None:
-        """Transpose the chord
+        """
+        Transpose the chord.
 
-        :param trans: Transpose key
-        :param scale: key scale
+        :param trans: The number of semitones.
+        :param scale: Key scale.
         """
         if not isinstance(trans, int):
             raise TypeError(f"Expected integers, not {type(trans)}")
@@ -176,10 +180,10 @@ on={self._on}"""
     def components(self, visible: Literal[False]) -> list[int]: ...
 
     def components(self, visible: bool = True) -> list[str] | list[int]:
-        """Return the component notes of chord
+        """
+        Return the component notes of the chord.
 
-        :param visible: returns the name of notes if True else list of int
-        :return: component notes of chord
+        :param visible: Returns the note names if ``True``, the note pitches otherwise.
         """
         if visible:
             notes = self._quality.get_components(root=self._root, visible=True)
@@ -198,10 +202,10 @@ on={self._on}"""
             return components
 
     def components_with_pitch(self, root_pitch: int) -> list[str]:
-        """Return the component notes of chord formatted like ["C4", "E4", "G4"]
+        """
+        Return the component notes of chord formatted like ``["C4", "E4", "G4"]``.
 
-        :param root_pitch: the pitch of the root note
-        :return: component notes of chord
+        :param root_pitch: The pitch of the root note.
         """
         components = self.components(visible=False)
         notes = self.components(visible=True)

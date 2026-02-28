@@ -4,10 +4,10 @@ from .utils import note_to_val
 
 
 def find_chords_from_notes(notes: list[str]) -> list[Chord]:
-    """Find possible chords consisted from notes
+    """
+    Find possible chords consisting of the given notes.
 
-    :param notes: List of note arranged from lower note. ex) ["C", "Eb", "G"]
-    :return: List of chord
+    :param notes: List of notes arranged from lower note, e.g. ``["C", "Eb", "G"]``.
     """
     if not notes:
         raise ValueError("Please specify notes which consist a chord.")
@@ -32,14 +32,14 @@ def find_chords_from_notes(notes: list[str]) -> list[Chord]:
 
 
 def notes_to_positions(notes: list[str], root: str) -> list[int]:
-    """Get notes positions from the root note
+    """
+    Get notes positions from the root note.
 
     >>> notes_to_positions(["C", "E", "G"], "C")
     [0, 4, 7]
 
-    :param notes: List of notes
-    :param root: Root note
-    :return: List of note positions
+    :param notes: List of notes.
+    :param root: Root note.
     """
     root_pos = note_to_val(root)
     current_pos = root_pos
@@ -54,7 +54,8 @@ def notes_to_positions(notes: list[str], root: str) -> list[int]:
 
 
 def get_all_rotated_notes(notes: list[str]) -> list[list[str]]:
-    """Get all rotated notes
+    """
+    Get all rotated notes.
 
     get_all_rotated_notes([A,C,E]) -> [[A,C,E],[C,E,A],[E,A,C]]
     """

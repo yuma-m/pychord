@@ -51,6 +51,12 @@ class TestQuality(unittest.TestCase):
             elif "M" in q:
                 self.subtest_quality_synonym(q, q.replace("M", "maj"))
 
+    def test_properties(self):
+        q = self.quality_manager.get_quality("m")
+        self.assertEqual(str(q), "m")
+        self.assertEqual(q.intervals, ["1", "b3", "5"])
+        self.assertEqual(q.quality, "m")
+
 
 class TestQualityManager(unittest.TestCase):
     def test_singleton(self):
