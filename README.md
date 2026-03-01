@@ -28,7 +28,6 @@ $ pip install pychord
 Am7
 root=A
 quality=m7
-appended=[]
 on=None
 """
 ```

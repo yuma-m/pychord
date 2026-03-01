@@ -33,14 +33,3 @@ def transpose_note(note: str, transpose: int, scale: str = "C") -> str:
     val = note_to_val(note)
     val += transpose
     return SCALE_VAL_DICT[scale][val % 12]
-
-
-def display_appended(appended: list[str]) -> str:
-    # TODO: Implement this
-    return ""
-
-
-def display_on(on_note: str) -> str:
-    if on_note:
-        return f"/{on_note}"
-    return ""
