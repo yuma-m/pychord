@@ -9,14 +9,19 @@ from .utils import note_to_val
 
 
 class Quality:
-    """Chord quality"""
+    """
+    A chord quality, defined by its intervals.
+
+    You should never need to create instances of this class yourself.
+
+    Use :class:`QualityManager` if you need to define a new quality or
+    override an existing one.
+
+    :param name: Name of the quality.
+    :param intervals: Intervals defining the quality.
+    """
 
     def __init__(self, name: str, intervals: tuple[str, ...]) -> None:
-        """Constructor of chord quality
-
-        :param name: name of quality
-        :param components: components of quality
-        """
         self._quality: str = name
         self._intervals = intervals
 
@@ -33,8 +38,17 @@ class Quality:
         return tuple(_get_interval_pitch(i) for i in self._intervals)
 
     @property
+    def intervals(self) -> list[str]:
+        """
+        The intervals definining the quality, e.g. ``["1", "3", "5"]`` or ``["1", "b3", "5", "b7"]``.
+        """
+        return list(self._intervals)
+
+    @property
     def quality(self) -> str:
-        """Get name of quality"""
+        """
+        The name of the quality, e.g. ``"maj"``, ``"m7"``.
+        """
         return self._quality
 
     @overload
@@ -64,7 +78,9 @@ class Quality:
 
 
 class QualityManager:
-    """Singleton class to manage the qualities"""
+    """
+    Singleton class to manage the chord qualities.
+    """
 
     def __new__(cls) -> "QualityManager":
         if not hasattr(cls, "_instance"):
@@ -93,18 +109,21 @@ class QualityManager:
         return dict(self._qualities)
 
     def set_quality(self, name: str, intervals: tuple[str, ...]) -> None:
-        """Set a Quality
+        """
+        Define a new quality or override an existing one.
 
-        This method will not affect any existing Chord instances.
-        :param name: name of quality
-        :param intervals: intervals of quality
+        This method will not affect any existing :class:`Chord` instances.
+
+        :param name: Name of the quality, e.g. ``"m"``.
+        :param intervals: Intervals defining the quality, e.g. ``["1", "b3", "5"]``.
         """
         self._qualities[name] = Quality(name, intervals)
 
     def find_quality_from_components(self, components: list[int]) -> Quality | None:
-        """Find a quality from components
+        """
+        Find a quality from its components.
 
-        :param components: components of quality
+        :param components: Components of the quality.
         """
         for q in self._qualities.values():
             if list(q.components) == components:
