@@ -1,3 +1,0 @@
-from .scales import NOTE_VAL_DICT, VAL_NOTE_DICT, SCALE_VAL_DICT
-
-__all__ = ["NOTE_VAL_DICT", "VAL_NOTE_DICT", "SCALE_VAL_DICT"]

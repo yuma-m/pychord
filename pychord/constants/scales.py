@@ -1,17 +1,3 @@
-VAL_NOTE_DICT = {
-    0: ["C", "Dbb"],
-    1: ["Db", "C#"],
-    2: ["D", "Ebb", "C##"],
-    3: ["Eb", "Fbb", "D#"],
-    4: ["E", "D##"],
-    5: ["F", "Gbb"],
-    6: ["F#", "Gb"],
-    7: ["G", "Abb", "F##"],
-    8: ["Ab", "G#"],
-    9: ["A", "Bbb", "G##"],
-    10: ["Bb", "A#", "Cbb"],
-    11: ["B", "Cb", "A##"],
-}
 NOTE_VALUES = {
     "C": 0,
     "D": 2,
@@ -21,10 +7,6 @@ NOTE_VALUES = {
     "A": 9,
     "B": 11,
 }
-NOTE_VAL_DICT = {}
-for val, notes in VAL_NOTE_DICT.items():
-    for note in notes:
-        NOTE_VAL_DICT[note] = val
 
 SHARPED_SCALE = {
     0: "C",

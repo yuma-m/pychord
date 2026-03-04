@@ -5,7 +5,7 @@ from typing import Any, Literal, overload
 
 from .constants.qualities import DEFAULT_QUALITIES
 from .constants.scales import RELATIVE_KEY_DICT
-from .utils import note_to_val
+from .utils import augment, diminish, note_to_val
 
 
 class Quality:
@@ -135,13 +135,13 @@ def _apply_interval_to_note(root: str, interval: str) -> str:
     alterations, offset = _parse_interval(interval)
 
     # Apply the interval and alteration.
-    notes_in_key = _major_scale_notes(root)
+    notes_in_key = scale_notes(root, "maj")
     note = notes_in_key[offset % 7]
     for alteration in alterations:
         if alteration == "#":
-            note = _augment(note)
+            note = augment(note)
         else:
-            note = _diminish(note)
+            note = diminish(note)
     return note
 
 
@@ -165,55 +165,41 @@ def _parse_interval(interval: str) -> tuple[str, int]:
     return alterations, offset
 
 
-def _augment(note: str) -> str:
-    """
-    Augment the given note.
-    """
-    if note.endswith("b"):
-        return note[:-1]
-    else:
-        return note + "#"
-
-
-def _diminish(note: str) -> str:
-    """
-    Diminish the given note.
-    """
-    if note.endswith("#"):
-        return note[:-1]
-    else:
-        return note + "b"
-
-
 @functools.lru_cache()
-def _major_scale_notes(root: str) -> list[str]:
+def scale_notes(root: str, mode: str) -> list[str]:
     """
-    Return the list of note names in the given major scale.
+    Return the list of note names in the given scale.
     """
     alphabet = ["C", "D", "E", "F", "G", "A", "B"]
     root_val = note_to_val(root)
 
     # Determine whether we use a flatted or sharped scale.
     if root == "F" or len(root) > 1 and root[1] == "b":
-        alter = _diminish
+        alter = diminish
     else:
-        alter = _augment
+        alter = augment
 
     # Name notes in the key.
     notes = [root]
     index = alphabet.index(root[0])
-    for offset in RELATIVE_KEY_DICT["maj"][1:-1]:
+    for offset in RELATIVE_KEY_DICT[mode][1:-1]:
         index = (index + 1) % 7
         note_val = (root_val + offset) % 12
 
         # Find the accidental to match the pitch.
-        note = alphabet[index]
-        for i in range(3):
+        letter = alphabet[index]
+        for note in [
+            diminish(diminish(letter)),
+            diminish(letter),
+            letter,
+            augment(letter),
+            augment(augment(letter)),
+        ]:
             if note_to_val(note) == note_val:
                 notes.append(note)
                 break
             note = alter(note)
         else:
-            raise ValueError(f"{root} major scale requires too many accidentals")
+            raise ValueError(f"{root}{mode} scale requires too many accidentals")
 
     return notes

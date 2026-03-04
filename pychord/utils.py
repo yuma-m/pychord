@@ -1,5 +1,24 @@
-from .constants import SCALE_VAL_DICT
-from .constants.scales import NOTE_VALUES
+from .constants.scales import NOTE_VALUES, SCALE_VAL_DICT
+
+
+def augment(note: str) -> str:
+    """
+    Augment the given note.
+    """
+    if note.endswith("b"):
+        return note[:-1]
+    else:
+        return note + "#"
+
+
+def diminish(note: str) -> str:
+    """
+    Diminish the given note.
+    """
+    if note.endswith("#"):
+        return note[:-1]
+    else:
+        return note + "b"
 
 
 def note_to_val(note: str) -> int:
