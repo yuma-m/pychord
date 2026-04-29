@@ -82,8 +82,10 @@ class QualityManager:
     Singleton class to manage the chord qualities.
     """
 
+    _instance: "QualityManager | None" = None
+
     def __new__(cls) -> "QualityManager":
-        if not hasattr(cls, "_instance"):
+        if cls._instance is None:
             cls._instance = super(QualityManager, cls).__new__(cls)
             cls._instance.load_default_qualities()
         return cls._instance
