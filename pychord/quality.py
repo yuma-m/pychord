@@ -1,7 +1,7 @@
 import copy
 import functools
 import re
-from typing import Any, Literal, overload
+from typing import Any, ClassVar, Literal, overload
 
 from .constants.qualities import DEFAULT_QUALITIES
 from .constants.scales import RELATIVE_KEY_DICT
@@ -82,7 +82,7 @@ class QualityManager:
     Singleton class to manage the chord qualities.
     """
 
-    _instance: "QualityManager | None" = None
+    _instance: ClassVar["QualityManager | None"] = None
 
     def __new__(cls) -> "QualityManager":
         if cls._instance is None:
