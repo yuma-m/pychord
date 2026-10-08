@@ -1,3 +1,4 @@
+import copy
 from typing import Any
 
 from .chord import Chord
@@ -32,7 +33,8 @@ class ChordProgression:
         return f"<ChordProgression: {self}>"
 
     def __add__(self, other: "ChordProgression") -> "ChordProgression":
-        return ChordProgression(self._chords + other._chords)
+        # Copy the chords so that transposing the result does not affect the operands
+        return ChordProgression(copy.deepcopy(self._chords + other._chords))
 
     def __len__(self) -> int:
         return len(self._chords)
