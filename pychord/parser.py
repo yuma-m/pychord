@@ -21,12 +21,12 @@ def _check_note(note: str) -> None:
         raise ValueError(f"Invalid note {note}")
 
 
-def parse(chord: str) -> tuple[str, Quality, str]:
+def parse(chord: str) -> tuple[str, Quality, int, str]:
     """
     Parse a string to get chord component.
 
     :param chord: Name of the chord.
-    :return: (root, quality, on)
+    :return: (root, quality, inversion, on)
     """
 
     if len(chord) > 2 and chord[1:3] in ("bb", "##"):
@@ -55,7 +55,7 @@ def parse(chord: str) -> tuple[str, Quality, str]:
     else:
         on = ""
     quality = QualityManager().get_quality(rest, inversion)
-    return root, quality, on
+    return root, quality, inversion, on
 
 
 def parse_scale(scale: str) -> tuple[str, str]:
