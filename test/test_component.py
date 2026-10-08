@@ -54,6 +54,8 @@ class TestChordComponent(unittest.TestCase):
             ("Dbaug", [1, 5, 9], ["Db", "F", "A"]),
             ("Eaug", [4, 8, 12], ["E", "G#", "B#"]),
             ("CM9/D", [-10, 0, 4, 7, 11], ["D", "C", "E", "G", "B"]),
+            ("Db/C#", [1, 5, 8], ["C#", "F", "Ab"]),
+            ("C/B#", [0, 4, 7], ["B#", "E", "G"]),
             ("Fsus4", [5, 10, 12], ["F", "Bb", "C"]),
             ("G7", [7, 11, 14, 17], ["G", "B", "D", "F"]),
             ("G7b9", [7, 11, 14, 17, 20], ["G", "B", "D", "F", "Ab"]),
@@ -122,6 +124,7 @@ class TestChordComponentWithPitch(unittest.TestCase):
             ("C", 1, ["C1", "E1", "G1"]),
             ("Am", 2, ["A2", "C3", "E3"]),
             ("Dm7/G", 3, ["G3", "D4", "F4", "A4", "C5"]),
+            ("Db/C#", 4, ["C#4", "F4", "Ab4"]),
             ("Eadd9", 5, ["E5", "G#5", "B5", "F#6"]),
         ]:
             with self.subTest(chord=chord, root_pitch=root_pitch):
