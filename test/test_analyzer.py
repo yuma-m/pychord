@@ -59,6 +59,11 @@ class TestFindChordsFromNotes(unittest.TestCase):
             (["C", "E", "G", "B", "F"], ["Cmaj7add11"]),
             (["C", "Eb", "G", "B", "F"], ["Cmmaj7add11"]),
             (["C", "E", "G", "B", "A"], ["Cmaj7add13", "Am9/C"]),
+            # Duplicated notes are ignored
+            (["C", "E", "G", "C"], ["C"]),
+            (["C", "E", "C", "G", "E"], ["C"]),
+            (["E", "G", "C", "E"], ["C/E"]),
+            (["C", "E", "G", "B#"], ["C"]),
         ]:
             with self.subTest(notes=notes):
                 chords = find_chords_from_notes(notes)
