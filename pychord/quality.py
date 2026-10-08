@@ -22,6 +22,9 @@ class Quality:
     """
 
     def __init__(self, name: str, intervals: tuple[str, ...]) -> None:
+        # Validate the intervals now rather than when the quality is used
+        for interval in intervals:
+            _parse_interval(interval)
         self._quality: str = name
         self._intervals = intervals
 
@@ -118,6 +121,7 @@ class QualityManager:
 
         :param name: Name of the quality, e.g. ``"m"``.
         :param intervals: Intervals defining the quality, e.g. ``["1", "b3", "5"]``.
+        :raises ValueError: If any of the intervals is invalid.
         """
         self._qualities[name] = Quality(name, intervals)
 
@@ -160,8 +164,9 @@ def _get_interval_pitch(interval: str) -> int:
 
 
 def _parse_interval(interval: str) -> tuple[str, int]:
-    m = re.match(r"^([b#]*)(\d+)$", interval)
-    assert m, f"Invalid interval {interval}"
+    m = re.fullmatch(r"([b#]*)([1-9]\d*)", interval)
+    if not m:
+        raise ValueError(f"Invalid interval {interval}")
     alterations = m.group(1)
     offset = int(m.group(2)) - 1
     return alterations, offset

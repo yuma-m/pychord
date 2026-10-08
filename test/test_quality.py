@@ -90,6 +90,17 @@ class TestOverwriteQuality(unittest.TestCase):
         self.quality_manager.set_quality("11", ("1", "3", "5", "b7", "11"))
         self.assertEqual(chord.components(), ["C", "E", "G", "Bb", "D", "F"])
 
+    def test_invalid_interval(self):
+        for interval in ["", "x", "0", "b", "3b", "b3x", "3\n"]:
+            with self.subTest(interval=interval):
+                with self.assertRaises(ValueError) as cm:
+                    self.quality_manager.set_quality("11", ("1", "3", interval))
+                self.assertEqual(str(cm.exception), f"Invalid interval {interval}")
+                # The existing quality must be left untouched.
+                self.assertEqual(
+                    Chord("C11").components(), ["C", "E", "G", "Bb", "D", "F"]
+                )
+
 
 class TestIterateQualities(unittest.TestCase):
     def setUp(self):
