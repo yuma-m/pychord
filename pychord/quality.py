@@ -100,7 +100,7 @@ class QualityManager:
         q = copy.deepcopy(self._qualities[name])
         # apply requested inversion :
         for i in range(inversion):
-            max_a, max_o = _parse_interval(q._intervals[-1])
+            _, max_o = _parse_interval(q._intervals[-1])
             a, o = _parse_interval(q._intervals[0])
             while o < max_o:
                 o += 7
