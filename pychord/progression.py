@@ -41,8 +41,8 @@ class ChordProgression:
     def __getitem__(self, key: int) -> Chord:
         return self._chords[key]
 
-    def __setitem__(self, key: int, value: Chord) -> None:
-        self._chords[key] = value
+    def __setitem__(self, key: int, value: str | Chord) -> None:
+        self._chords[key] = self._as_chord(value)
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ChordProgression):

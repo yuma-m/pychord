@@ -132,6 +132,17 @@ class TestChordProgressionFunctions(unittest.TestCase):
         self.assertEqual(cp[2], Chord("G"))
         self.assertEqual(len(cp), 3)
 
+    def test_set_item_str(self):
+        cp = ChordProgression(["C", "F", "G"])
+        cp[1] = "E"
+        self.assertEqual(cp[1], Chord("E"))
+        self.assertIsInstance(cp[1], Chord)
+
+    def test_set_item_invalid_type(self):
+        cp = ChordProgression(["C", "F", "G"])
+        with self.assertRaises(TypeError):
+            cp[1] = 1
+
     def test_slice(self):
         cp = ChordProgression(["C", "F", "G"])
         self.assertEqual(cp[0:1], [Chord("C")])
