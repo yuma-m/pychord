@@ -192,7 +192,9 @@ on={self._on}"""
         if visible:
             notes = self._quality.get_components(root=self._root, visible=True)
             if self._on:
-                notes = [n for n in notes if n != self._on]
+                # Compare pitches, not names, to also drop enharmonic notes (e.g. Db/C#)
+                on_value = note_to_val(self._on)
+                notes = [n for n in notes if note_to_val(n) != on_value]
                 notes.insert(0, self._on)
             return notes
         else:
