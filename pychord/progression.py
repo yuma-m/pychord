@@ -33,7 +33,6 @@ class ChordProgression:
         return f"<ChordProgression: {self}>"
 
     def __add__(self, other: "ChordProgression") -> "ChordProgression":
-        # Copy the chords so that transposing the result does not affect the operands
         return ChordProgression(copy.deepcopy(self._chords + other._chords))
 
     def __len__(self) -> int:
