@@ -98,6 +98,17 @@ class TestChordProgressionFunctions(unittest.TestCase):
         self.assertEqual(len(cp1), 3)
         self.assertEqual(len(cp2), 2)
 
+    def test_add_does_not_share_chords(self):
+        cp1 = ChordProgression(["C", "F"])
+        cp2 = ChordProgression(["G"])
+        cp = cp1 + cp2
+        cp.transpose(2)
+        self.assertEqual(cp.chords, [Chord("D"), Chord("G"), Chord("A")])
+
+        # Check the original progressions have not been transposed.
+        self.assertEqual(cp1.chords, [Chord("C"), Chord("F")])
+        self.assertEqual(cp2.chords, [Chord("G")])
+
     def test_self_add(self):
         cp1 = ChordProgression(["C", "F", "G"])
         cp2 = ChordProgression(["Am", "Em"])
