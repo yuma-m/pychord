@@ -22,7 +22,6 @@ class Quality:
     """
 
     def __init__(self, name: str, intervals: tuple[str, ...]) -> None:
-        # Validate the intervals now rather than when the quality is used
         for interval in intervals:
             _parse_interval(interval)
         self._quality: str = name
