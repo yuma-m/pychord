@@ -7,10 +7,13 @@ def find_chords_from_notes(notes: list[str]) -> list[Chord]:
     """
     Find possible chords consisting of the given notes.
 
+    Notes repeating a pitch that already appeared (e.g. octave doublings) are ignored.
+
     :param notes: List of notes arranged from lower note, e.g. ``["C", "Eb", "G"]``.
     """
     if not notes:
         raise ValueError("Please specify notes which consist a chord.")
+    notes = _remove_duplicate_notes(notes)
     root = notes[0]
     root_and_positions = []
     for rotated_notes in get_all_rotated_notes(notes):
@@ -51,6 +54,22 @@ def notes_to_positions(notes: list[str], root: str) -> list[int]:
         positions.append(note_pos - root_pos)
         current_pos = note_pos
     return positions
+
+
+def _remove_duplicate_notes(notes: list[str]) -> list[str]:
+    """
+    Remove notes with the same pitch as a previous note, keeping the order.
+
+    _remove_duplicate_notes([C,E,G,C]) -> [C,E,G]
+    """
+    unique_notes = []
+    seen_values = set()
+    for note in notes:
+        value = note_to_val(note)
+        if value not in seen_values:
+            seen_values.add(value)
+            unique_notes.append(note)
+    return unique_notes
 
 
 def get_all_rotated_notes(notes: list[str]) -> list[list[str]]:
