@@ -14,10 +14,11 @@ class Chord:
     """
 
     def __init__(self, chord: str) -> None:
-        root, quality, on = parse(chord)
+        root, quality, inversion, on = parse(chord)
         self._chord: str = chord
         self._root: str = root
         self._quality: Quality = quality
+        self._inversion: int = inversion
         self._on: str = on
 
     def __str__(self) -> str:
@@ -217,8 +218,9 @@ on={self._on}"""
         return [f"{n}{root_pitch + c // 12}" for (n, c) in zip(notes, components)]
 
     def _reconfigure_chord(self) -> None:
-        self._chord = "{}{}{}".format(
+        self._chord = "{}{}{}{}".format(
             self._root,
             self._quality.quality,
+            f"/{self._inversion}" if self._inversion else "",
             f"/{self._on}" if self._on else "",
         )

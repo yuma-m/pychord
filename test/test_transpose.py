@@ -40,6 +40,14 @@ class TestChordTranspose(unittest.TestCase):
         c.transpose(3)
         self.assertEqual(c.root, "C")
         self.assertEqual(c.quality.quality, "m7")
+        self.assertEqual(c.chord, "Cm7/3")
+        self.assertEqual(c.components(), Chord("Cm7/3").components())
+
+    def test_transpose_inversion_slash(self):
+        c = Chord("Cm7/3/F")
+        c.transpose(2)
+        self.assertEqual(c.chord, "Dm7/3/G")
+        self.assertEqual(c.components(), Chord("Dm7/3/G").components())
 
     def test_invalid_transpose_type(self):
         c = Chord("Am")
