@@ -4,12 +4,20 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_call:
+    inputs:
+      ref:
+        description: Git ref to build and publish
+        required: true
+        type: string
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
