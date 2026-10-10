@@ -1,0 +1,72 @@
+name: Prepare release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version part to bump
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Compute next version
+        id: version
+        env:
+          BUMP: ${{ inputs.bump }}
+        run: |
+          version=$(python3 - <<'EOF'
+          import os
+          import tomllib
+
+          with open("pyproject.toml", "rb") as f:
+              major, minor, patch = map(int, tomllib.load(f)["project"]["version"].split("."))
+          bump = os.environ["BUMP"]
+          if bump == "major":
+              major, minor, patch = major + 1, 0, 0
+          elif bump == "minor":
+              minor, patch = minor + 1, 0
+          else:
+              patch += 1
+          print(f"{major}.{minor}.{patch}")
+          EOF
+          )
+          if git rev-parse -q --verify "refs/tags/v${version}" >/dev/null; then
+            echo "::error::Tag v${version} already exists"
+            exit 1
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+      - name: Create pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          branch="release/v${VERSION}"
+          sed -i "s/^version = \".*\"/version = \"${VERSION}\"/" pyproject.toml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "${branch}"
+          git commit -am "Bump version to v${VERSION}"
+          git push origin "${branch}"
+          gh pr create --base main --head "${branch}" \
+            --title "Bump version to v${VERSION}" \
+            --body "Bump version to v${VERSION}. Merging this PR tags the release, creates a GitHub release and publishes the package to PyPI."
+          # Pull requests created with GITHUB_TOKEN do not trigger pull_request
+          # workflows, so run the required checks explicitly.
+          gh workflow run build.yml --ref "${branch}"
