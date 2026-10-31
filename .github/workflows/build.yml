@@ -7,15 +7,20 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: [ "3.11", "3.12", "3.13", "3.14", "3.15" ]
-
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v7
         with:
@@ -24,15 +29,47 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install --group test --group lint
+          python -m pip install --group test
       - name: Run tests
         run: |
           coverage run -m unittest -v
           coverage report
-      - name: Run style check
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+          cache: pip
+      - name: Install dependencies
         run: |
-          ruff check pychord test examples
-          ruff format --check pychord test examples
+          python -m pip install --upgrade pip
+          python -m pip install --group lint
+      - name: Run lint
+        run: ruff check pychord test examples
+      - name: Run format check
+        run: ruff format --check pychord test examples
       - name: Run type check
+        run: mypy pychord
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+      - name: Build distributions
         run: |
-          mypy pychord
+          python -m pip install --upgrade pip build twine
+          python -m build
+      - name: Check distributions
+        run: twine check --strict dist/*
