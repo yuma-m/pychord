@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
-from pychord import QualityManager, Chord, find_chords_from_notes
+from pychord import Chord, QualityManager, find_chords_from_notes
 
 
 class TestQuality(unittest.TestCase):

@@ -1,9 +1,9 @@
-from typing import Any, Literal, overload
+from typing import Any, Literal, Self, overload
 
 from .constants.scales import RELATIVE_KEY_DICT
 from .parser import parse, parse_scale
-from .quality import QualityManager, Quality, scale_notes
-from .utils import augment, diminish, transpose_note, note_to_val
+from .quality import Quality, QualityManager, scale_notes
+from .utils import augment, diminish, note_to_val, transpose_note
 
 
 class Chord:
@@ -35,19 +35,11 @@ class Chord:
         if self._quality != other.quality:
             return False
 
-        if (
-            # If one chord has an "on" and not the other, they differ.
-            bool(self._on)
-            != bool(other.on)
-        ) or (
-            # If both chords have an "on" and they are not enharmonic, they differ.
-            self._on
-            and other.on
-            and note_to_val(self._on) != note_to_val(other.on)
-        ):
+        # If one chord has an "on" and not the other, they differ.
+        if bool(self._on) != bool(other.on):
             return False
-
-        return True
+        # If both chords have an "on", they must be enharmonic.
+        return not self._on or note_to_val(self._on) == note_to_val(other.on)
 
     @classmethod
     def from_note_index(
@@ -57,7 +49,7 @@ class Chord:
         scale: str,
         diatonic: bool = False,
         chromatic: int = 0,
-    ) -> "Chord":
+    ) -> Self:
         """Create a :class:`Chord` from a note index in a scale.
 
         - ``Chord.from_note_index(1, "", "Cmaj")`` returns I of C major => Chord("C")
@@ -80,7 +72,7 @@ class Chord:
         root = scale_notes(scale_root, scale_mode)[note - 1]
         if chromatic != 0:
             alter = augment if chromatic > 0 else diminish
-            for i in range(abs(chromatic)):
+            for _ in range(abs(chromatic)):
                 root = alter(root)
 
         if diatonic:
@@ -98,9 +90,7 @@ class Chord:
             def get_diatonic_chord(chord: tuple[int, ...]) -> list[int]:
                 uninverted: list[int] = []
                 for note in chord:
-                    if not uninverted:
-                        uninverted.append(note)
-                    elif note > uninverted[-1]:
+                    if not uninverted or note > uninverted[-1]:
                         uninverted.append(note)
                     else:
                         uninverted.append(note + 12)
@@ -217,12 +207,12 @@ on={self._on}"""
         notes = self.components(visible=True)
         if components[0] < 0:
             components = [c + 12 for c in components]
-        return [f"{n}{root_pitch + c // 12}" for (n, c) in zip(notes, components)]
+        return [
+            f"{n}{root_pitch + c // 12}"
+            for (n, c) in zip(notes, components, strict=True)
+        ]
 
     def _reconfigure_chord(self) -> None:
-        self._chord = "{}{}{}{}".format(
-            self._root,
-            self._quality.quality,
-            f"/{self._inversion}" if self._inversion else "",
-            f"/{self._on}" if self._on else "",
-        )
+        inversion = f"/{self._inversion}" if self._inversion else ""
+        on = f"/{self._on}" if self._on else ""
+        self._chord = f"{self._root}{self._quality.quality}{inversion}{on}"

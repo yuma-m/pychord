@@ -27,9 +27,9 @@ def find_chords_from_notes(notes: list[str]) -> list[Chord]:
         if quality is None:
             continue
         if temp_root == root:
-            chord = "{}{}".format(root, quality)
+            chord = f"{root}{quality}"
         else:
-            chord = "{}{}/{}".format(temp_root, quality, root)
+            chord = f"{temp_root}{quality}/{root}"
         chords.append(Chord(chord))
     return chords
 

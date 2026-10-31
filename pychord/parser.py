@@ -1,7 +1,7 @@
 import re
 
 from .constants.scales import RELATIVE_KEY_DICT
-from .quality import QualityManager, Quality
+from .quality import Quality, QualityManager
 
 # We accept notes with up to two flats or two sharps.
 note_re = re.compile("^[A-G](b{0,2}|#{0,2})$")

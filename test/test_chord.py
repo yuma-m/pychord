@@ -71,7 +71,7 @@ class TestChordCreations(unittest.TestCase):
 
     def test_eq_invalid(self):
         with self.assertRaises(TypeError):
-            Chord("C") == 0
+            _ = Chord("C") == 0
 
     def test_eq_different_root(self):
         self.assertNotEqual(Chord("C"), Chord("D"))
