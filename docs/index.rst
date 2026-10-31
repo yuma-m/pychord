@@ -1,10 +1,20 @@
-.. pychord documentation master file, created by
-   sphinx-quickstart on Sat Dec 31 14:51:42 2016.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+PyChord
+=======
 
-Welcome to pychord's documentation!
-===================================
+PyChord is a Python library to handle musical chords: parse chord names,
+transpose them, list their component notes, compare them, find chords from
+notes and manage chord progressions.
+
+.. code-block:: sh
+
+   pip install pychord
+
+.. code-block:: python
+
+   >>> from pychord import Chord
+   >>> c = Chord("Am7")
+   >>> c.components()
+   ['A', 'C', 'E', 'G']
 
 .. toctree::
    :maxdepth: 4

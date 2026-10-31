@@ -1,6 +1,12 @@
 ![PyChord](https://github.com/yuma-m/pychord/raw/main/pychord.png)
 
-# PyChord ![Build Status](https://github.com/yuma-m/pychord/actions/workflows/build.yml/badge.svg) [![Documentation Status](https://readthedocs.org/projects/pychord/badge/?version=latest)](http://pychord.readthedocs.io/en/latest/?badge=latest)
+# PyChord
+
+[![PyPI](https://img.shields.io/pypi/v/pychord)](https://pypi.org/project/pychord/)
+[![Python versions](https://img.shields.io/pypi/pyversions/pychord)](https://pypi.org/project/pychord/)
+[![Build Status](https://github.com/yuma-m/pychord/actions/workflows/build.yml/badge.svg)](https://github.com/yuma-m/pychord/actions/workflows/build.yml)
+[![Documentation Status](https://readthedocs.org/projects/pychord/badge/?version=latest)](https://pychord.readthedocs.io/en/latest/?badge=latest)
+[![License: MIT](https://img.shields.io/pypi/l/pychord)](./LICENSE)
 
 ## Overview
 
@@ -23,13 +29,11 @@ $ pip install pychord
 >>> c = Chord("Am7")
 >>> c
 <Chord: Am7>
->>> c.info()
-"""
+>>> print(c.info())
 Am7
 root=A
 quality=m7
-on=None
-"""
+on=
 ```
 
 ### Transpose a Chord
@@ -69,11 +73,11 @@ True
 ```python
 >>> from pychord import find_chords_from_notes
 >>> find_chords_from_notes(["C", "E", "G"])
-[ <Chord: C>]
+[<Chord: C>]
 >>> find_chords_from_notes(["F#", "A", "C", "D"])
-[ <Chord: D7/F#>]
+[<Chord: D7/F#>]
 >>> find_chords_from_notes(["F", "G", "C"])
-[ <Chord: Fsus2>, <Chord: Csus4/F>]
+[<Chord: Fsus2>, <Chord: Csus4/F>]
 ```
 
 ### Create and handle chord progressions
@@ -142,11 +146,31 @@ additional forward slash to change the bass note:
 
 - [pychord-midi.py](./examples/pychord-midi.py) - Create a MIDI file using PyChord and pretty_midi.
 
+## Development
+
+Development tools are declared as [dependency groups](https://packaging.python.org/en/latest/specifications/dependency-groups/) in `pyproject.toml` (requires pip 25.1 or later).
+
+```sh
+$ pip install -e . --group dev
+
+# Run tests with coverage
+$ coverage run -m unittest -v && coverage report
+
+# Lint, format and type check
+$ ruff check pychord test examples
+$ ruff format --check pychord test examples
+$ mypy pychord
+
+# Build the documentation
+$ pip install -r docs/requirements.txt
+$ make -C docs html
+```
+
 ## Links
 
-- [PyPI](https://pypi.python.org/pypi/pychord)
+- [PyPI](https://pypi.org/project/pychord/)
 - [GitHub](https://github.com/yuma-m/pychord)
-- [Documentation](http://pychord.readthedocs.io/en/latest/)
+- [Documentation](https://pychord.readthedocs.io/en/latest/)
 
 ## Author
 

@@ -47,10 +47,6 @@ lint = [
     "mypy>=1.19.1",
     "ruff>=0.17",
 ]
-docs = [
-    "sphinx>=9.1",
-    "sphinx-rtd-theme>=3.1",
-]
 dev = [
     {include-group = "test"},
     {include-group = "lint"},
