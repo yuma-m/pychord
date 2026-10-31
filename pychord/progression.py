@@ -12,9 +12,12 @@ class ChordProgression:
     """
 
     def __init__(
-        self, initial_chords: str | Chord | list[str] | list[Chord] = []
+        self, initial_chords: str | Chord | list[str] | list[Chord] | None = None
     ) -> None:
-        if isinstance(initial_chords, Chord):
+        chords: list[Chord]
+        if initial_chords is None:
+            chords = []
+        elif isinstance(initial_chords, Chord):
             chords = [initial_chords]
         elif isinstance(initial_chords, str):
             chords = [self._as_chord(initial_chords)]

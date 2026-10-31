@@ -88,7 +88,7 @@ class QualityManager:
 
     def __new__(cls) -> "QualityManager":
         if cls._instance is None:
-            cls._instance = super(QualityManager, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
             cls._instance.load_default_qualities()
         return cls._instance
 
@@ -101,12 +101,12 @@ class QualityManager:
         # Create a new instance not to affect any existing instances
         q = copy.deepcopy(self._qualities[name])
         # apply requested inversion :
-        for i in range(inversion):
+        for _ in range(inversion):
             _, max_o = _parse_interval(q._intervals[-1])
             a, o = _parse_interval(q._intervals[0])
             while o < max_o:
                 o += 7
-            q._intervals = q._intervals[1:] + (f"{a}{o + 1}",)
+            q._intervals = (*q._intervals[1:], f"{a}{o + 1}")
         return q
 
     def get_qualities(self) -> dict[str, Quality]:
@@ -171,7 +171,7 @@ def _parse_interval(interval: str) -> tuple[str, int]:
     return alterations, offset
 
 
-@functools.lru_cache()
+@functools.lru_cache
 def scale_notes(root: str, mode: str) -> list[str]:
     """
     Return the list of note names in the given scale.
@@ -180,7 +180,7 @@ def scale_notes(root: str, mode: str) -> list[str]:
     root_val = note_to_val(root)
 
     # Determine whether we use a flatted or sharped scale.
-    if root == "F" or len(root) > 1 and root[1] == "b":
+    if root == "F" or (len(root) > 1 and root[1] == "b"):
         alter = diminish
     else:
         alter = augment

@@ -2,8 +2,8 @@ import unittest
 
 from pychord import Chord
 from pychord.analyzer import (
-    get_all_rotated_notes,
     find_chords_from_notes,
+    get_all_rotated_notes,
     notes_to_positions,
 )
 

@@ -92,9 +92,9 @@ class TestChordComponent(unittest.TestCase):
         base1 = list(base.components(visible=True))
         c = Chord("CMadd9")
         com0 = c.components(visible=False)
-        self.assertEqual(com0, base0 + [14])
+        self.assertEqual(com0, [*base0, 14])
         com1 = c.components(visible=True)
-        self.assertEqual(com1, base1 + ["D"])
+        self.assertEqual(com1, [*base1, "D"])
 
     def test_too_many_accidentals(self):
         for chord in [

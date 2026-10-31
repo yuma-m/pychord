@@ -1,67 +1,28 @@
-.idea/
-venv/
-.DS_Store
-
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
 
-# C extensions
-*.so
+# Virtual environments
+.venv/
+venv/
 
-# Distribution / packaging
-.Python
-env/
+# Packaging
 build/
-develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
 *.egg-info/
-.installed.cfg
-*.egg
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
+# Test, coverage and tool caches
 .coverage
 .coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*,cover
-.hypothesis/
+htmlcov/
+.mypy_cache/
+.ruff_cache/
 
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-
-# Sphinx documentation
+# Documentation builds
 docs/_build/
-make.bat
+docs/html/
 
-# PyBuilder
-target/
-
-#Ipython Notebook
-.ipynb_checkpoints
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store

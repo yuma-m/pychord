@@ -32,7 +32,7 @@ def note_to_val(note: str) -> int:
     try:
         pitch = NOTE_VALUES[note[0]]
     except KeyError:
-        raise ValueError(f"Unknown note {note}")
+        raise ValueError(f"Unknown note {note}") from None
     for alteration in note[1:]:
         if alteration == "b":
             pitch -= 1

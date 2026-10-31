@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=45", "wheel"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,8 +7,9 @@ name = "pychord"
 version = "1.4.1"
 description = "Package to handle musical chords"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     {name = "Yuma Mihira", email = "info@yuma.cloud"},
 ]
@@ -20,32 +21,75 @@ classifiers = [
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Topic :: Multimedia :: Sound/Audio",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Utilities",
+    "Typing :: Typed",
 ]
 
 [project.urls]
 Homepage = "https://github.com/yuma-m/pychord"
+Documentation = "https://pychord.readthedocs.io/"
+Source = "https://github.com/yuma-m/pychord"
+Issues = "https://github.com/yuma-m/pychord/issues"
+Changelog = "https://github.com/yuma-m/pychord/releases"
 
-[project.optional-dependencies]
+[dependency-groups]
 test = [
-    "black>=26.1.0",
-    "mypy>=1.19.1",
+    "coverage[toml]>=7.13",
 ]
+lint = [
+    "mypy>=1.19.1",
+    "ruff>=0.17",
+]
+docs = [
+    "sphinx>=9.1",
+    "sphinx-rtd-theme>=3.1",
+]
+dev = [
+    {include-group = "test"},
+    {include-group = "lint"},
+    "build",
+    "twine",
+]
+
+[tool.setuptools.packages.find]
+include = ["pychord*"]
+
+[tool.setuptools.package-data]
+pychord = ["py.typed"]
+
+[tool.coverage.run]
+source = ["pychord"]
+branch = true
 
 [tool.coverage.report]
 fail_under = 100
 
-[tool.coverage.run]
-include = ["pychord/*"]
-
 [tool.mypy]
 strict = true
 
-[tool.setuptools]
-include-package-data = true
+[tool.ruff]
+target-version = "py311"
+line-length = 88
 
-[tool.setuptools.packages.find]
-where = ["."]
-exclude = ["test", "docs"]
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "RUF",  # ruff-specific rules
+]
+ignore = [
+    "E501",    # line length is handled by the formatter
+    "SIM108",  # prefer explicit if/else over ternaries
+]
