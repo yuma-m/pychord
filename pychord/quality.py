@@ -1,6 +1,7 @@
 import copy
 import functools
 import re
+import threading
 from typing import Any, ClassVar, Literal, overload
 
 from .constants.qualities import DEFAULT_QUALITIES
@@ -85,11 +86,14 @@ class QualityManager:
     """
 
     _instance: ClassVar["QualityManager | None"] = None
+    _lock = threading.Lock()
 
     def __new__(cls) -> "QualityManager":
         if cls._instance is None:
-            cls._instance = super().__new__(cls)
-            cls._instance.load_default_qualities()
+            with cls._lock:
+                singleton = super().__new__(cls)
+                singleton.load_default_qualities()
+                cls._instance = singleton
         return cls._instance
 
     def load_default_qualities(self) -> None:
