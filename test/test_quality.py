@@ -1,4 +1,7 @@
+import threading
+import time
 import unittest
+from unittest import mock
 
 from pychord import Chord, QualityManager, find_chords_from_notes
 
@@ -61,6 +64,76 @@ class TestQualityManager(unittest.TestCase):
         quality_manager = QualityManager()
         quality_manager2 = QualityManager()
         self.assertIs(quality_manager, quality_manager2)
+
+
+class TestQualityManagerThreadSafety(unittest.TestCase):
+    NUM_THREADS = 8
+
+    def setUp(self):
+        self._original_instance = QualityManager._instance
+        QualityManager._instance = None
+
+    def tearDown(self):
+        QualityManager._instance = self._original_instance
+
+    def _create_concurrently(self):
+        barrier = threading.Barrier(self.NUM_THREADS)
+        results = [None] * self.NUM_THREADS
+
+        def worker(i):
+            barrier.wait()
+            results[i] = QualityManager()
+
+        threads = [
+            threading.Thread(target=worker, args=(i,)) for i in range(self.NUM_THREADS)
+        ]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+        return results
+
+    def test_concurrent_creation_returns_single_instance(self):
+        original_load = QualityManager.load_default_qualities
+
+        def slow_load(self):
+            time.sleep(0.05)
+            original_load(self)
+
+        with mock.patch.object(
+            QualityManager,
+            "load_default_qualities",
+            autospec=True,
+            side_effect=slow_load,
+        ) as load_mock:
+            results = self._create_concurrently()
+
+        first = results[0]
+        self.assertIsNotNone(first)
+        for qm in results:
+            self.assertIs(qm, first)
+        self.assertEqual(load_mock.call_count, 1)
+
+    def test_instance_published_only_after_loading(self):
+        original_load = QualityManager.load_default_qualities
+        published_during_load = []
+
+        def recording_load(self):
+            published_during_load.append(QualityManager._instance is not None)
+            time.sleep(0.05)
+            original_load(self)
+
+        with mock.patch.object(
+            QualityManager,
+            "load_default_qualities",
+            autospec=True,
+            side_effect=recording_load,
+        ):
+            results = self._create_concurrently()
+
+        self.assertNotIn(True, published_during_load)
+        for qm in results:
+            self.assertIn("m7", qm.get_qualities())
 
 
 class TestOverwriteQuality(unittest.TestCase):
