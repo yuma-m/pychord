@@ -10,7 +10,8 @@
 
 ## Overview
 
-PyChord is a Python library to handle musical chords.
+PyChord is a pure-Python library for working with musical chords. It parses chord names,
+lists component notes, transposes chords and progressions, and finds chords from a set of notes.
 
 ## Installation
 
@@ -22,27 +23,47 @@ $ pip install pychord
 
 ## Basic Usage
 
-### Create a Chord
+### Create a chord
 
 ```python
 >>> from pychord import Chord
 >>> c = Chord("Am7")
 >>> c
 <Chord: Am7>
->>> print(c.info())
-Am7
-root=A
-quality=m7
-on=
+>>> c = Chord("Am7/G")
+>>> c.root, str(c.quality), c.on
+('A', 'm7', 'G')
 ```
 
-### Transpose a Chord
+Unknown chord names raise `ValueError`:
+
+```python
+>>> Chord("Cfoo")
+Traceback (most recent call last):
+  ...
+ValueError: Unknown quality: foo
+```
+
+### Transpose a chord
 
 ```python
 >>> c = Chord("Am7/G")
 >>> c.transpose(3)
 >>> c
 <Chord: Cm7/Bb>
+```
+
+Pass a key as the second argument to control whether sharps or flats are used:
+
+```python
+>>> c = Chord("C")
+>>> c.transpose(1)
+>>> c
+<Chord: Db>
+>>> c = Chord("C")
+>>> c.transpose(1, "D")
+>>> c
+<Chord: C#>
 ```
 
 ### Get component notes
@@ -53,22 +74,20 @@ on=
 ['A', 'C', 'E', 'G']
 >>> c.components_with_pitch(root_pitch=3)
 ['A3', 'C4', 'E4', 'G4']
+>>> c.components(visible=False)  # semitones from C
+[9, 12, 16, 19]
 ```
 
-### Compare Chords
+### Compare chords
 
 ```python
 >>> Chord("C") == Chord("D")
 False
 >>> Chord("C#") == Chord("Db")
 True
->>> c = Chord("C")
->>> c.transpose(2)
->>> c == Chord("D")
-True
 ```
 
-### Find Chords from notes
+### Find chords from notes
 
 ```python
 >>> from pychord import find_chords_from_notes
@@ -80,7 +99,7 @@ True
 [<Chord: Fsus2>, <Chord: Csus4/F>]
 ```
 
-### Create and handle chord progressions
+### Chord progressions
 
 ```python
 >>> from pychord import ChordProgression
@@ -98,22 +117,36 @@ True
 
 >>> cp[1]
 <Chord: Bb/D>
+>>> len(cp)
+4
+
+>>> cp.insert(1, "Fm")
+>>> cp.pop()
+<Chord: Gm/Bb>
+>>> cp + ChordProgression(["Fm", "Bb7"])
+<ChordProgression: Eb | Fm | Bb/D | Cm | Fm | Bb7>
 ```
 
 ## Advanced Usage
 
-### Create a Chord from note index in a scale
+### Create a chord from a scale degree
 
 ```python
->>> Chord.from_note_index(note=1, quality="", scale="Cmaj")
-<Chord: C>  # I of C major
->>> Chord.from_note_index(note=3, quality="m7", scale="Fmaj")
-<Chord: Am7>  # IIIm7 of F major
->>> Chord.from_note_index(note=5, quality="7", scale="Amin")
-<Chord: E7>  # V7 of A minor
+>>> Chord.from_note_index(note=1, quality="", scale="Cmaj")  # I of C major
+<Chord: C>
+>>> Chord.from_note_index(note=3, quality="m7", scale="Fmaj")  # IIIm7 of F major
+<Chord: Am7>
+>>> Chord.from_note_index(note=5, quality="7", scale="Amin")  # V7 of A minor
+<Chord: E7>
 ```
 
-### Overwrite the default Quality components with yours
+### Supported and custom chord qualities
+
+All built-in qualities are defined in [`pychord/constants/qualities.py`](./pychord/constants/qualities.py)
+and can be listed with `QualityManager().get_qualities()`.
+
+You can add a new quality or override an existing one. The change applies process-wide
+to chords created afterwards; call `load_default_qualities()` to restore the defaults.
 
 ```python
 >>> from pychord import Chord, QualityManager
@@ -124,13 +157,13 @@ True
 >>> quality_manager.set_quality("11", ("1", "3", "5", "b7", "11"))
 >>> Chord("C11").components()
 ['C', 'E', 'G', 'Bb', 'F']
+
+>>> quality_manager.load_default_qualities()
 ```
 
 ### Inversions
 
-Chord inversions are created with a forward slash and a number
-indicating the order. This can optionally be combined with an
-additional forward slash to change the bass note:
+Append `/N` to a chord name for its Nth inversion. You can also add a bass note after another slash:
 
 ```python
 >>> Chord("C/1").components() # First inversion of C
@@ -138,7 +171,7 @@ additional forward slash to change the bass note:
 >>> Chord("C/2").components() # Second inversion of C
 ['G', 'C', 'E']
 
->>> Chord("Cm7/3/F").components() # Third inversion of Cm7 with an added F bass
+>>> Chord("Cm7/3/F").components() # Third inversion of Cm7 over F
 ['F', 'Bb', 'C', 'Eb', 'G']
 ```
 
