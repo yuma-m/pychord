@@ -89,12 +89,11 @@ class QualityManager:
     _lock = threading.Lock()
 
     def __new__(cls) -> "QualityManager":
-        if cls._instance is None:
-            with cls._lock:
-                if cls._instance is None:
-                    singleton = super().__new__(cls)
-                    singleton.load_default_qualities()
-                    cls._instance = singleton
+        with cls._lock:
+            if cls._instance is None:
+                singleton = super().__new__(cls)
+                singleton.load_default_qualities()
+                cls._instance = singleton
         return cls._instance
 
     def load_default_qualities(self) -> None:
