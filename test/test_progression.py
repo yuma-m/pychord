@@ -85,6 +85,32 @@ class TestChordProgressionFunctions(unittest.TestCase):
         cp.transpose(3)
         self.assertEqual(cp.chords, [Chord("Eb"), Chord("Ab"), Chord("Bb")])
 
+    def test_transpose_shared_chords_once(self):
+        shared = Chord("C")
+        distinct = Chord("C")
+        cp = ChordProgression([shared, Chord("D"), distinct, shared])
+
+        cp.transpose(2)
+
+        self.assertEqual(cp.chords, [Chord("D"), Chord("E"), Chord("D"), Chord("D")])
+        self.assertIs(cp[0], shared)
+        self.assertIs(cp[3], shared)
+        self.assertIs(cp[2], distinct)
+
+        cp.transpose(-2)
+        self.assertEqual(cp.chords, [Chord("C"), Chord("D"), Chord("C"), Chord("C")])
+
+    def test_transpose_repeated_progression(self):
+        original = ChordProgression(["C", "G"])
+        repeated = original + original
+
+        repeated.transpose(2)
+
+        self.assertEqual(
+            repeated.chords, [Chord("D"), Chord("A"), Chord("D"), Chord("A")]
+        )
+        self.assertEqual(original.chords, [Chord("C"), Chord("G")])
+
     def test_add(self):
         cp1 = ChordProgression(["C", "F", "G"])
         cp2 = ChordProgression(["Am", "Em"])

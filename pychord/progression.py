@@ -92,8 +92,12 @@ class ChordProgression:
 
         :param trans: The number of semitones.
         """
+        transposed_ids: set[int] = set()
         for chord in self._chords:
-            chord.transpose(trans)
+            chord_id = id(chord)
+            if chord_id not in transposed_ids:
+                chord.transpose(trans)
+                transposed_ids.add(chord_id)
 
     @staticmethod
     def _as_chord(chord: str | Chord) -> Chord:
