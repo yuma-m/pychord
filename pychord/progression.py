@@ -8,6 +8,9 @@ class ChordProgression:
     """
     A chord progression, which is a sequence of :class:`Chord` instances.
 
+    :class:`Chord` instances passed to the progression are copied, so later
+    changes to them do not affect the progression and vice versa.
+
     :param initial_chords: Initial chord or chords of the chord progression.
     """
 
@@ -17,9 +20,7 @@ class ChordProgression:
         chords: list[Chord]
         if initial_chords is None:
             chords = []
-        elif isinstance(initial_chords, Chord):
-            chords = [initial_chords]
-        elif isinstance(initial_chords, str):
+        elif isinstance(initial_chords, (str, Chord)):
             chords = [self._as_chord(initial_chords)]
         elif isinstance(initial_chords, list):
             chords = [self._as_chord(chord) for chord in initial_chords]
@@ -36,7 +37,7 @@ class ChordProgression:
         return f"<ChordProgression: {self}>"
 
     def __add__(self, other: "ChordProgression") -> "ChordProgression":
-        return ChordProgression(copy.deepcopy(self._chords + other._chords))
+        return ChordProgression(self._chords + other._chords)
 
     def __len__(self) -> int:
         return len(self._chords)
@@ -57,9 +58,12 @@ class ChordProgression:
     @property
     def chords(self) -> list[Chord]:
         """
-        The component chords of the chord progression.
+        A copy of the list of component chords.
+
+        Modifying the returned list does not change the progression; use
+        :meth:`append`, :meth:`insert`, :meth:`pop` or item assignment instead.
         """
-        return self._chords
+        return list(self._chords)
 
     def append(self, chord: str | Chord) -> None:
         """
@@ -92,21 +96,17 @@ class ChordProgression:
 
         :param trans: The number of semitones.
         """
-        transposed_ids: set[int] = set()
         for chord in self._chords:
-            chord_id = id(chord)
-            if chord_id not in transposed_ids:
-                chord.transpose(trans)
-                transposed_ids.add(chord_id)
+            chord.transpose(trans)
 
     @staticmethod
     def _as_chord(chord: str | Chord) -> Chord:
-        """Convert from str to Chord instance if input is str.
+        """Convert from str to Chord instance, or copy a Chord instance.
 
         :param chord: Chord name or :class:`Chord` instance.
         """
         if isinstance(chord, Chord):
-            return chord
+            return copy.deepcopy(chord)
         elif isinstance(chord, str):
             return Chord(chord)
         else:

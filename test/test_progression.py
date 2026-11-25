@@ -85,20 +85,28 @@ class TestChordProgressionFunctions(unittest.TestCase):
         cp.transpose(3)
         self.assertEqual(cp.chords, [Chord("Eb"), Chord("Ab"), Chord("Bb")])
 
-    def test_transpose_shared_chords_once(self):
+    def test_transpose_chord_passed_twice(self):
         shared = Chord("C")
-        distinct = Chord("C")
-        cp = ChordProgression([shared, Chord("D"), distinct, shared])
+        cp = ChordProgression([shared, Chord("D"), shared])
 
         cp.transpose(2)
 
-        self.assertEqual(cp.chords, [Chord("D"), Chord("E"), Chord("D"), Chord("D")])
-        self.assertIs(cp[0], shared)
-        self.assertIs(cp[3], shared)
-        self.assertIs(cp[2], distinct)
+        self.assertEqual(cp.chords, [Chord("D"), Chord("E"), Chord("D")])
+        self.assertEqual(shared, Chord("C"))
 
         cp.transpose(-2)
-        self.assertEqual(cp.chords, [Chord("C"), Chord("D"), Chord("C"), Chord("C")])
+        self.assertEqual(cp.chords, [Chord("C"), Chord("D"), Chord("C")])
+
+    def test_chords_returns_copy(self):
+        c = Chord("C")
+        cp = ChordProgression("D")
+
+        cp.chords.extend([c, c])
+        self.assertEqual(len(cp), 1)
+
+        cp.transpose(2)
+        self.assertEqual(cp.chords, [Chord("E")])
+        self.assertEqual(c, Chord("C"))
 
     def test_transpose_repeated_progression(self):
         original = ChordProgression(["C", "G"])
@@ -110,6 +118,43 @@ class TestChordProgressionFunctions(unittest.TestCase):
             repeated.chords, [Chord("D"), Chord("A"), Chord("D"), Chord("A")]
         )
         self.assertEqual(original.chords, [Chord("C"), Chord("G")])
+
+    def test_repeated_progression_does_not_share_chords(self):
+        original = ChordProgression(["C", "G"])
+        repeated = original + original
+
+        repeated[0].transpose(2)
+
+        self.assertEqual(
+            repeated.chords, [Chord("D"), Chord("G"), Chord("C"), Chord("G")]
+        )
+
+    def test_passed_chords_are_copied(self):
+        c = Chord("C")
+        cps = {
+            "init_one": ChordProgression(c),
+            "init_list": ChordProgression([c, c]),
+        }
+        appended = ChordProgression()
+        appended.append(c)
+        appended.append(c)
+        cps["append"] = appended
+        inserted = ChordProgression()
+        inserted.insert(0, c)
+        inserted.insert(0, c)
+        cps["insert"] = inserted
+        set_item = ChordProgression(["D", "D"])
+        set_item[0] = c
+        set_item[1] = c
+        cps["set_item"] = set_item
+
+        for name, cp in cps.items():
+            with self.subTest(name=name):
+                self.assertTrue(all(chord is not c for chord in cp.chords))
+                cp[0].transpose(2)
+                self.assertEqual(cp[0], Chord("D"))
+                self.assertTrue(all(chord == Chord("C") for chord in cp.chords[1:]))
+        self.assertEqual(c, Chord("C"))
 
     def test_add(self):
         cp1 = ChordProgression(["C", "F", "G"])
