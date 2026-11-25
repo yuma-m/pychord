@@ -94,6 +94,9 @@ class TestChordProgressionFunctions(unittest.TestCase):
         self.assertEqual(cp.chords, [Chord("D"), Chord("E"), Chord("D")])
         self.assertEqual(shared, Chord("C"))
 
+        cp.transpose(-2)
+        self.assertEqual(cp.chords, [Chord("C"), Chord("D"), Chord("C")])
+
     def test_chords_returns_copy(self):
         c = Chord("C")
         cp = ChordProgression("D")
