@@ -90,14 +90,15 @@ class ChordProgression:
         """
         return self._chords.pop(index)
 
-    def transpose(self, trans: int) -> None:
+    def transpose(self, trans: int, scale: str = "C") -> None:
         """
         Transpose the whole chord progression.
 
         :param trans: The number of semitones.
+        :param scale: Key scale used to spell the transposed notes.
         """
         for chord in self._chords:
-            chord.transpose(trans)
+            chord.transpose(trans, scale)
 
     @staticmethod
     def _as_chord(chord: str | Chord) -> Chord:

@@ -85,6 +85,16 @@ class TestChordProgressionFunctions(unittest.TestCase):
         cp.transpose(3)
         self.assertEqual(cp.chords, [Chord("Eb"), Chord("Ab"), Chord("Bb")])
 
+    def test_transpose_with_scale(self):
+        for scale, expected in [
+            ("C", "Db | Gb/Bb | Ab"),
+            ("E", "C# | F#/A# | G#"),
+        ]:
+            with self.subTest(scale=scale):
+                cp = ChordProgression(["C", "F/A", "G"])
+                cp.transpose(1, scale)
+                self.assertEqual(str(cp), expected)
+
     def test_transpose_chord_passed_twice(self):
         shared = Chord("C")
         cp = ChordProgression([shared, Chord("D"), shared])
