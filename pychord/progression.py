@@ -58,9 +58,12 @@ class ChordProgression:
     @property
     def chords(self) -> list[Chord]:
         """
-        The component chords of the chord progression.
+        A copy of the list of component chords.
+
+        Modifying the returned list does not change the progression; use
+        :meth:`append`, :meth:`insert`, :meth:`pop` or item assignment instead.
         """
-        return self._chords
+        return list(self._chords)
 
     def append(self, chord: str | Chord) -> None:
         """
